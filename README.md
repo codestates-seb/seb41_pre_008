@@ -18,4 +18,4 @@ BE : 이상유 하재이 박지윤
 - 디스코드 채널로 상시 커뮤니케이션
 - 화상 회의는 구글밋
 - 오후 1시부터 6시까지는 상시 온라인 시간(5분내에 응답)
-- [팀 페이지](https://www.notion.so/codestates/2-d5df163886b8412fbe00e384642d754a)
+- [팀 페이지](https://www.notion.so/codestates/2-12a5d8cffec742fa871074f3faf66d41)
