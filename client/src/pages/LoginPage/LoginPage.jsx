@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import logo from "../../img/logo.png";
-import googleImg from "../../img/google.png";
-import githubImg from "../../img/github.png";
-import facebookImg from "../../img/facebook.png";
+import logo from "../../img/Login/logo.png";
+import googleImg from "../../img/Login/google.png";
+import githubImg from "../../img/Login/github.png";
+import facebookImg from "../../img/Login/facebook.png";
 
 const Container = styled.div`
   width: 100vw;
