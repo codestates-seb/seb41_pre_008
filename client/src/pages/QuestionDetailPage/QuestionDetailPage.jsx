@@ -1,5 +1,11 @@
+import QuestionDetail from "./QusetionDetail";
+
 const QuestionDetailPage = () => {
-  return <div>질문 상세 페이지</div>;
+  return (
+    <>
+      <QuestionDetail />
+    </>
+  );
 };
 
 export default QuestionDetailPage;
