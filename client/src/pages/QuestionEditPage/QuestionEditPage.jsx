@@ -3,6 +3,12 @@ import styled from "styled-components";
 import { Editor } from "@toast-ui/react-editor";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import { useRef } from "react";
+import { MainButton } from "../QuestionDetailPage/QusetionDetail";
+import { useNavigate } from "react-router-dom";
+
+const Main = styled.main`
+  margin-top: 70px;
+`;
 
 const EditIntroContainer = styled.section`
   display: flex;
@@ -39,6 +45,11 @@ const EditInput = styled.input`
   border-radius: 5px;
 `;
 
+const ButtonContainer = styled.section`
+  display: flex;
+  margin: 1rem 2rem;
+`;
+
 const EditCard = ({ editTitle, placeholder }) => {
   return (
     <Container>
@@ -50,8 +61,9 @@ const EditCard = ({ editTitle, placeholder }) => {
 
 const QuestionEditPage = () => {
   const editorRef = useRef();
+  const navigate = useNavigate();
   return (
-    <main>
+    <Main>
       <EditIntroContainer>
         <EditIntro>
           Your edit will be placed in a queue until it is peer reviewed.
@@ -80,7 +92,11 @@ const QuestionEditPage = () => {
         editTitle="Edit Summary"
         placeholder="briefly explain your changes (corrected spelling, fixed grammer, improved formatting)"
       />
-    </main>
+      <ButtonContainer>
+        <MainButton>Save edits</MainButton>
+        <MainButton onClick={() => navigate("/questions/1")}>Cancel</MainButton>
+      </ButtonContainer>
+    </Main>
   );
 };
 

@@ -43,7 +43,9 @@ const data = [
   },
 ];
 
-const Main = styled.main``;
+const Main = styled.main`
+  margin-top: 50px;
+`;
 const Container = styled.section`
   display: flex;
   flex-direction: column;
@@ -68,7 +70,7 @@ export const MainButton = styled.button`
   color: white;
   background-color: #0a95ff;
   border-radius: 5px;
-  margin: 1rem;
+  margin: 1rem 0;
   &:hover {
     filter: brightness(120%);
   }
