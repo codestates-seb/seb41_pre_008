@@ -112,6 +112,9 @@ const SignupForm = styled.div`
   border-radius: 7px;
   padding: 24px;
   box-shadow: 0 10px 24px hsla(0, 0%, 0%, 0.05);
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 `;
 
 const Name = styled.div`
@@ -151,8 +154,10 @@ const EmailForm = styled.input`
 `;
 
 const Password = styled.div`
+  width: 240px;
   font-weight: 800px;
   font-size: 15px;
+  margin-bottom: 5px;
 `;
 
 const PasswordForm = styled.input`
