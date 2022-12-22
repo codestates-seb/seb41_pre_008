@@ -3,6 +3,9 @@ import logo from "../../img/Login/logo.png";
 import googleImg from "../../img/Login/google.png";
 import githubImg from "../../img/Login/github.png";
 import facebookImg from "../../img/Login/facebook.png";
+import { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`
   width: 100vw;
@@ -115,10 +118,11 @@ const EmailForm = styled.input`
   height: 33px;
   font-size: 13px;
   padding: 7.8px 9.1px;
-  border: 1px solid rgb(186, 191, 196);
+  border: ${({ isError }) =>
+    isError ? "1px solid #d0393e" : "1px solid rgb(186, 191, 196)"};
   border-radius: 4px;
   font-weight: 400px;
-  margin-bottom: 16px;
+  margin-bottom: 10px;
 `;
 
 const Password = styled.div`
@@ -172,7 +176,50 @@ const SignupLink = styled.span`
   color: rgb(0, 116, 204);
 `;
 
+const Error = styled.div`
+  color: #d0393e;
+  font-size: 12px;
+  margin-bottom: 13px;
+  width: 240px;
+`;
+
 const LoginPage = () => {
+  const [email, setEmail] = useState("");
+  const [isError, setIsError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const [password, setPassword] = useState("");
+
+  const [userData, setUserData] = useState(null);
+  const navigate = useNavigate();
+
+  const emailHandler = (e) => {
+    setEmail(e.target.value);
+  };
+
+  const passwordHandler = (e) => {
+    setPassword(e.target.value);
+  };
+
+  const loginHandler = () => {
+    axios
+      .post("", {
+        email,
+        password,
+      })
+      .then((res) => {
+        setUserData(res.data);
+      })
+      .then(() => {
+        if (userData.isLogin === true) {
+          navigate("/");
+        } else {
+          setErrorMessage("The email or password is incorrect.");
+          setIsError(true);
+        }
+      });
+  };
+
   return (
     <Container>
       <LoginWrap>
@@ -191,13 +238,14 @@ const LoginPage = () => {
         </FaceBookLoginButton>
         <LoginForm>
           <Email>Email</Email>
-          <EmailForm />
+          <EmailForm onChange={emailHandler} isError={isError} />
+          {isError ? <Error>{errorMessage}</Error> : null}
           <PasswordTextWrap>
             <Password>Password</Password>
             <FindPasswordLink>Forgot password?</FindPasswordLink>
           </PasswordTextWrap>
-          <PasswordForm />
-          <LoginSubmit>Log in</LoginSubmit>
+          <PasswordForm onChange={passwordHandler} />
+          <LoginSubmit onClick={loginHandler}>Log in</LoginSubmit>
         </LoginForm>
         <SignupMessage>
           Don't have an account?<SignupLink> Sign up</SignupLink>
