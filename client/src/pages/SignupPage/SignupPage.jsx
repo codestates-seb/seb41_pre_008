@@ -6,6 +6,8 @@ import icon1 from "../../img/Signup/icon1.png";
 import icon2 from "../../img/Signup/icon2.png";
 import icon3 from "../../img/Signup/icon3.png";
 import icon4 from "../../img/Signup/icon4.png";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 const Container = styled.div`
   width: 100vw;
@@ -107,7 +109,7 @@ const FaceBookText = styled.span`
 
 const SignupForm = styled.div`
   width: 316px;
-  height: 350px;
+  height: 390px;
   background-color: white;
   border-radius: 7px;
   padding: 24px;
@@ -129,10 +131,11 @@ const NameForm = styled.input`
   height: 33px;
   font-size: 13px;
   padding: 7.8px 9.1px;
-  border: 1px solid rgb(186, 191, 196);
+  border: ${({ isNameError }) =>
+    isNameError ? "1px solid #d0393e" : "1px solid rgb(186, 191, 196)"};
   border-radius: 4px;
   font-weight: 400px;
-  margin-bottom: 16px;
+  margin-bottom: 10px;
 `;
 
 const Email = styled.div`
@@ -147,10 +150,11 @@ const EmailForm = styled.input`
   height: 33px;
   font-size: 13px;
   padding: 7.8px 9.1px;
-  border: 1px solid rgb(186, 191, 196);
+  border: ${({ isEmailError }) =>
+    isEmailError ? "1px solid #d0393e" : "1px solid rgb(186, 191, 196)"};
   border-radius: 4px;
   font-weight: 400px;
-  margin-bottom: 16px;
+  margin-bottom: 10px;
 `;
 
 const Password = styled.div`
@@ -165,10 +169,11 @@ const PasswordForm = styled.input`
   height: 33px;
   font-size: 13px;
   padding: 7.8px 9.1px;
-  border: 1px solid rgb(186, 191, 196);
+  border: ${({ isPwError }) =>
+    isPwError ? "1px solid #d0393e" : "1px solid rgb(186, 191, 196)"};
   border-radius: 4px;
   font-weight: 400px;
-  margin-bottom: 6px;
+  margin-bottom: 10px;
 `;
 
 const PasswordMessage = styled.div`
@@ -190,6 +195,7 @@ const SignupSubmit = styled.div`
   align-items: center;
   color: white;
   font-size: 13px;
+  margin-top: 6px;
 `;
 
 const LoginMessage = styled.div`
@@ -237,7 +243,105 @@ const DescLink = styled.div`
   margin-top: 5px;
 `;
 
+const Error = styled.div`
+  color: #d0393e;
+  font-size: 12px;
+  margin-bottom: 13px;
+  width: 240px;
+`;
+
 const SignupPage = () => {
+  const [nickName, setNickName] = useState("");
+  const [isNameError, setIsNameError] = useState(false);
+  const [nameErrorMessage, setNameErrorMessage] = useState("");
+  const [nameState, setNameState] = useState(false);
+
+  const [email, setEmail] = useState("");
+  const [isEmailError, setIsEmailError] = useState(false);
+  const [emailErrorMessage, setEmailErrorMessage] = useState("");
+  const [emailState, setEmailState] = useState(false);
+
+  const [password, setPassword] = useState("");
+  const [isPwError, setIsPwError] = useState(false);
+  const [pwErrorMessage, setPwErrorMessage] = useState("");
+  const [pwState, setPwState] = useState(false);
+
+  const nickNameHandler = (e) => {
+    setNickName(e.target.value);
+  };
+
+  const emailHandler = (e) => {
+    setEmail(e.target.value);
+  };
+
+  const passwordHandler = (e) => {
+    setPassword(e.target.value);
+  };
+
+  const signUpHandler = () => {
+    if (nickName === "") {
+      setNameErrorMessage("Please enter a name to use");
+      setIsNameError(true);
+      setNameState(false);
+    } else {
+      setIsNameError(false);
+      setNameState(true);
+    }
+
+    if (
+      email.match(
+        /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i
+      )
+    ) {
+      setIsEmailError(false);
+      setEmailState(true);
+    } else {
+      setEmailErrorMessage("Please enter the correct email format");
+      setIsEmailError(true);
+      setEmailState(false);
+    }
+
+    if (password.length >= 8 && password.match(/[a-zA-Z]+[0-9]+/)) {
+      // pwRef.current.style = "border: 1px solid rgb(186, 191, 196)";
+      setIsPwError(false);
+      setPwState(true);
+    } else if (!password.match(/[0-9]+/) && password.match(/[a-zA-z]+/)) {
+      // pwRef.current.style = "border: 1px solid #d0393e";
+      setPwErrorMessage(
+        "Please add one of the following things to make your password stronger: number"
+      );
+      setIsPwError(true);
+      setPwState(false);
+    } else if (password.match(/[0-9]+/) && !password.match(/[a-zA-z]+/)) {
+      setPwErrorMessage(
+        "Please add one of the following things to make your password stronger: letters"
+      );
+      setIsPwError(true);
+      setPwState(false);
+    } else if (password.length < 8) {
+      setPwErrorMessage("Please enter at least 8 characters");
+      setIsPwError(true);
+      setPwState(false);
+    }
+
+    if (pwState === true && emailState === true) {
+      // axios.post('', {
+      //   nickName,
+      //   email,
+      //   password,
+      // })
+    }
+  };
+
+  // useEffect(() => {
+  //   if (password.length >= 8 && password.match(/[a-zA-Z]+[0-9]+/)) {
+  //     setIsPwError(false);
+  //   } else if (password.length < 8) {
+  //     setIsPwError(true);
+  //     console.log("작동됨");
+  //   }
+  // }, [pwErrorMessage]);
+
   return (
     <Container>
       <LoginWrap>
@@ -283,16 +387,23 @@ const SignupPage = () => {
           </FaceBookSignupButton>
           <SignupForm>
             <Name>Display name</Name>
-            <NameForm />
+            <NameForm onChange={nickNameHandler} isNameError={isNameError} />
+            {isNameError ? <Error>{nameErrorMessage}</Error> : null}
             <Email>Email</Email>
-            <EmailForm />
+            <EmailForm onChange={emailHandler} isEmailError={isEmailError} />
+            {isEmailError ? <Error>{emailErrorMessage}</Error> : null}
             <Password>Password</Password>
-            <PasswordForm />
+            <PasswordForm
+              type="password"
+              onChange={passwordHandler}
+              isPwError={isPwError}
+            />
+            {isPwError ? <Error>{pwErrorMessage}</Error> : null}
             <PasswordMessage>
               Passwords must contain at least eight characters, including at
               least 1 letter and 1 number.
             </PasswordMessage>
-            <SignupSubmit>Sign up</SignupSubmit>
+            <SignupSubmit onClick={signUpHandler}>Sign up</SignupSubmit>
           </SignupForm>
           <LoginMessage>
             Don't have an account?<LoginLink>Log in</LoginLink>
