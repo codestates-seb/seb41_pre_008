@@ -1,5 +1,7 @@
+import Profile from "./Profile";
+
 const MyPage = () => {
-  return <div>마이페이지</div>;
+  return <Profile />;
 };
 
 export default MyPage;
