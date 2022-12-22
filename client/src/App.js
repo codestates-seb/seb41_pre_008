@@ -6,6 +6,9 @@ import QuestionDetailPage from "./pages/QuestionDetailPage/QuestionDetailPage";
 import AskPage from "./pages/AskPage/AskPage";
 import MyPage from "./pages/MyPage/MyPage";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Header from "./components/Header/Header";
+import Footer from "./components/Footer/Footer";
+import Nav from "./components/Nav/Nav";
 import QuestionEditPage from "./pages/QuestionEditPage/QuestionEditPage";
 
 const router = createBrowserRouter([
@@ -45,7 +48,12 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <>
+      <Header />
+      <RouterProvider router={router} />
+    </>
+  );
 }
 
 export default App;

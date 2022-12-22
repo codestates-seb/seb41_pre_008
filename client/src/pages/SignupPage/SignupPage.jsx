@@ -6,8 +6,9 @@ import icon1 from "../../img/Signup/icon1.png";
 import icon2 from "../../img/Signup/icon2.png";
 import icon3 from "../../img/Signup/icon3.png";
 import icon4 from "../../img/Signup/icon4.png";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`
   width: 100vw;
@@ -266,6 +267,9 @@ const SignupPage = () => {
   const [pwErrorMessage, setPwErrorMessage] = useState("");
   const [pwState, setPwState] = useState(false);
 
+  const [isSignup, setIsSignUp] = useState(false);
+  const navigate = useNavigate();
+
   const nickNameHandler = (e) => {
     setNickName(e.target.value);
   };
@@ -324,23 +328,32 @@ const SignupPage = () => {
       setPwState(false);
     }
 
-    if (pwState === true && emailState === true) {
-      // axios.post('', {
-      //   nickName,
-      //   email,
-      //   password,
-      // })
+    if (pwState === true && emailState === true && nameState === true) {
+      axios
+        .post("", {
+          nickName,
+          email,
+          password,
+        })
+        .then((res) => {
+          setIsSignUp(res.data);
+        })
+        .then(() => {
+          if (isSignup.isSignUp) {
+            navigate("/login");
+          }
+        });
     }
   };
 
-  // useEffect(() => {
-  //   if (password.length >= 8 && password.match(/[a-zA-Z]+[0-9]+/)) {
-  //     setIsPwError(false);
-  //   } else if (password.length < 8) {
-  //     setIsPwError(true);
-  //     console.log("작동됨");
-  //   }
-  // }, [pwErrorMessage]);
+  // 1. 기본 회원가입 요청 Api 구현(백엔드) - post 요청, url 필요
+  //   1) 가입 되지 않은 유저정보의 경우: id, isSignUp: true 전달 요청
+  //   2) 가입 되어 있는 유저정보의 경우: id, isSignUp: false 전달 요청
+  //  * 이메일 인증 기능 백엔드 구현 할것인지? 불가
+
+  //  2. 기본 로그인 요청 Api 구현(백엔드) - post 요청, url 필요
+  //   1) 가입 되지 않은 유저정보의 경우: id, isLogin: false 전달 요청
+  //   2) 가입 되어 있는 유저정보의 경우: id, ncikName, isLogin: true 전달 요청
 
   return (
     <Container>
