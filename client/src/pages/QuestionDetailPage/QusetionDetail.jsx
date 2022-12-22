@@ -61,7 +61,7 @@ const QuestionTitleSection = styled.section`
   padding: 1rem;
   border-bottom: 1px solid rgb(210, 212, 219);
 `;
-const AskButton = styled.button`
+export const MainButton = styled.button`
   width: 10vw;
   height: 5vh;
   border: none;
@@ -117,7 +117,6 @@ export const SideButton = styled.button`
   border: none;
   color: rgb(116, 117, 122);
   background: white;
-  /* border: 1px solid black; */
   &:hover {
     color: #3b4045;
   }
@@ -151,9 +150,9 @@ const QuestionDetail = () => {
             </QuestionTitle>
             <QuestionTitleDetail>Asked: Modified: Viewed:</QuestionTitleDetail>
           </div>
-          <AskButton onClick={() => navigate("/questions/ask")}>
+          <MainButton onClick={() => navigate("/questions/ask")}>
             Ask Question
-          </AskButton>
+          </MainButton>
         </QuestionTitleSection>
         <QuestionContentSection>
           <Vote>
@@ -180,7 +179,9 @@ const QuestionDetail = () => {
             multi-tenant application.
             <SideButtonSection>
               <SideButton>Share</SideButton>
-              <SideButton>Edit</SideButton>
+              <SideButton onClick={() => navigate("/questions/edit")}>
+                Edit
+              </SideButton>
               <SideButton>Delete</SideButton>
             </SideButtonSection>
           </QuestionContent>
@@ -199,9 +200,9 @@ const QuestionDetail = () => {
           height="300px"
           useCommandShortcut={false}
         />
-        <AskButton type="submit" onClick={handlePostAnswer}>
+        <MainButton type="submit" onClick={handlePostAnswer}>
           Post Your Answer
-        </AskButton>
+        </MainButton>
       </Container>
     </Main>
   );

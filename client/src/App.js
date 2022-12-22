@@ -6,6 +6,7 @@ import QuestionDetailPage from "./pages/QuestionDetailPage/QuestionDetailPage";
 import AskPage from "./pages/AskPage/AskPage";
 import MyPage from "./pages/MyPage/MyPage";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import QuestionEditPage from "./pages/QuestionEditPage/QuestionEditPage";
 
 const router = createBrowserRouter([
   {
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
   {
     path: "/questions/:id",
     element: <QuestionDetailPage />,
+  },
+  {
+    path: "/questions/edit",
+    element: <QuestionEditPage />,
   },
   {
     path: "/mypage",

@@ -21,7 +21,7 @@ const Vote = styled.section`
   color: rgb(116, 117, 122);
 `;
 
-const AnswerContent = styled.p`
+const AnswerContent = styled.div`
   display: flex;
   flex-direction: column;
   color: #232629;
