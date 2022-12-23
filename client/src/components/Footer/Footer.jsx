@@ -69,6 +69,10 @@ const FooterLicense = styled.p`
   padding: 0.3rem;
 `;
 
+const FooterSocialCard = ({ title, href }) => {
+  return <FooterSocialContent href={href}>{title}</FooterSocialContent>;
+};
+
 const FooterSectionCard = ({ title, content1, href1, content2, href2 }) => {
   return (
     <FooterSection>
@@ -113,21 +117,26 @@ const Footer = () => {
       />
       <FooterSideSection>
         <FooterSocialContainer>
-          <FooterSocialContent href="https://stackoverflow.blog/?blb=1&_ga=2.5040435.1040116346.1671407631-25791809.1661736247">
-            Blog
-          </FooterSocialContent>
-          <FooterSocialContent href="https://www.facebook.com/officialstackoverflow/">
-            Facebook
-          </FooterSocialContent>
-          <FooterSocialContent href="https://twitter.com/stackoverflow">
-            Twitter
-          </FooterSocialContent>
-          <FooterSocialContent href="https://www.linkedin.com/company/stack-overflow">
-            LinkedIn
-          </FooterSocialContent>
-          <FooterSocialContent href="https://www.instagram.com/thestackoverflow/">
-            Instagram
-          </FooterSocialContent>
+          <FooterSocialCard
+            title="Blog"
+            href="https://stackoverflow.blog/?blb=1&_ga=2.207413779.1040116346.1671407631-25791809.1661736247"
+          />
+          <FooterSocialCard
+            title="Facebook"
+            href="https://www.facebook.com/officialstackoverflow/"
+          />
+          <FooterSocialCard
+            title="Twitter"
+            href="https://twitter.com/stackoverflow"
+          />
+          <FooterSocialCard
+            title="LinkedIn"
+            href="https://www.linkedin.com/company/stack-overflow"
+          />
+          <FooterSocialCard
+            title="Instagram"
+            href="https://www.instagram.com/thestackoverflow"
+          />
         </FooterSocialContainer>
         <FooterLicense>
           Site design / logo © 2022 Stack Exchange Inc; user contributions
