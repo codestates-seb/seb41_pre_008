@@ -84,6 +84,9 @@ const FooterSectionCard = ({ title, content1, href1, content2, href2 }) => {
 };
 
 const Footer = () => {
+  let location = window.location.pathname;
+  if (location === "/login" || location === "/signup") return null;
+
   return (
     <FooterContainer>
       <Logo src="https://upload.wikimedia.org/wikipedia/commons/e/ef/Stack_Overflow_icon.svg"></Logo>
