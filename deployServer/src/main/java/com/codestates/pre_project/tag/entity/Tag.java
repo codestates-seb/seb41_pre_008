@@ -1,5 +1,6 @@
 package com.codestates.pre_project.tag.entity;
 
+import com.codestates.pre_project.question.entity.Question;
 import com.codestates.pre_project.question.entity.QuestionTag;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,13 +26,14 @@ public class Tag {
     @Column(nullable = false, updatable = false)
     private String content;
 
+
     @OneToMany(mappedBy = "tag")
     private List<QuestionTag> questionTags = new ArrayList<>();
 
-    public void addQuestionTag(QuestionTag questionTag){
+    public void setQuestionTag(QuestionTag questionTag) {
         this.questionTags.add(questionTag);
-        if(questionTag.getTag() != this){
-            questionTag.addTag(this);
+        if (questionTag.getTag() != this) {
+            questionTag.setTag(this);
         }
     }
 

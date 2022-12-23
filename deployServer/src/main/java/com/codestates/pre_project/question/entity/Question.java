@@ -1,7 +1,7 @@
 package com.codestates.pre_project.question.entity;
 
-import com.codestates.pre_project.comment.entity.Comment;
-import com.codestates.pre_project.member.entity.Member;
+//import com.codestates.pre_project.comment.entity.Comment;
+//import com.codestates.pre_project.member.entity.Member;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -39,17 +39,12 @@ public class Question {
     @Column(nullable = false, name = "LAST_MODIFIED_AT")
     private LocalDateTime modifiedAt = LocalDateTime.now();
 
+
     @OneToMany(mappedBy = "question", cascade = CascadeType.PERSIST)
     private List<QuestionTag> questionTags = new ArrayList<>();
 
-    public void addQuestionTag(QuestionTag questionTag){
-        questionTags.add(questionTag);
-        this.questionTags.add(questionTag);
-        if(questionTag.getQuestion() != this){
-            questionTag.addQuestion(this);
-        }
-    }
 
+    /*
     public Question(Member member){
         this.member = member;
     }
@@ -67,6 +62,10 @@ public class Question {
 
     @OneToMany(mappedBy = "question")
     private List<Comment> comments = new ArrayList<>();
+
+     */
+
+
 
     public enum QuestionStatus {
         QUESTION_SELECT("채택된 답안이 있는 문의"),
