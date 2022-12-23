@@ -192,7 +192,6 @@ const LoginPage = () => {
 
   const [password, setPassword] = useState("");
 
-  const [userData, setUserData] = useState(null);
   const navigate = useNavigate();
 
   const emailHandler = (e) => {
@@ -207,19 +206,22 @@ const LoginPage = () => {
     navigate("/signup");
   };
 
+  // {
+  //   headers: new Headers({
+  //     "ngrok-skip-browser-warning": "69420",
+  //   }),
+  // }
+
   const loginHandler = () => {
     axios
       .post("https://ee12-222-109-195-131.jp.ngrok.io/members/signin", {
         email,
         password,
       })
+      .then((res) => res.data)
       .then((res) => {
-        setUserData(res.data);
-        console.log(userData);
-      })
-      .then(() => {
-        console.log(userData);
-        if (userData.signIn === true) {
+        if (res.signIn === true) {
+          window.localStorage.setItem("user", JSON.stringify(res));
           navigate("/");
         } else {
           setErrorMessage("The email or password is incorrect.");

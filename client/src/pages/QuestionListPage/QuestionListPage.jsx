@@ -4,13 +4,11 @@ import test from '../../img/test/test.png'
 
 const Main = styled.div`
   display: flex;
-  padding-top: 74px;
-  padding-left: 214px;
 `
 
 const Section = styled.div`
   width: 750px;
-
+  
   header {
     display: flex;
     justify-content: space-between;
