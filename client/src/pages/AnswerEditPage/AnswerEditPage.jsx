@@ -1,5 +1,7 @@
 import React from "react";
 
-const AnswerEditPage = () => {};
+const AnswerEditPage = () => {
+  return <div></div>;
+};
 
 export default AnswerEditPage;
