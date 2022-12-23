@@ -13,7 +13,7 @@ import AnswerEditPage from "./pages/AnswerEditPage/AnswerEditPage";
 import Aside from "./components/Aside/Aside";
 import styled from "styled-components";
 
-const Main = styled.div`
+const Container = styled.div`
   display: flex;
   padding: 74px 0 0 214px;
 `;
@@ -57,6 +57,15 @@ const router = createBrowserRouter([
     element: <MyPage />,
   },
 ]);
+
+const Main = ({ children }) => {
+  let location = window.location.pathname;
+  if (location === "/login" || location === "/signup") {
+    return <div>{children}</div>;
+  } else {
+    return <Container>{children}</Container>;
+  }
+};
 
 function App() {
   return (
