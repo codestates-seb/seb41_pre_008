@@ -6,10 +6,6 @@ import { useRef } from "react";
 import { MainButton } from "../QuestionDetailPage/QusetionDetail";
 import { useNavigate } from "react-router-dom";
 
-export const Main = styled.main`
-  margin-top: 70px;
-`;
-
 const EditIntroContainer = styled.section`
   display: flex;
   flex-direction: column;
@@ -93,7 +89,7 @@ const QuestionEditPage = () => {
   const editorRef = useRef();
   const navigate = useNavigate();
   return (
-    <Main>
+    <main>
       <EditIntroCard />
       <EditCard editTitle="Title" />
       <Container>
@@ -119,7 +115,7 @@ const QuestionEditPage = () => {
           Cancel
         </CancelButton>
       </ButtonContainer>
-    </Main>
+    </main>
   );
 };
 

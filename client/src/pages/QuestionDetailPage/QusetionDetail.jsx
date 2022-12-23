@@ -46,9 +46,6 @@ const data = [
   },
 ];
 
-const Main = styled.main`
-  margin-top: 50px;
-`;
 const Container = styled.section`
   display: flex;
   flex-direction: column;
@@ -177,6 +174,26 @@ const UserProfileContainer = styled.section`
   }
 `;
 
+const TagContainer = styled.div`
+  display: flex;
+  flex: 1;
+  justify-content: flex-start;
+  align-items: center;
+  margin-top: 0.5rem;
+`;
+
+const Tag = styled.a`
+  display: flex;
+  font-size: 12px;
+  background-color: #e1ecf4;
+  color: #39749d;
+  padding: 4.8px 6px;
+  margin-right: 0.4rem;
+  border-radius: 3px;
+  height: 25px;
+  align-items: center;
+`;
+
 export const UserProgileCard = ({
   type = false,
   time,
@@ -200,6 +217,8 @@ export const UserProgileCard = ({
   );
 };
 
+// const
+
 const QuestionDetail = () => {
   const navigate = useNavigate();
   const [isBookMark, setIsBookMark] = useState(false);
@@ -212,7 +231,7 @@ const QuestionDetail = () => {
   const editorRef = useRef();
 
   return (
-    <Main>
+    <main>
       <Container>
         <QuestionTitleSection>
           <div>
@@ -249,6 +268,12 @@ const QuestionDetail = () => {
             I am facing one issue related to incoming calls, so the situation is
             API is in .NET 6 and it's frontend is in Angular app and also it's
             multi-tenant application.
+            <TagContainer>
+              {" "}
+              <Tag>python</Tag>
+              <Tag>javascript</Tag>
+              <Tag>c#</Tag>
+            </TagContainer>
             <SideSeciton>
               <SideButtonSection>
                 <SideButton>Share</SideButton>
@@ -285,7 +310,7 @@ const QuestionDetail = () => {
           Post Your Answer
         </MainButton>
       </Container>
-    </Main>
+    </main>
   );
 };
 
