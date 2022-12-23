@@ -2,7 +2,7 @@ import React from "react";
 import { Editor } from "@toast-ui/react-editor";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import { useRef, useState } from "react";
-import { MainButton } from "../QuestionDetailPage/QusetionDetail";
+import { MainButton } from "../QuestionDetailPage/QuestionDetailPage";
 import { useNavigate } from "react-router-dom";
 import {
   Container,

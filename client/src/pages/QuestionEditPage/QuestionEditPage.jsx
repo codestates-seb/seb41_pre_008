@@ -3,12 +3,13 @@ import styled from "styled-components";
 import { Editor } from "@toast-ui/react-editor";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import { useRef } from "react";
-import { MainButton } from "../QuestionDetailPage/QusetionDetail";
+import { MainButton } from "../QuestionDetailPage/QuestionDetailPage";
 import { useNavigate } from "react-router-dom";
 
 const EditIntroContainer = styled.section`
   display: flex;
   flex-direction: column;
+  width: 750px;
   border: 1px solid #dfc257;
   border-radius: 5px;
   background-color: #fff9e3;

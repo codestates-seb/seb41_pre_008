@@ -46,11 +46,12 @@ const data = [
   },
 ];
 
-// const tags = [];
+const tags = [];
 
 const Container = styled.section`
   display: flex;
   flex-direction: column;
+  width: 750px;
   margin: 1rem;
   border-bottom: 1px solid rgb(210, 212, 219);
   .icon {
