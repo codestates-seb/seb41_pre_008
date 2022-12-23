@@ -26,6 +26,9 @@ public class Member {
     @Column(nullable = false, updatable = false, unique = true)
     private String email;
 
+    @Column(nullable = false)
+    private String nickName;
+
     @Enumerated(value = EnumType.STRING)
     @Column(length = 20, nullable = false)
     private MemberStatus memberStatus = MemberStatus.MEMBER_ACTIVE;
