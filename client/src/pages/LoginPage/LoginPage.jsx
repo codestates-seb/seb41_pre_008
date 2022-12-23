@@ -164,6 +164,7 @@ const LoginSubmit = styled.div`
   align-items: center;
   color: white;
   font-size: 13px;
+  cursor: pointer;
 `;
 
 const SignupMessage = styled.div`
@@ -174,6 +175,7 @@ const SignupMessage = styled.div`
 
 const SignupLink = styled.span`
   color: rgb(0, 116, 204);
+  cursor: pointer;
 `;
 
 const Error = styled.div`
@@ -201,20 +203,27 @@ const LoginPage = () => {
     setPassword(e.target.value);
   };
 
+  const moveSignUp = () => {
+    navigate("/signup");
+  };
+
   const loginHandler = () => {
     axios
-      .post("", {
+      .post("https://ee12-222-109-195-131.jp.ngrok.io/members/signin", {
         email,
         password,
       })
       .then((res) => {
         setUserData(res.data);
+        console.log(userData);
       })
       .then(() => {
-        if (userData.isLogin === true) {
+        console.log(userData);
+        if (userData.signIn === true) {
           navigate("/");
         } else {
           setErrorMessage("The email or password is incorrect.");
+          console.log();
           setIsError(true);
         }
       });
@@ -244,11 +253,12 @@ const LoginPage = () => {
             <Password>Password</Password>
             <FindPasswordLink>Forgot password?</FindPasswordLink>
           </PasswordTextWrap>
-          <PasswordForm onChange={passwordHandler} />
+          <PasswordForm type="password" onChange={passwordHandler} />
           <LoginSubmit onClick={loginHandler}>Log in</LoginSubmit>
         </LoginForm>
         <SignupMessage>
-          Don't have an account?<SignupLink> Sign up</SignupLink>
+          Don't have an account?
+          <SignupLink onClick={moveSignUp}> Sign up</SignupLink>
         </SignupMessage>
       </LoginWrap>
     </Container>

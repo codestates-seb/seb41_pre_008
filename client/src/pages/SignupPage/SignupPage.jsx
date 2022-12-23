@@ -197,6 +197,7 @@ const SignupSubmit = styled.div`
   color: white;
   font-size: 13px;
   margin-top: 6px;
+  cursor: pointer;
 `;
 
 const LoginMessage = styled.div`
@@ -210,6 +211,7 @@ const LoginMessage = styled.div`
 const LoginLink = styled.span`
   color: rgb(0, 116, 204);
   margin-left: 5px;
+  cursor: pointer;
 `;
 
 const Title = styled.div`
@@ -267,7 +269,6 @@ const SignupPage = () => {
   const [pwErrorMessage, setPwErrorMessage] = useState("");
   const [pwState, setPwState] = useState(false);
 
-  const [isSignup, setIsSignUp] = useState(false);
   const navigate = useNavigate();
 
   const nickNameHandler = (e) => {
@@ -280,6 +281,10 @@ const SignupPage = () => {
 
   const passwordHandler = (e) => {
     setPassword(e.target.value);
+  };
+
+  const moveLogin = () => {
+    navigate("/login");
   };
 
   const signUpHandler = () => {
@@ -330,17 +335,18 @@ const SignupPage = () => {
 
     if (pwState === true && emailState === true && nameState === true) {
       axios
-        .post("", {
+        .post("https://ee12-222-109-195-131.jp.ngrok.io/members/signup", {
           nickName,
           email,
           password,
         })
+        .then((res) => res.data)
         .then((res) => {
-          setIsSignUp(res.data);
-        })
-        .then(() => {
-          if (isSignup.isSignUp) {
+          console.log(res);
+          if (res.signUp === true) {
             navigate("/login");
+          } else {
+            console.log("이미 가입된 회원입니다.");
           }
         });
     }
@@ -353,7 +359,7 @@ const SignupPage = () => {
 
   //  2. 기본 로그인 요청 Api 구현(백엔드) - post 요청, url 필요
   //   1) 가입 되지 않은 유저정보의 경우: id, isLogin: false 전달 요청
-  //   2) 가입 되어 있는 유저정보의 경우: id, ncikName, isLogin: true 전달 요청
+  //   2) 가입 되어 있는 유저정보의 경우: id, nickName, email, isLogin: true 전달 요청
 
   return (
     <Container>
@@ -419,7 +425,8 @@ const SignupPage = () => {
             <SignupSubmit onClick={signUpHandler}>Sign up</SignupSubmit>
           </SignupForm>
           <LoginMessage>
-            Don't have an account?<LoginLink>Log in</LoginLink>
+            Don't have an account?
+            <LoginLink onClick={moveLogin}>Log in</LoginLink>
           </LoginMessage>
         </RightBox>
       </LoginWrap>
