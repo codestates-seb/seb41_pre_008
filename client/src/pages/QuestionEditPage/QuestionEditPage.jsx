@@ -6,7 +6,7 @@ import { useRef } from "react";
 import { MainButton } from "../QuestionDetailPage/QusetionDetail";
 import { useNavigate } from "react-router-dom";
 
-const Main = styled.main`
+export const Main = styled.main`
   margin-top: 70px;
 `;
 
@@ -27,13 +27,13 @@ const EditIntro = styled.p`
   padding: 0.5rem;
 `;
 
-const Container = styled.section`
+export const Container = styled.section`
   display: flex;
   flex-direction: column;
   margin: 1rem 2rem;
 `;
 
-const EditTitle = styled.h2`
+export const EditTitle = styled.h2`
   font-weight: bold;
   margin: 0.5rem 0;
 `;
@@ -45,12 +45,25 @@ const EditInput = styled.input`
   border-radius: 5px;
 `;
 
-const ButtonContainer = styled.section`
+export const ButtonContainer = styled.section`
   display: flex;
   margin: 1rem 2rem;
 `;
 
-const EditCard = ({ editTitle, placeholder }) => {
+export const CancelButton = styled.button`
+  width: 10vw;
+  height: 5vh;
+  border: none;
+  color: #0a95ff;
+  background-color: white;
+  border-radius: 5px;
+  margin: 1rem 0;
+  &:hover {
+    filter: brightness(120%);
+  }
+`;
+
+export const EditCard = ({ editTitle, placeholder }) => {
   return (
     <Container>
       <EditTitle>{editTitle}</EditTitle>
@@ -59,29 +72,35 @@ const EditCard = ({ editTitle, placeholder }) => {
   );
 };
 
+export const EditIntroCard = () => {
+  return (
+    <EditIntroContainer>
+      <EditIntro>
+        Your edit will be placed in a queue until it is peer reviewed.
+      </EditIntro>
+      <EditIntro>
+        We welcome edits that make the post easier to understand and more
+        valuable for readers. Because community members review edits, please try
+        to make the post substantially better than how you found it, for
+        example, by fixing grammar or adding additional resources and
+        hyperlinks..
+      </EditIntro>
+    </EditIntroContainer>
+  );
+};
+
 const QuestionEditPage = () => {
   const editorRef = useRef();
   const navigate = useNavigate();
   return (
     <Main>
-      <EditIntroContainer>
-        <EditIntro>
-          Your edit will be placed in a queue until it is peer reviewed.
-        </EditIntro>
-        <EditIntro>
-          We welcome edits that make the post easier to understand and more
-          valuable for readers. Because community members review edits, please
-          try to make the post substantially better than how you found it, for
-          example, by fixing grammar or adding additional resources and
-          hyperlinks..
-        </EditIntro>
-      </EditIntroContainer>
+      <EditIntroCard />
       <EditCard editTitle="Title" />
       <Container>
         <EditTitle>Body</EditTitle>
         <Editor
           ref={editorRef}
-          initialValue="Write"
+          initialValue=" "
           placeholder="Please enter your contents"
           height="300px"
           useCommandShortcut={false}
@@ -93,8 +112,12 @@ const QuestionEditPage = () => {
         placeholder="briefly explain your changes (corrected spelling, fixed grammer, improved formatting)"
       />
       <ButtonContainer>
-        <MainButton>Save edits</MainButton>
-        <MainButton onClick={() => navigate("/questions/1")}>Cancel</MainButton>
+        <MainButton onClick={() => navigate("/questions/1")}>
+          Save edits
+        </MainButton>
+        <CancelButton onClick={() => navigate("/questions/1")}>
+          Cancel
+        </CancelButton>
       </ButtonContainer>
     </Main>
   );

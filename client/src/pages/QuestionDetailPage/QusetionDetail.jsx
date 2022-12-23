@@ -197,7 +197,7 @@ const QuestionDetail = () => {
         <AnswerTitle>Your Answer</AnswerTitle>
         <Editor
           ref={editorRef}
-          initialValue="Write"
+          initialValue=" "
           placeholder="Please enter your contents"
           height="300px"
           useCommandShortcut={false}

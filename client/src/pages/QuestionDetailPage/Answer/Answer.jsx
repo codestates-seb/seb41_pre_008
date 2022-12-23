@@ -4,6 +4,7 @@ import { RiArrowUpSFill, RiArrowDownSFill } from "react-icons/ri";
 import { FaBookmark, FaRegBookmark } from "react-icons/fa";
 import { useState } from "react";
 import { SideButton, SideButtonSection } from "../QusetionDetail";
+import { useNavigate } from "react-router-dom";
 
 const AnswerContentSection = styled.section`
   display: flex;
@@ -31,6 +32,7 @@ const AnswerContent = styled.div`
 
 const Answer = ({ answers }) => {
   const [isBookMark, setIsBookMark] = useState(false);
+  const navigate = useNavigate();
   return (
     <AnswerContentSection>
       <Vote>
@@ -55,7 +57,7 @@ const Answer = ({ answers }) => {
         {answers.content}
         <SideButtonSection>
           <SideButton>Share</SideButton>
-          <SideButton>Edit</SideButton>
+          <SideButton onClick={() => navigate("/answer/edit")}>Edit</SideButton>
           <SideButton>Delete</SideButton>
         </SideButtonSection>
       </AnswerContent>
