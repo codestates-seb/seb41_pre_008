@@ -9,3 +9,6 @@ spring:
     hibernate:
       ddl-auto: create  # (1) ??? ?? ??
     show-sql: true      # (2) SQL ?? ??
+server:
+  address: 127.0.0.1
+  port: 8080

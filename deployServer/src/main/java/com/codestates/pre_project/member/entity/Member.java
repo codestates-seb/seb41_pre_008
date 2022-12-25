@@ -39,11 +39,11 @@ public class Member {
     @Column(nullable = false, name = "LAST_MODIFIED_AT")
     private LocalDateTime modifiedAt = LocalDateTime.now();
 
-    @OneToMany(mappedBy = "member")
-    private List<Question> questions = new ArrayList<>();
-
-    @OneToMany(mappedBy = "member")
-    private List<Answer> answers = new ArrayList<>();
+//    @OneToMany(mappedBy = "member")
+//    private List<Question> questions = new ArrayList<>();
+//
+//    @OneToMany(mappedBy = "member")
+//    private List<Answer> answers = new ArrayList<>();
 
     public enum MemberStatus {
         MEMBER_ACTIVE("활동중"),
