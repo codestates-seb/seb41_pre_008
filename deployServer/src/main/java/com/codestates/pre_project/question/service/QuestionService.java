@@ -2,8 +2,10 @@ package com.codestates.pre_project.question.service;
 
 import com.codestates.pre_project.exception.BusinessLogicException;
 import com.codestates.pre_project.exception.ExceptionCode;
+import com.codestates.pre_project.member.service.MemberService;
 import com.codestates.pre_project.question.entity.Question;
 import com.codestates.pre_project.question.repository.QuestionRepository;
+import com.codestates.pre_project.tag.repository.TagRepository;
 import com.codestates.pre_project.tag.service.TagService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,11 +20,14 @@ import java.util.Optional;
 public class QuestionService {
     private final QuestionRepository questionRepository;
     private final TagService tagService;
+    private final MemberService memberService;
 
     public QuestionService(QuestionRepository questionRepository,
-                           TagService tagService){
+                           TagService tagService,
+                           MemberService memberService){
         this.questionRepository = questionRepository;
         this.tagService = tagService;
+        this.memberService = memberService;
     }
 
     public Question createQuestion(Question question) {
@@ -78,15 +83,18 @@ public class QuestionService {
 
     public void deleteQuestion(long questionId) {
         Question question = findVerifiedQuestion(questionId);
-
-        questionRepository.delete(question);
+        String status = question.getQuestionStatus().getStatus();
+        if(status.equals("채택된 답안이 있는 문의"))
+            throw new BusinessLogicException(ExceptionCode.CANNOT_DELETE_QUESTION);
+        question.setQuestionStatus(Question.QuestionStatus.QUESTION_DELETE);
+        questionRepository.save(question);
     }
 
-    public void deleteQuestions (){
-        questionRepository.deleteAll();
-    }
     private Question findVerifiedQuestion(long questionId) {
         Optional<Question> optionalQuestion = questionRepository.findById(questionId);
+        String status = optionalQuestion.get().getQuestionStatus().getStatus();
+        if(status.equals("삭제된 질문"))
+            throw new BusinessLogicException(ExceptionCode.ALREADY_DELETE_QUESTION);
         Question findQuestion =
                 optionalQuestion.orElseThrow(() ->
                         new BusinessLogicException(ExceptionCode.QUESTION_NOT_FOUND));
@@ -95,9 +103,8 @@ public class QuestionService {
     }
 
     private void verifyQuestion(Question question) {
-        //memberService 작성되면 주석 풀기
         // 회원이 존재하는지 확인
-        //memberService.findVerifiedMember(question.getMember().getMemberId());
+        memberService.findVerifiedMember(question.getMember().getMemberId());
 
         //tag가 존재하는지 확인
         question.getQuestionTags().stream()

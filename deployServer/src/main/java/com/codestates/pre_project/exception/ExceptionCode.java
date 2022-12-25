@@ -8,7 +8,9 @@ public enum ExceptionCode {
     NOT_IMPLEMENTATION(501, "Not Implementation"),
     INVALID_MEMBER_STATUS(400, "Invalid member status"),
     QUESTION_NOT_FOUND(404, "Question not found"),
-    TAG_NOT_FOUND(404, "Tag not found");
+    TAG_NOT_FOUND(404, "Tag not found"),
+    CANNOT_DELETE_QUESTION(403, "Question can not delete"),
+    ALREADY_DELETE_QUESTION(403, "Question already delete");
 
     @Getter
     private int status;

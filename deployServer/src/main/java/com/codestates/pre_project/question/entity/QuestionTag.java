@@ -25,6 +25,22 @@ public class QuestionTag {
     private Tag tag;
 
 
+    /*
+    public void setQuestion(Question question){
+        this.question = question;
+        if(!this.question.getQuestionTags().contains(this)){
+            this.question.getQuestionTags().add(this);
+        }
+    }
+
+    public void setTag(Tag tag){
+        this.tag = tag;
+        if(!this.tag.getQuestionTags().contains(this)){
+            this.tag.setQuestionTag(this);
+        }
+    }
+
+     */
     public void setQuestion(Question question){
         this.question = question;
         if(!this.question.getQuestionTags().contains(this)){
