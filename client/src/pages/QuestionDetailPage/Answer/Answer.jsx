@@ -8,8 +8,17 @@ import {
   SideButtonSection,
   UserProgileCard,
   SideSeciton,
+  TagCard,
 } from "../QuestionDetailPage";
 import { useNavigate } from "react-router-dom";
+import LinkModal from "../LinkModal/LinkModal";
+
+const dummytags = [
+  { id: 5, tag: "php" },
+  { id: 6, tag: "android" },
+  { id: 7, tag: "html" },
+  { id: 8, tag: "jquery" },
+];
 
 const AnswerContentSection = styled.section`
   display: flex;
@@ -22,9 +31,14 @@ const Vote = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
-  text-align: center;
   font-size: x-large;
   color: rgb(116, 117, 122);
+  .icon {
+    color: #b6b8bd;
+    &:active {
+      color: #f48225;
+    }
+  }
 `;
 
 const AnswerContentContainer = styled.section`
@@ -36,15 +50,27 @@ const AnswerContentContainer = styled.section`
   width: 100%;
 `;
 
-const Answer = ({ answers }) => {
+const Answer = ({ answer }) => {
   const [isBookMark, setIsBookMark] = useState(false);
   const navigate = useNavigate();
+  const handleShare = (e) => {
+    e.stopPropagation();
+    document.getElementById(`${answer.id}`).classList.add("hide");
+    console.log(document.getElementById(`${answer.id}`).classList);
+  };
+
+  const handleShowModal = (e) => {
+    e.stopPropagation();
+    document.getElementById(`${answer.id}`).classList.remove("hide");
+    console.log(document.getElementById(`${answer.id}`).classList);
+  };
+
   return (
-    <AnswerContentSection>
+    <AnswerContentSection onClick={handleShare}>
       <Vote>
-        <RiArrowUpSFill color="#b6b8bd" size={64} />
-        <span>{answers.vote}</span>
-        <RiArrowDownSFill color="#b6b8bd" size={64} />
+        <RiArrowUpSFill className="icon" size={64} />
+        <span>{answer.vote}</span>
+        <RiArrowDownSFill className="icon" size={64} />
         {isBookMark ? (
           <FaBookmark
             size={16}
@@ -60,14 +86,16 @@ const Answer = ({ answers }) => {
         )}
       </Vote>
       <AnswerContentContainer>
-        {answers.content}
+        {answer.content}
+        <TagCard tags={dummytags} />
         <SideSeciton>
           <SideButtonSection>
-            <SideButton>Share</SideButton>
+            <SideButton onClick={handleShowModal}>Share</SideButton>
             <SideButton onClick={() => navigate("/answer/edit")}>
               Edit
             </SideButton>
             <SideButton>Delete</SideButton>
+            <LinkModal modalId={answer.id} isAnswer={true} />
           </SideButtonSection>
           <UserProgileCard
             time="2"

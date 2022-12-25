@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { Editor } from "@toast-ui/react-editor";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import AnswerList from "./Answer/AnserList";
+import LinkModal from "./LinkModal/LinkModal";
 
 const data = [
   {
@@ -46,34 +47,50 @@ const data = [
   },
 ];
 
-const tags = [];
+const dummytags = [
+  { id: 1, tag: "javascript" },
+  { id: 2, tag: "python" },
+  { id: 3, tag: "c#" },
+];
+
+const Main = styled.main`
+  .question {
+    border-bottom: 1px solid rgb(210, 212, 219);
+  }
+  .answer {
+    margin: 0.5rem 1.5rem;
+    .answerPostTitle {
+      padding: 1rem 0.5rem;
+    }
+  }
+
+  .answerTitle {
+    padding: 2rem 2rem 0 2rem;
+  }
+`;
 
 const Container = styled.section`
   display: flex;
   flex-direction: column;
   width: 750px;
-  margin: 1rem;
-  border-bottom: 1px solid rgb(210, 212, 219);
-  .icon {
-    color: #b6b8bd;
-    &:active {
-      color: #f48225;
-    }
+  .modal.hide {
+    display: none;
   }
 `;
+
 const QuestionTitleSection = styled.section`
   display: flex;
-  padding: 1rem;
+  padding: 1rem 0 1rem 2rem;
   border-bottom: 1px solid rgb(210, 212, 219);
 `;
 export const MainButton = styled.button`
-  width: 10vw;
-  height: 5vh;
+  width: 200px;
+  height: 35px;
   border: none;
   color: white;
   background-color: #0a95ff;
   border-radius: 5px;
-  margin: 1rem 0;
+  margin: 0.4rem 0;
   &:hover {
     filter: brightness(120%);
   }
@@ -93,16 +110,21 @@ const QuestionTitleDetail = styled.p`
 const QuestionContentSection = styled.section`
   display: flex;
   padding: 1rem;
-  align-items: center;
+  align-items: flex-start;
 `;
 
 const Vote = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
-  text-align: center;
   font-size: x-large;
   color: rgb(116, 117, 122);
+  .icon {
+    color: #b6b8bd;
+    &:active {
+      color: #f48225;
+    }
+  }
 `;
 
 const QuestionContent = styled.div`
@@ -135,7 +157,6 @@ export const SideButton = styled.button`
 `;
 
 const AnswerTitle = styled.h2`
-  padding: 1rem;
   color: #3b4045;
   font-size: x-large;
 `;
@@ -195,6 +216,9 @@ const Tag = styled.a`
   border-radius: 3px;
   height: 25px;
   align-items: center;
+  &:hover {
+    filter: brightness(97%);
+  }
 `;
 
 export const UserProgileCard = ({
@@ -220,22 +244,44 @@ export const UserProgileCard = ({
   );
 };
 
-// const
+export const TagCard = ({ tags }) => {
+  return (
+    <TagContainer>
+      {tags.map((tag) => (
+        <Tag href="/" key={tag.id}>
+          {tag.tag}
+        </Tag>
+      ))}
+    </TagContainer>
+  );
+};
 
 const QuestionDetailPage = () => {
   const navigate = useNavigate();
+  const editorRef = useRef();
   const [isBookMark, setIsBookMark] = useState(false);
+
+  const handleShare = (e) => {
+    e.stopPropagation();
+    document.getElementById("modal").classList.add("hide");
+    console.log(document.getElementById("modal").classList);
+  };
   const handlePostAnswer = () => {
     // 추가해야 할 내용: 서버에 post 요청 보내기
     console.log(editorRef.current.getInstance().getHTML());
     window.scrollTo(0, 0);
     navigate("/questions/1");
   };
-  const editorRef = useRef();
+
+  const handleShowModal = (e) => {
+    e.stopPropagation();
+    document.getElementById("modal").classList.remove("hide");
+    console.log(document.getElementById("modal").classList);
+  };
 
   return (
-    <main>
-      <Container>
+    <Main onClick={handleShare}>
+      <Container className="question">
         <QuestionTitleSection>
           <div>
             <QuestionTitle>
@@ -271,19 +317,15 @@ const QuestionDetailPage = () => {
             I am facing one issue related to incoming calls, so the situation is
             API is in .NET 6 and it's frontend is in Angular app and also it's
             multi-tenant application.
-            <TagContainer>
-              {" "}
-              <Tag>python</Tag>
-              <Tag>javascript</Tag>
-              <Tag>c#</Tag>
-            </TagContainer>
+            <TagCard tags={dummytags} />
             <SideSeciton>
               <SideButtonSection>
-                <SideButton>Share</SideButton>
+                <SideButton onClick={handleShowModal}>Share</SideButton>
                 <SideButton onClick={() => navigate("/questions/edit")}>
                   Edit
                 </SideButton>
                 <SideButton>Delete</SideButton>
+                <LinkModal modalId="modal" isAnswer={false} />
               </SideButtonSection>
               <UserProgileCard
                 type={true}
@@ -297,11 +339,11 @@ const QuestionDetailPage = () => {
         </QuestionContentSection>
       </Container>
       <Container>
-        <AnswerTitle>{data.length} Answer</AnswerTitle>
+        <AnswerTitle className="answerTitle">{data.length} Answer</AnswerTitle>
         <AnswerList data={data} />
       </Container>
-      <Container>
-        <AnswerTitle>Your Answer</AnswerTitle>
+      <Container className="answer">
+        <AnswerTitle className="answerPostTitle">Your Answer</AnswerTitle>
         <Editor
           ref={editorRef}
           initialValue=" "
@@ -313,7 +355,7 @@ const QuestionDetailPage = () => {
           Post Your Answer
         </MainButton>
       </Container>
-    </main>
+    </Main>
   );
 };
 
