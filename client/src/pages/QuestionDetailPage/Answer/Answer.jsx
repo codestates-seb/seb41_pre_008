@@ -91,7 +91,11 @@ const Answer = ({ answer }) => {
         <SideSeciton>
           <SideButtonSection>
             <SideButton onClick={handleShowModal}>Share</SideButton>
-            <SideButton onClick={() => navigate("/answer/edit")}>
+            <SideButton
+              onClick={() =>
+                navigate("/questions/:questionId/answer/edit/:answerId")
+              }
+            >
               Edit
             </SideButton>
             <SideButton>Delete</SideButton>

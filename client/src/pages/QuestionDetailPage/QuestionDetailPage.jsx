@@ -321,7 +321,9 @@ const QuestionDetailPage = () => {
             <SideSeciton>
               <SideButtonSection>
                 <SideButton onClick={handleShowModal}>Share</SideButton>
-                <SideButton onClick={() => navigate("/questions/edit")}>
+                <SideButton
+                  onClick={() => navigate("/questions/:questionId/edit")}
+                >
                   Edit
                 </SideButton>
                 <SideButton>Delete</SideButton>

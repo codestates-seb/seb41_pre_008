@@ -41,15 +41,15 @@ const router = createBrowserRouter([
     element: <AskPage />,
   },
   {
-    path: "/questions/:id",
+    path: "/questions/:questionId",
     element: <QuestionDetailPage />,
   },
   {
-    path: "/questions/edit",
+    path: "/questions/:questionId/edit",
     element: <QuestionEditPage />,
   },
   {
-    path: "/answer/edit",
+    path: "/questions/:questionId/answer/edit/:answerId",
     element: <AnswerEditPage />,
   },
   {
