@@ -5,6 +5,7 @@ import { SlSpeech } from "react-icons/sl";
 import { BsStackOverflow } from "react-icons/bs";
 
 const AsideContainer = styled.ul`
+  flex-shrink: 0;
   width: 298px;
   height: 400px;
   margin-left: 20px;
@@ -42,7 +43,6 @@ const AsideContainer = styled.ul`
           flex-shrink: 0;
         }
       }
-      
     }
   }
 `;
