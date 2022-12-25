@@ -1,17 +1,17 @@
-import "./App.css";
-import LoginPage from "./pages/LoginPage/LoginPage";
-import SignupPage from "./pages/SignupPage/SignupPage";
-import QuestionDetailPage from "./pages/QuestionDetailPage/QuestionDetailPage";
-import AskPage from "./pages/AskPage/AskPage";
-import MyPage from "./pages/MyPage/MyPage";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Header from "./components/Header/Header";
-import Footer from "./components/Footer/Footer";
-import QuestionEditPage from "./pages/QuestionEditPage/QuestionEditPage";
-import QuestionListPage from "./pages/QuestionListPage/QuestionListPage";
-import AnswerEditPage from "./pages/AnswerEditPage/AnswerEditPage";
-import Aside from "./components/Aside/Aside";
-import styled from "styled-components";
+import './App.css';
+import LoginPage from './pages/LoginPage/LoginPage';
+import SignupPage from './pages/SignupPage/SignupPage';
+import QuestionDetailPage from './pages/QuestionDetailPage/QuestionDetailPage';
+import AskPage from './pages/AskPage/AskPage';
+import MyPage from './pages/MyPage/MyPage';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import Header from './components/Header/Header';
+import Footer from './components/Footer/Footer';
+import QuestionEditPage from './pages/QuestionEditPage/QuestionEditPage';
+import QuestionListPage from './pages/QuestionListPage/QuestionListPage';
+import AnswerEditPage from './pages/AnswerEditPage/AnswerEditPage';
+import Aside from './components/Aside/Aside';
+import styled from 'styled-components';
 
 const Container = styled.div`
   display: flex;
@@ -20,47 +20,51 @@ const Container = styled.div`
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: '/',
     element: <QuestionListPage />,
   },
   {
-    path: "/login",
+    path: '/login',
     element: <LoginPage />,
     errorElement: <div>Not found</div>,
   },
   {
-    path: "/signup",
+    path: '/signup',
     element: <SignupPage />,
   },
   {
-    path: "/questions",
+    path: '/questions',
     element: <QuestionListPage />,
   },
   {
-    path: "/questions/ask",
+    path: '/questions/ask',
     element: <AskPage />,
   },
   {
-    path: "/questions/:questionId",
+    path: '/questions/:questionId',
     element: <QuestionDetailPage />,
   },
   {
-    path: "/questions/:questionId/edit",
+    path: '/questions/:questionId/edit',
     element: <QuestionEditPage />,
   },
   {
-    path: "/questions/:questionId/answer/edit/:answerId",
+    path: '/questions/:questionId/answer/edit/:answerId',
     element: <AnswerEditPage />,
   },
   {
-    path: "/mypage",
+    path: '/mypage',
     element: <MyPage />,
   },
 ]);
 
 const Main = ({ children }) => {
   let location = window.location.pathname;
-  if (location === "/login" || location === "/signup") {
+  if (
+    location === '/login' ||
+    location === '/signup' ||
+    location === '/questions/ask'
+  ) {
     return <div>{children}</div>;
   } else {
     return <Container>{children}</Container>;
