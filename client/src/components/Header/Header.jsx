@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import Nav from "../Nav/Nav";
 
 const HeaderWrap = styled.div`
   position: fixed;
@@ -23,10 +24,13 @@ const MenuHeader = styled.div`
 
 const Header = () => {
   return (
-    <HeaderWrap>
-      <OrangeBg />
-      <MenuHeader></MenuHeader>
-    </HeaderWrap>
+    <>
+      <HeaderWrap>
+        <OrangeBg />
+        <MenuHeader></MenuHeader>
+      </HeaderWrap>
+      <Nav />
+    </>
   );
 };
 

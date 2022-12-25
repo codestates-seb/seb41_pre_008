@@ -8,7 +8,7 @@ import {
   SideButtonSection,
   UserProgileCard,
   SideSeciton,
-} from "../QusetionDetail";
+} from "../QuestionDetailPage";
 import { useNavigate } from "react-router-dom";
 
 const AnswerContentSection = styled.section`

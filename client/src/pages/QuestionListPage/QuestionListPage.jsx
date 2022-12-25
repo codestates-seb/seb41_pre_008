@@ -1,14 +1,14 @@
-import React from 'react';
-import styled from 'styled-components';
-import test from '../../img/test/test.png'
+import React from "react";
+import styled from "styled-components";
+import test from "../../img/test/test.png";
 
 const Main = styled.div`
   display: flex;
-`
+`;
 
 const Section = styled.div`
   width: 750px;
-  
+
   header {
     display: flex;
     justify-content: space-between;
@@ -71,7 +71,7 @@ const Section = styled.div`
       margin-right: 16px;
 
       ul {
-        li:nth-child(n+2) {
+        li:nth-child(n + 2) {
           color: #6a737c;
         }
       }
@@ -95,13 +95,13 @@ const Section = styled.div`
         margin-bottom: 8px;
       }
     }
-    
+
     .questionSub {
       display: flex;
       justify-content: space-between;
       flex-wrap: wrap;
       flex-grow: 1;
-      
+
       .tags {
         flex-grow: 1;
         display: flex;
@@ -151,7 +151,7 @@ const Section = styled.div`
       }
     }
   }
-`
+`;
 
 const QuestionListPage = () => {
   return (
@@ -161,30 +161,38 @@ const QuestionListPage = () => {
           <h2>Top Questions</h2>
           <button>Ask Question</button>
         </header>
-        <div className='alignFilter'>
+        <div className="alignFilter">
           <button type="button">Interesting</button>
-          <button type="button"><span>242</span>Bountied</button>
+          <button type="button">
+            <span>242</span>Bountied
+          </button>
           <button type="button">Hot</button>
           <button type="button">Week</button>
           <button type="button">Month</button>
         </div>
         <article>
-          <div className='dataInfo'>
+          <div className="dataInfo">
             <ul>
-              <li><span>0</span>votes</li>
-              <li><span>0</span>answers</li>
-              <li><span>0</span>views</li>
+              <li>
+                <span>0</span>votes
+              </li>
+              <li>
+                <span>0</span>answers
+              </li>
+              <li>
+                <span>0</span>views
+              </li>
             </ul>
           </div>
-          <div className='questionInfo'>
+          <div className="questionInfo">
             <h3>Question Title</h3>
-            <div className='questionSub'>
-              <div className='tags'>
-                <a href='#'>tag</a>
+            <div className="questionSub">
+              <div className="tags">
+                <a href="/">tag</a>
               </div>
-              <div className='userInfo'>
+              <div className="userInfo">
                 <img src={test} alt="profile img" />
-                <a href='/mypage'>Ron</a>
+                <a href="/mypage">Ron</a>
                 <span>5,281</span>
                 <span>modified</span>
                 <span>1</span>
