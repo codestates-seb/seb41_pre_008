@@ -11,7 +11,8 @@ import java.util.List;
 @Setter
 public class QuestionResponseDto {
     private long questionId;
-    //private long memberId;
+    private long memberId;
+    private String nickName;
     private String title;
     private String problemContent;
     private String expectContent;

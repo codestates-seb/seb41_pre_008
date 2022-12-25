@@ -41,16 +41,9 @@ public class QuestionController {
 
     @PostMapping
     public ResponseEntity postQuestion(@Valid @RequestBody QuestionPostDto questionPostDto) {
-        /*
         Question question = questionService.createQuestion(questionMapper.questionPostDtoToQuestion(questionPostDto));
 
         return new ResponseEntity<>(questionMapper.questionToQuestionResponseDto(question), HttpStatus.CREATED);
-
-         */
-        Question question = questionMapper.questionPostDtoToQuestion(questionPostDto);
-        Question response = questionService.createQuestion(question);
-
-        return new ResponseEntity<>(questionMapper.questionToQuestionResponseDto(response), HttpStatus.CREATED);
     }
 
 
@@ -100,11 +93,4 @@ public class QuestionController {
         questionService.deleteQuestion(questionId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-
-    @DeleteMapping
-    public ResponseEntity deleteQuestions() {
-        questionService.deleteQuestions();
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
-
 }

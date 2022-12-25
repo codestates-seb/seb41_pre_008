@@ -15,8 +15,8 @@ import java.util.List;
 @Getter
 public class QuestionPostDto {
 
-    //@Positive
-    //private long memberId;
+    @Positive
+    private long memberId;
 
     private String title;
     private String problemContent;
