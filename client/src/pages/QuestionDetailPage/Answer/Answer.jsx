@@ -3,15 +3,15 @@ import styled from "styled-components";
 import { RiArrowUpSFill, RiArrowDownSFill } from "react-icons/ri";
 import { FaBookmark, FaRegBookmark } from "react-icons/fa";
 import { useState } from "react";
-import {
-  SideButton,
-  SideButtonSection,
-  UserProgileCard,
-  SideSeciton,
-  TagCard,
-} from "../QuestionDetailPage";
+import { SideSeciton } from "../QuestionDetailPage";
 import { useNavigate } from "react-router-dom";
 import LinkModal from "../LinkModal/LinkModal";
+import UserProfileCard from "../DetailComponents/UserProfileCard";
+import TagCard from "../DetailComponents/TagCard";
+import {
+  SideButtonSection,
+  SideButton,
+} from "../DetailComponents/ButtonBundle";
 
 const dummytags = [
   { id: 5, tag: "php" },
@@ -22,7 +22,7 @@ const dummytags = [
 
 const AnswerContentSection = styled.section`
   display: flex;
-  padding: 1rem;
+  padding: 1rem 0 1rem 1rem;
   align-items: flex-start;
   border-bottom: 1px solid rgb(210, 212, 219);
 `;
@@ -101,7 +101,7 @@ const Answer = ({ answer }) => {
             <SideButton>Delete</SideButton>
             <LinkModal modalId={answer.id} isAnswer={true} />
           </SideButtonSection>
-          <UserProgileCard
+          <UserProfileCard
             time="2"
             name="lord stock"
             reputation="992"

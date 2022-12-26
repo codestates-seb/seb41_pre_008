@@ -1,8 +1,9 @@
 import React from "react";
+import styled from "styled-components";
 import { Editor } from "@toast-ui/react-editor";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import { useRef, useState } from "react";
-import { MainButton } from "../QuestionDetailPage/QuestionDetailPage";
+import { MainButton } from "../QuestionDetailPage/DetailComponents/ButtonBundle";
 import { useNavigate } from "react-router-dom";
 import {
   Container,
@@ -13,6 +14,12 @@ import {
   CancelButton,
 } from "../QuestionEditPage/QuestionEditPage";
 import { useEffect } from "react";
+
+const Main = styled.main`
+  display: flex;
+  flex-direction: column;
+  width: 750px;
+`;
 
 const AnswerEditPage = () => {
   const editorRef = useRef();
@@ -31,7 +38,7 @@ const AnswerEditPage = () => {
     window.scrollTo(0, 0);
   }, []);
   return (
-    <main>
+    <Main>
       <EditIntroCard />
       <Container>
         <EditTitle>Answer</EditTitle>
@@ -57,7 +64,7 @@ const AnswerEditPage = () => {
           Cancel
         </CancelButton>
       </ButtonContainer>
-    </main>
+    </Main>
   );
 };
 
