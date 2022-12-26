@@ -3,19 +3,25 @@ import styled from "styled-components";
 import { Editor } from "@toast-ui/react-editor";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import { useRef } from "react";
-import { MainButton } from "../QuestionDetailPage/QuestionDetailPage";
+import { MainButton } from "../QuestionDetailPage/DetailComponents/ButtonBundle";
 import { useNavigate } from "react-router-dom";
+import { Tag } from "./TestTags";
+
+const Main = styled.main`
+  display: flex;
+  flex-direction: column;
+  width: 750px;
+`;
 
 const EditIntroContainer = styled.section`
   display: flex;
   flex-direction: column;
-  width: 750px;
   border: 1px solid #dfc257;
   border-radius: 5px;
   background-color: #fff9e3;
   line-height: 20px;
-  margin: 1.5rem;
-  padding: 1rem;
+  margin: 0 2rem;
+  padding: 0.8rem;
 `;
 
 const EditIntro = styled.p`
@@ -39,17 +45,26 @@ const EditInput = styled.input`
   display: flex;
   padding: 0.5rem;
   border: 1px solid rgb(169, 170, 178);
-  border-radius: 5px;
+  border-radius: 3px;
+  &:focus {
+    outline: none !important;
+    border-color: #0a95ff;
+    box-shadow: 0 0 0 5px #d3ecff;
+  }
 `;
 
 export const ButtonContainer = styled.section`
   display: flex;
+  align-items: center;
   margin: 1rem 2rem;
 `;
 
 export const CancelButton = styled.button`
-  width: 10vw;
-  height: 5vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100px;
+  height: 35px;
   border: none;
   color: #0a95ff;
   background-color: white;
@@ -90,20 +105,27 @@ const QuestionEditPage = () => {
   const editorRef = useRef();
   const navigate = useNavigate();
   return (
-    <main>
+    <Main>
       <EditIntroCard />
       <EditCard editTitle="Title" />
       <Container>
         <EditTitle>Body</EditTitle>
         <Editor
+          className="editor"
           ref={editorRef}
           initialValue=" "
           placeholder="Please enter your contents"
+          initialEditType="wysiwyg"
+          previewStyle="vertical"
           height="300px"
           useCommandShortcut={false}
         />
       </Container>
-      <EditCard editTitle="Tags" />
+      <Container>
+        <EditTitle>Tags</EditTitle>
+        <EditInput></EditInput>
+      </Container>
+      <Tag />
       <EditCard
         editTitle="Edit Summary"
         placeholder="briefly explain your changes (corrected spelling, fixed grammer, improved formatting)"
@@ -116,7 +138,7 @@ const QuestionEditPage = () => {
           Cancel
         </CancelButton>
       </ButtonContainer>
-    </main>
+    </Main>
   );
 };
 

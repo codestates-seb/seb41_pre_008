@@ -8,6 +8,13 @@ import { Editor } from "@toast-ui/react-editor";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import AnswerList from "./Answer/AnserList";
 import LinkModal from "./LinkModal/LinkModal";
+import UserProfileCard from "./DetailComponents/UserProfileCard";
+import TagCard from "./DetailComponents/TagCard";
+import {
+  MainButton,
+  SideButtonSection,
+  SideButton,
+} from "./DetailComponents/ButtonBundle";
 
 const data = [
   {
@@ -54,6 +61,9 @@ const dummytags = [
 ];
 
 const Main = styled.main`
+  display: flex;
+  flex-direction: column;
+  width: 750px;
   .question {
     border-bottom: 1px solid rgb(210, 212, 219);
   }
@@ -63,7 +73,6 @@ const Main = styled.main`
       padding: 1rem 0.5rem;
     }
   }
-
   .answerTitle {
     padding: 2rem 2rem 0 2rem;
   }
@@ -72,7 +81,6 @@ const Main = styled.main`
 const Container = styled.section`
   display: flex;
   flex-direction: column;
-  width: 750px;
   .modal.hide {
     display: none;
   }
@@ -80,36 +88,26 @@ const Container = styled.section`
 
 const QuestionTitleSection = styled.section`
   display: flex;
+  width: 100%;
   padding: 1rem 0 1rem 2rem;
   border-bottom: 1px solid rgb(210, 212, 219);
 `;
-export const MainButton = styled.button`
-  width: 200px;
-  height: 35px;
-  border: none;
-  color: white;
-  background-color: #0a95ff;
-  border-radius: 5px;
-  margin: 0.4rem 0;
-  &:hover {
-    filter: brightness(120%);
-  }
-`;
+
 const QuestionTitle = styled.h1`
   display: flex;
   color: #3b4045;
   font-size: xx-large;
   line-height: 40px;
-  margin-right: 1rem;
 `;
 
 const QuestionTitleDetail = styled.p`
+  font-size: 14px;
   color: rgb(116, 117, 122);
 `;
 
 const QuestionContentSection = styled.section`
   display: flex;
-  padding: 1rem;
+  padding: 1rem 0 1rem 1rem;
   align-items: flex-start;
 `;
 
@@ -143,118 +141,10 @@ export const SideSeciton = styled.section`
   margin-top: 1rem;
 `;
 
-export const SideButtonSection = styled.div`
-  display: flex;
-`;
-
-export const SideButton = styled.button`
-  border: none;
-  color: rgb(116, 117, 122);
-  background: white;
-  &:hover {
-    color: #3b4045;
-  }
-`;
-
 const AnswerTitle = styled.h2`
   color: #3b4045;
   font-size: x-large;
 `;
-
-const UserProfileContainer = styled.section`
-  display: flex;
-  flex-direction: column;
-  background-color: #d8eaf7;
-  border-radius: 3px;
-  width: 200px;
-  height: 67px;
-  padding: 0.2rem 0.5rem;
-  .recent {
-    color: #676c72;
-    font-size: small;
-  }
-  .userProfile {
-    display: flex;
-    align-items: center;
-  }
-  img {
-    width: 32px;
-    height: 32px;
-    border-radius: 3px;
-  }
-  .userInfo {
-    display: flex;
-    flex-direction: column;
-    margin-left: 0.5rem;
-    line-height: 15px;
-    font-size: small;
-  }
-  .userName {
-    color: #0e6eb3;
-    font-weight: bold;
-  }
-  .userReputation {
-    font-weight: bold;
-  }
-`;
-
-const TagContainer = styled.div`
-  display: flex;
-  flex: 1;
-  justify-content: flex-start;
-  align-items: center;
-  margin-top: 0.5rem;
-`;
-
-const Tag = styled.a`
-  display: flex;
-  font-size: 12px;
-  background-color: #e1ecf4;
-  color: #39749d;
-  padding: 4.8px 6px;
-  margin-right: 0.4rem;
-  border-radius: 3px;
-  height: 25px;
-  align-items: center;
-  &:hover {
-    filter: brightness(97%);
-  }
-`;
-
-export const UserProgileCard = ({
-  type = false,
-  time,
-  name,
-  reputation,
-  src,
-}) => {
-  return (
-    <UserProfileContainer>
-      <div className="recent">
-        {type === true ? "asked" : "answered"} {time} mins ago
-      </div>
-      <div className="userProfile">
-        <img src={src} alt="profileimg" />
-        <div className="userInfo">
-          <span className="userName">{name}</span>
-          <span className="userReputation">{reputation}</span>
-        </div>
-      </div>
-    </UserProfileContainer>
-  );
-};
-
-export const TagCard = ({ tags }) => {
-  return (
-    <TagContainer>
-      {tags.map((tag) => (
-        <Tag href="/" key={tag.id}>
-          {tag.tag}
-        </Tag>
-      ))}
-    </TagContainer>
-  );
-};
 
 const QuestionDetailPage = () => {
   const navigate = useNavigate();
@@ -329,7 +219,7 @@ const QuestionDetailPage = () => {
                 <SideButton>Delete</SideButton>
                 <LinkModal modalId="modal" isAnswer={false} />
               </SideButtonSection>
-              <UserProgileCard
+              <UserProfileCard
                 type={true}
                 time="2"
                 name="Z.G"
@@ -349,6 +239,8 @@ const QuestionDetailPage = () => {
         <Editor
           ref={editorRef}
           initialValue=" "
+          initialEditType="wysiwyg"
+          previewStyle="vertical"
           placeholder="Please enter your contents"
           height="300px"
           useCommandShortcut={false}
