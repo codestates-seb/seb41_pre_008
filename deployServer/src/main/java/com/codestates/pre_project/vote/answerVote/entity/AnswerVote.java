@@ -2,16 +2,16 @@ package com.codestates.pre_project.vote.answerVote.entity;
 
 import com.codestates.pre_project.answer.entity.Answer;
 import com.codestates.pre_project.member.entity.Member;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 @Entity
+@Builder
 public class AnswerVote {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

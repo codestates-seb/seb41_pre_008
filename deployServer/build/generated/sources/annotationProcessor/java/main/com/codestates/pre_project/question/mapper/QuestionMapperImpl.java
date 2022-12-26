@@ -1,5 +1,8 @@
 package com.codestates.pre_project.question.mapper;
 
+import com.codestates.pre_project.comment.dto.CommentResponseDto;
+import com.codestates.pre_project.comment.dto.CommentResponseDto.CommentResponseDtoBuilder;
+import com.codestates.pre_project.comment.entity.Comment;
 import com.codestates.pre_project.member.entity.Member;
 import com.codestates.pre_project.question.dto.QuestionPatchDto;
 import com.codestates.pre_project.question.dto.QuestionResponseDto;
@@ -16,7 +19,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-12-25T16:58:01+0900",
+    date = "2022-12-26T17:06:07+0900",
     comments = "version: 1.4.2.Final, compiler: IncrementalProcessingEnvironment from gradle-language-java-7.5.1.jar, environment: Java 11.0.16 (Azul Systems, Inc.)"
 )
 @Component
@@ -77,6 +80,7 @@ public class QuestionMapperImpl implements QuestionMapper {
         questionResponseDto.setQuestionTags( questionTagListToQuestionTagResponseDtoList( question.getQuestionTags() ) );
         questionResponseDto.setCreatedAt( question.getCreatedAt() );
         questionResponseDto.setModifiedAt( question.getModifiedAt() );
+        questionResponseDto.setComments( commentListToCommentResponseDtoList( question.getComments() ) );
 
         return questionResponseDto;
     }
@@ -159,6 +163,36 @@ public class QuestionMapperImpl implements QuestionMapper {
         List<QuestionTagResponseDto> list1 = new ArrayList<QuestionTagResponseDto>( list.size() );
         for ( QuestionTag questionTag : list ) {
             list1.add( questionTagToQuestionTagResponseDto( questionTag ) );
+        }
+
+        return list1;
+    }
+
+    protected CommentResponseDto commentToCommentResponseDto(Comment comment) {
+        if ( comment == null ) {
+            return null;
+        }
+
+        CommentResponseDtoBuilder commentResponseDto = CommentResponseDto.builder();
+
+        if ( comment.getCommentId() != null ) {
+            commentResponseDto.commentId( comment.getCommentId() );
+        }
+        commentResponseDto.content( comment.getContent() );
+        commentResponseDto.createdAt( comment.getCreatedAt() );
+        commentResponseDto.modifiedAt( comment.getModifiedAt() );
+
+        return commentResponseDto.build();
+    }
+
+    protected List<CommentResponseDto> commentListToCommentResponseDtoList(List<Comment> list) {
+        if ( list == null ) {
+            return null;
+        }
+
+        List<CommentResponseDto> list1 = new ArrayList<CommentResponseDto>( list.size() );
+        for ( Comment comment : list ) {
+            list1.add( commentToCommentResponseDto( comment ) );
         }
 
         return list1;

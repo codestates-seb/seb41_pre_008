@@ -7,8 +7,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class AnswerVotePatchDto {
-    private long voteId;
-    private long memberId;
+public class AnswerVoteUpDownResponseDto {
     private int status;
 }

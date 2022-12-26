@@ -8,6 +8,7 @@ public enum ExceptionCode {
     ANSWER_NOT_FOUND(404, "Answer not found"),
     ANSWER_EXISTS(409, "Answer exists"),
     ANSWERCOMMENT_NOT_FOUND(404, "AnswerComment not found"),
+    ANSWERVOTE_NOT_FOUND(404, "AnswerVote not found"),
     NOT_IMPLEMENTATION(501, "Not Implementation"),
     INVALID_MEMBER_STATUS(400, "Invalid member status"),
     QUESTION_NOT_FOUND(404, "Question not found"),

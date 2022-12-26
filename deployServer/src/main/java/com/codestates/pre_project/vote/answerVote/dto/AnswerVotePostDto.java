@@ -6,7 +6,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class AnswerVotePostDto {
-    private long answerVoteId;
+    private long answerId;
     private long memberId;
     private int status;
 }
