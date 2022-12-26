@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from "styled-components";
 
 const AskContainer = styled.div`
@@ -95,6 +95,9 @@ const AskContainer = styled.div`
       color: #fff;
       border: 0;
       border-radius: 3px;
+      &:hover {
+        cursor: pointer;
+      }
     }
 
     .deleteButton {
@@ -104,12 +107,43 @@ const AskContainer = styled.div`
       border: 0;
       border-radius: 3px;
       margin-left: 16px;
+      &:hover {
+        cursor: pointer;
+      }
     }
   }
 `
 
 
 const AskPage = () => {
+  const [inputValue, setInputValue] = useState({
+    title: '',
+    problemContent: '',
+    expectContent: '',
+    tags: '',
+  })
+
+  // inputValue에서 값 추출 -> input value 속성에 추출한 값 할당
+  const { title, problemContent, expectContent, tags } = inputValue;
+
+  // e.target name/value를 inputValue 객체에 복사
+  const onChangeValue = (e) => {
+    setInputValue({
+      ...inputValue,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  // 입력한 값 초기화 버튼 
+  const deleteValue = (e) => {
+    setInputValue({
+      title: '',
+      problemContent: '',
+      expectContent: '',
+      tags: '',
+    });
+  }
+
   return (
     <AskContainer>
       <div className='askTitle'>
@@ -133,26 +167,26 @@ const AskPage = () => {
         <div className='writingTitle'>
           <label for='title' className='labelTitle'>Title</label>
           <label for='title'>Be specific and imagine you’re asking a question to another person.</label>
-          <input type='text' id='title' placeholder='e.g. Is there an R function for finding the index of an element in a vector?'></input>
+          <input name='title' type='text' id='title' placeholder='e.g. Is there an R function for finding the index of an element in a vector?' value={title} onChange={onChangeValue}></input>
         </div>
         <div className='writingProblem'>
           <label for='problem' className='labelTitle'>What are the details of your problem?</label>
           <label for='problem'>Introduce the problem and expand on what you put in the title. Minimum 20 characters.</label>
-          <textarea id='problem'></textarea>
+          <textarea id='problem' name='problemContent' minlength='20' value={problemContent} onChange={onChangeValue}></textarea>
         </div>
         <div className='writingExpecting'>
           <label for='expecting' className='labelTitle'>What did you try and what were you expecting?</label>
           <label for='expecting'>Describe what you tried, what you expected to happen, and what actually resulted. Minimum 20 characters.</label>
-          <textarea id='expecting'></textarea>
+          <textarea id='expecting' name='expectContent' minlength='20' value={expectContent} onChange={onChangeValue}></textarea>
         </div>
         <div className='writingTags'>
           <label for='tags' className='labelTitle'>Tags</label>
           <label for='tags'>Add up to 5 tags to describe what your question is about. Start typing to see suggestions.</label>
-          <input type='text' id='tags' placeholder='e.g. (c# laravel typescript)'></input>
+          <input name='tags' type='text' id='tags' placeholder='e.g. (c# laravel typescript)' value={tags} onChange={onChangeValue}></input>
         </div>
         <div className='buttons'>
           <button type='submit' className='submitButton'>Review your question</button>
-          <button className='deleteButton'>Discard draft</button>
+          <button type='button' className='deleteButton' onClick={deleteValue}>Discard draft</button>
         </div>
       </form>
     </AskContainer>
