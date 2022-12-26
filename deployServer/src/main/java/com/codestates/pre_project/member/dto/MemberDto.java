@@ -95,6 +95,7 @@ public class MemberDto {
     public static class signInResponse {
         private long memberId;
         private String nickName;
+        private String email;
         private boolean isSignIn;
     }
 }

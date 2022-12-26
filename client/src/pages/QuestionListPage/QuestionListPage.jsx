@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import test from "../../img/test/test.png";
+import { IoFilter } from 'react-icons/io5';
 
 const Main = styled.div`
   display: flex;
@@ -19,43 +20,71 @@ const Section = styled.div`
       font-size: 27px;
     }
 
-    button {
+    a {
       padding: 10px;
       background-color: #0a95ff;
       color: #fff;
       border: 0;
       border-radius: 3px;
+      font-size: 13px;
     }
   }
 
   .alignFilter {
     display: flex;
     justify-content: flex-end;
+    align-items: center;
     margin-bottom: 16px;
 
-    button {
-      padding: 10px;
-      border: 1px solid rgb(159, 166, 173);
-      border-left: 0;
-      background-color: #fff;
-      color: #6a737c;
+    .questionsNumber {
+      width: 251px;
+      margin: 0 10px 0 0;
+      font-size: 17px;
+      color: #232629;
 
       span {
-        background-color: #0074cc;
-        color: #fff;
-        margin-right: 5px;
-        padding: 2.2px 5.5px 2.7px;
-        border-radius: 3px;
+        margin-right: 4px;
       }
     }
 
-    button:first-child {
-      border-left: 1px solid rgb(159, 166, 173);
-      border-radius: 3px 0 0 3px;
+    .filterButtons {
+      button {
+        padding: 10px;
+        border: 1px solid rgb(159, 166, 173);
+        border-left: 0;
+        background-color: #fff;
+        color: #6a737c;
+
+        span {
+          background-color: #0074cc;
+          color: #fff;
+          margin-left: 5px;
+          padding: 2.2px 5.5px 2.7px;
+          border-radius: 3px;
+        }
+      }
+
+      button:first-child {
+        border-left: 1px solid rgb(159, 166, 173);
+        border-radius: 3px 0 0 3px;
+      }
+
+      button:last-child {
+        border-radius: 0 3px 3px 0;
+      }
     }
 
-    button:last-child {
-      border-radius: 0 3px 3px 0;
+    .filterButton {
+      margin-left: 12px;
+      padding: 10px;
+      border: 1px solid #39739d;
+      border-radius: 3px;
+      background-color: #e1ecf4;
+      color: #39739d;
+
+      span {
+        margin-right: 5px;
+      }
     }
   }
 
@@ -158,17 +187,28 @@ const QuestionListPage = () => {
     <Main>
       <Section>
         <header>
-          <h2>Top Questions</h2>
-          <button>Ask Question</button>
+          <h2>All Questions</h2>
+          <a href='/questions/ask'>Ask Question</a>
         </header>
         <div className="alignFilter">
-          <button type="button">Interesting</button>
-          <button type="button">
-            <span>242</span>Bountied
+          <div className='questionsNumber'>
+            <span>23,353,200</span>
+            questions
+          </div>
+          <div className='filterButtons'>
+            <button type="button">Newest</button>
+            <button type='button'>Active</button>
+            <button type="button">
+              Bountied
+              <span>242</span>
+            </button>
+            <button type="button">Unanswered</button>
+            <button type="button">More</button>
+          </div>
+          <button type='button' className='filterButton'>
+            <span><IoFilter /></span>
+            Filter
           </button>
-          <button type="button">Hot</button>
-          <button type="button">Week</button>
-          <button type="button">Month</button>
         </div>
         <article>
           <div className="dataInfo">

@@ -1,5 +1,7 @@
 package com.codestates.pre_project.question.dto;
 
+import com.codestates.pre_project.comment.dto.CommentResponseDto;
+import com.codestates.pre_project.comment.entity.Comment;
 import com.codestates.pre_project.question.entity.Question;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,4 +22,5 @@ public class QuestionResponseDto {
     private List<QuestionTagResponseDto> questionTags;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
+    private List<CommentResponseDto> comments;
 }

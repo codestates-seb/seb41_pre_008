@@ -1,5 +1,6 @@
 package com.codestates.pre_project.answer.entity;
 
+import com.codestates.pre_project.answerComment.entity.AnswerComment;
 import com.codestates.pre_project.comment.entity.Comment;
 import com.codestates.pre_project.member.entity.Member;
 import lombok.Getter;
@@ -32,6 +33,7 @@ public class Answer {
 
     @Column(nullable = false, name = "LAST_MODIFIED_AT")
     private LocalDateTime modifiedAt = LocalDateTime.now();
+
 
     @ManyToOne   // (1)
     @JoinColumn(name = "MEMBER_ID")  // (2)

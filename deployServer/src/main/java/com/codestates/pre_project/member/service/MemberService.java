@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 /* member의 service 계층 구현
@@ -50,6 +51,7 @@ public class MemberService {
         Optional.ofNullable(member.getMemberStatus())
                 .ifPresent(memberStatus -> findMember.setMemberStatus(memberStatus));
 
+        findMember.setModifiedAt(LocalDateTime.now());
         // 변경된 정보를 가진 회원을 데이터베이스에 저장(memberId가 있기 때문에 update)
         return memberRepository.save(findMember);
     }

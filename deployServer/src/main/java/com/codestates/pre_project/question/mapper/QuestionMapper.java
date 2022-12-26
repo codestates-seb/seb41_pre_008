@@ -61,5 +61,4 @@ public interface QuestionMapper {
     @Mapping(source = "tag.tagId", target = "tagId")
     @Mapping(source = "tag.name", target = "name")
     QuestionTagResponseDto questionTagToQuestionTagResponseDto(QuestionTag questionTag);
-
 }

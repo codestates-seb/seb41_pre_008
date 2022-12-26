@@ -89,7 +89,7 @@ public class MemberController {
         return new ResponseEntity(mapper.memberToResponseDto(foundMember), HttpStatus.OK);
     }*/
 
-    // 로그인 핸들러 메서드 - id,isSignIn을 body로 응답하는 responseDto("/members/signin")
+    // 로그인 핸들러 메서드 - id,email, isSignIn을 body로 응답하는 responseDto("/members/signin")
     @PostMapping("/signin")
     public ResponseEntity signInMember(@Valid @RequestBody MemberDto.Post post) {
 
@@ -101,15 +101,15 @@ public class MemberController {
 
         // 이미 있는 회원이라면
         if (optionalMember.isPresent()){
-            Member member1 = optionalMember.get();
-            MemberDto.signInResponse inResponse = new MemberDto.signInResponse(member1.getMemberId(), member.getNickName(), true);
+            Member alreadyExists = optionalMember.get();
+            MemberDto.signInResponse inResponse = new MemberDto.signInResponse(alreadyExists.getMemberId(), alreadyExists.getNickName(), alreadyExists.getEmail(), true);
             // isSignIn에 true를 담아 보낸다.
             return new ResponseEntity<>(inResponse, HttpStatus.OK);
         }
 
         // 새로운 회원이라면
         // isSignIn에 false를 담아서 보낸다.
-        MemberDto.signInResponse inResponse2 = new MemberDto.signInResponse(0, null, false);
+        MemberDto.signInResponse inResponse2 = new MemberDto.signInResponse(0, null, null, false);
         return new ResponseEntity<>(inResponse2, HttpStatus.OK);
     }
 

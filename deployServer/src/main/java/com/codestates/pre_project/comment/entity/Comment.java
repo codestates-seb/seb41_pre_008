@@ -28,11 +28,12 @@ public class Comment {
     @Column(nullable = false, name = "LAST_MODIFIED_AT")
     private LocalDateTime modifiedAt = LocalDateTime.now();
 
+
     @ManyToOne
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
-    public void addMember(Member member) {
+    public void setMember(Member member) {
         this.member = member;
     }
 
@@ -40,17 +41,20 @@ public class Comment {
     @JoinColumn(name = "QUESTION_ID")
     private Question question;
 
-    public void addQuestion(Question question) {
+
+    public void setQuestion(Question question) {
         this.question = question;
+        if (!this.question.getComments().contains(this)) {
+            this.question.getComments().add(this);
+        }
     }
 
     @ManyToOne   // (1)
     @JoinColumn(name = "ANSWER_ID")  // (2)
     private Answer answer;
 
-    public void addAnswer(Answer answer) {
+    public void setAnswer(Answer answer) {
         this.answer = answer;
     }
 
 }
-

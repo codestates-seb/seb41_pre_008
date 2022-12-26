@@ -10,6 +10,17 @@ const FooterContainer = styled.footer`
   padding: 1rem;
   position: relative;
   z-index: 10;
+  &::before {
+    content: "";
+    display: block;
+    width: 100vw;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: calc((100vw - 1400px) / 2 * -1);
+    z-index: -1;
+    background-color: inherit;
+  }
 `;
 
 const FooterSection = styled.section`
