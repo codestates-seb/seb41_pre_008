@@ -20,6 +20,13 @@ const Main = styled.main`
   flex-direction: column;
   min-width: 500px;
   width: 750px;
+  .editor {
+    &:focus-within {
+      border-radius: 5px;
+      border: 1px solid #0a95ff;
+      box-shadow: 0 0 0 5px #d3ecff;
+    }
+  }
 `;
 
 const AnswerEditPage = () => {
@@ -43,16 +50,18 @@ const AnswerEditPage = () => {
       <EditIntroCard />
       <Container>
         <EditTitle>Answer</EditTitle>
-        <Editor
-          ref={editorRef}
-          initialValue=" "
-          initialEditType="wysiwyg"
-          previewStyle="vertical"
-          placeholder="Please enter your contents"
-          height="300px"
-          useCommandShortcut={false}
-          onChange={onChange}
-        />
+        <div className="editor">
+          <Editor
+            ref={editorRef}
+            initialValue=" "
+            initialEditType="wysiwyg"
+            previewStyle="vertical"
+            placeholder="Please enter your contents"
+            height="300px"
+            useCommandShortcut={false}
+            onChange={onChange}
+          />
+        </div>
         {/* <div dangerouslySetInnerHTML={{ __html: text }}></div> */}
       </Container>
       <EditCard
