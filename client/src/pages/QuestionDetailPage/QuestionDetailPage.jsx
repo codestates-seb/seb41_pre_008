@@ -15,6 +15,7 @@ import {
   SideButtonSection,
   SideButton,
 } from "./DetailComponents/ButtonBundle";
+// import axios from "axios";
 
 const data = [
   {
@@ -148,6 +149,15 @@ const AnswerTitle = styled.h2`
 `;
 
 const QuestionDetailPage = () => {
+  // const [testData, setTestData] = useState({});
+  // axios
+  //   .get("https://4d34-124-5-96-42.jp.ngrok.io/questions/1")
+  //   .then((res) => {
+  //     setTestData(res.data);
+  //     console.log(testData);
+  //   })
+  //   .catch((err) => console.log(err));
+
   const navigate = useNavigate();
   const editorRef = useRef();
   const [isBookMark, setIsBookMark] = useState(false);

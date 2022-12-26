@@ -14,6 +14,12 @@ import {
 } from "../QuestionEditPage/QuestionEditPage";
 import { CancelButton } from "../QuestionDetailPage/DetailComponents/ButtonBundle";
 import { useEffect } from "react";
+// import markdownIt from "markdown-it";
+// import DOMPurify from "dompurify";
+// import ReactMarkdown from "react-markdown";
+// import { ReactMarkdown } from "react-markdown/lib/react-markdown";
+// import remarkGfm from "remark-gfm";
+// import parse from "html-react-parser";
 
 const Main = styled.main`
   display: flex;
@@ -33,10 +39,13 @@ const AnswerEditPage = () => {
   const editorRef = useRef();
   const navigate = useNavigate();
   const [text, setText] = useState("");
+  // const sanitizer = DOMPurify.sanitize;
   const onChange = () => {
-    const data = editorRef.current.getInstance().getHTML();
-    setText(data);
+    // const data = editorRef.current.getInstance().getMarkdown();
+    setText(editorRef.current.getInstance().getHTML());
+    console.log(text);
   };
+
   const handleClick = () => {
     console.log(text);
     navigate("/questions/1");
@@ -54,7 +63,7 @@ const AnswerEditPage = () => {
           <Editor
             ref={editorRef}
             initialValue=" "
-            initialEditType="wysiwyg"
+            // initialEditType="wysiwyg"
             previewStyle="vertical"
             placeholder="Please enter your contents"
             height="300px"
@@ -62,7 +71,14 @@ const AnswerEditPage = () => {
             onChange={onChange}
           />
         </div>
-        {/* <div dangerouslySetInnerHTML={{ __html: text }}></div> */}
+        {/* <div
+          className="test"
+          dangerouslySetInnerHTML={{
+            __html: sanitizer(text),
+          }}
+        ></div> */}
+        {/* <ReactMarkdown remarkPlugins={[remarkGfm]}>{text}</ReactMarkdown> */}
+        {/* <div>{parse(text)}</div> */}
       </Container>
       <EditCard
         editTitle="Edit Summary"
