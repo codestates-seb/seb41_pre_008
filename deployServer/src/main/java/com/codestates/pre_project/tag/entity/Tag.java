@@ -30,6 +30,7 @@ public class Tag {
     @OneToMany(mappedBy = "tag")
     private List<QuestionTag> questionTags = new ArrayList<>();
 
+    /*
     public void setQuestionTag(QuestionTag questionTag) {
         this.questionTags.add(questionTag);
         if (questionTag.getTag() != this) {
@@ -37,6 +38,14 @@ public class Tag {
         }
     }
 
+     */
+
+    public void setQuestionTag(QuestionTag questionTag) {
+        this.questionTags.add(questionTag);
+        if (questionTag.getTag() != this) {
+            questionTag.setTag(this);
+        }
+    }
 }
 
 

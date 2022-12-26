@@ -1,16 +1,12 @@
 package com.codestates.pre_project.tag.controller;
 
-import com.codestates.pre_project.question.dto.QuestionPatchDto;
-import com.codestates.pre_project.question.dto.QuestionPostDto;
-import com.codestates.pre_project.question.dto.QuestionResponseDto;
-import com.codestates.pre_project.question.entity.Question;
-import com.codestates.pre_project.question.mapper.QuestionMapper;
-import com.codestates.pre_project.question.service.QuestionService;
+import com.codestates.pre_project.tag.response.MultiResponseDto;
 import com.codestates.pre_project.tag.dto.TagPostDto;
 import com.codestates.pre_project.tag.dto.TagResponseDto;
 import com.codestates.pre_project.tag.entity.Tag;
 import com.codestates.pre_project.tag.mapper.TagMapper;
 import com.codestates.pre_project.tag.service.TagService;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -52,6 +48,16 @@ public class TagController {
     }
 
     @GetMapping
+    public ResponseEntity getTags(@Positive @RequestParam int page,
+                                       @Positive @RequestParam int size) {
+        Page<Tag> pageTags = tagService.findTags(page - 1, size);
+        List<Tag> tags = pageTags.getContent();
+
+        return new ResponseEntity<>(
+                new MultiResponseDto<>(tagMapper.tagsToTagResponseDtos(tags), pageTags), HttpStatus.OK);
+    }
+    /*
+    @GetMapping
     public ResponseEntity getTags() {
         List<Tag> tags = tagService.findTags();
 
@@ -62,6 +68,8 @@ public class TagController {
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+     */
 
     @DeleteMapping("/{tag-id}")
     public ResponseEntity deleteTag(@PathVariable("tag-id") @Positive long tagId) {

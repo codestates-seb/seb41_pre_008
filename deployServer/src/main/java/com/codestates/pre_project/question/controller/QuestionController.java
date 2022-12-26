@@ -5,6 +5,7 @@ import com.codestates.pre_project.question.dto.QuestionPostDto;
 import com.codestates.pre_project.question.dto.QuestionResponseDto;
 import com.codestates.pre_project.question.entity.Question;
 import com.codestates.pre_project.question.mapper.QuestionMapper;
+import com.codestates.pre_project.question.response.MultiResponseDto;
 import com.codestates.pre_project.question.service.QuestionService;
 //import com.codestates.pre_project.tag.service.TagService;
 import com.codestates.pre_project.tag.service.TagService;
@@ -64,18 +65,18 @@ public class QuestionController {
         return new ResponseEntity<>(questionMapper.questionToQuestionResponseDto(question), HttpStatus.OK);
     }
 
-    /*
+
     @GetMapping
-    public ResponseEntity getOrders(@Positive @RequestParam int page,
+    public ResponseEntity getQuestions(@Positive @RequestParam int page,
                                     @Positive @RequestParam int size) {
         Page<Question> pageQuestions = questionService.findQuestions(page - 1, size);
         List<Question> questions = pageQuestions.getContent();
 
-
-        return new ResponseEntity<>((questionMapper.questionsToQuestionResponseDtos(questions), pageQuestions), HttpStatus.OK);
+        return new ResponseEntity<>(
+                new MultiResponseDto<>(questionMapper.questionsToQuestionResponseDtos(questions), pageQuestions), HttpStatus.OK);
     }
 
-     */
+    /*
     @GetMapping
     public ResponseEntity getQuestions() {
         List<Question> questions = questionService.findQuestions();
@@ -87,6 +88,8 @@ public class QuestionController {
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+     */
 
     @DeleteMapping("/{question-id}")
     public ResponseEntity deleteQuestion(@PathVariable("question-id") @Positive long questionId) {

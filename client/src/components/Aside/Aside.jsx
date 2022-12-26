@@ -5,74 +5,96 @@ import { SlSpeech } from "react-icons/sl";
 import { BsStackOverflow } from "react-icons/bs";
 
 const AsideContainer = styled.ul`
+  flex-shrink: 0;
   width: 298px;
-  border: 1px solid yellow;
+  height: 400px;
   margin-left: 20px;
+  background-color: hsl(47,87%,94%);
+  border-left: 1px solid hsl(47,65%,84%);
+  border-right: 1px solid hsl(47,65%,84%);
+  border-bottom: 1px solid hsl(47,65%,84%);
+  box-shadow: 1px 1px 10px 1px rgba(0, 0, 0, 0.1);
 
   .asideTitle {
     color: #525960;
     font-size: 12px;
-    padding: 12px 15px;
-    background-color: #fbf3d5;
     font-weight: bold;
 
-    li,
-    span {
-      font-size: 13px;
-      color: #3b4045;
-      font-weight: normal;
+    h3 {
+      padding: 12px 15px;
+      background-color: #fbf3d5;
+      border-top: 1px solid hsl(47,65%,84%);
+      border-bottom: 1px solid hsl(47,65%,84%);
+    }
+
+    ul{
+      li{
+        display: flex;
+        font-size: 13px;
+        color: #3b4045;
+        font-weight: normal;
+        padding: 0 16px;
+        margin: 12px 0;
+
+        span:first-child {
+          width: 16px;
+          height: 16px;
+          flex-basis: 8.4%;
+          flex-shrink: 0;
+        }
+      }
     }
   }
 `;
 
 const Aside = () => {
   let location = window.location.pathname;
-  if (location === "/login" || location === "/signup") return null;
+  if (location === "/login" || location === "/signup" || location === '/questions/ask') return null;
   return (
     <AsideContainer>
       <li className="asideTitle">
-        The Overflow Blog
+        <h3>The Overflow Blog</h3>
         <ul>
           <li>
-            <HiPencil />
+            <span><HiPencil /></span>
             <span>
               I spent two years trying to do what Backstage does for free
             </span>
           </li>
           <li>
-            <HiPencil />
+            <span><HiPencil /></span>
             <span>
-              The complete guide to protecting your APIs with OAuth2 (part 1)å
+              The complete guide to protecting your APIs with OAuth2 (part 1)
             </span>
           </li>
         </ul>
       </li>
       <li className="asideTitle">
-        Featured on Meta
+        <h3>Featured on Meta</h3>
         <ul>
           <li>
-            <SlSpeech />
+            <span><SlSpeech /></span>
             <span>Navigation and UI research starting soon</span>
           </li>
           <li>
-            <BsStackOverflow />
+            <span><BsStackOverflow /></span>
             <span>
               2022 Community Moderator Election Results - now with two more
               mods!
             </span>
           </li>
           <li>
-            <BsStackOverflow />
+            <span><BsStackOverflow /></span>
             <span>Temporary policy: ChatGPT is banned</span>
           </li>
           <li>
-            <BsStackOverflow />
+            <span><BsStackOverflow /></span>
             <span>I'm standing down as a moderator</span>
           </li>
         </ul>
       </li>
       <li className="asideTitle">
-        Hot Meta Posts
+        <h3>Hot Meta Posts</h3>
         <ul>
           <li>
             <span>7</span>

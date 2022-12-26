@@ -43,10 +43,6 @@ public class Question {
     @OneToMany(mappedBy = "question", cascade = CascadeType.PERSIST)
     private List<QuestionTag> questionTags = new ArrayList<>();
 
-
-
-
-
     @ManyToOne
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
@@ -61,8 +57,16 @@ public class Question {
         this.member = member;
     }
 
-    @OneToMany(mappedBy = "question")
+
+    @OneToMany(mappedBy = "question", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<Comment> comments = new ArrayList<>();
+
+    public void setComment(Comment comment) {
+        comments.add(comment);
+        if (comment.getQuestion() != this) {
+            comment.setQuestion(this);
+        }
+    }
 
 
     public enum QuestionStatus {

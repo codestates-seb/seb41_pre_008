@@ -5,7 +5,7 @@ import { IoEarth } from "react-icons/io5";
 
 const NavContainer = styled.div`
   position: fixed;
-  top: 50px;
+  top: 53px;
   width: 164px;
   height: 100vh;
   margin-left: 50px;
@@ -22,31 +22,47 @@ const Navbar = styled.nav`
   .homeMenu {
     display: block;
     margin-bottom: 16px;
-    font-size: 13px;
+    padding: 8px 6px 8px 0;
   }
+
+  a {
+    display: flex;
+    font-size: 13px;
+    color: #525960;
+    padding: 8px 6px 8px 8px;
+
+    &:hover {
+      color: #000;
+    }
+
+    &:active {
+      font-weight: bold;
+      color: #000;
+      background-color: #f1f2f3;
+      border-right: 3px solid #f38225;
+    }
+  }             
 
   .publicMenu,
   .collectivesMenu,
   .teamsMenu {
-    display: flex;
-    flex-direction: column;
     font-size: 11px;
     color: #6a737c;
     margin-bottom: 16px;
 
-    a {
-      font-size: 13px;
-      color: #000;
-    }
+    ul {
+      span {
+        display: block;
+      }
 
-    span,
-    li {
-      font-size: 13px;
-      color: #000;
+      span:first-child {
+        width: 18px;
+        height: 18px;
+      }
     }
   }
 `;
-
+  
 const Nav = () => {
   let location = window.location.pathname;
   if (
@@ -62,32 +78,59 @@ const Nav = () => {
         <a href="/" className="homeMenu">
           Home
         </a>
-        <ol>
+        <ul>
           <li className="publicMenu">
             PUBLIC
-            <li>
-              <IoEarth />
-              <a href="/questions">Questions</a>
-            </li>
-            <li>Tags</li>
-            <li>Users</li>
-            <li>Companies</li>
+            <ul>
+              <li>
+                <a href="/questions">
+                  <span><IoEarth /></span>
+                  <span>Questions</span>
+                </a>
+              </li>
+              <li>
+                <a href="#none">
+                  <span></span>
+                  <span>Tags</span>
+                </a>
+                </li>
+              <li>
+                <a href="#none">
+                  <span></span>
+                  <span>Users</span>
+                </a>
+                </li>
+              <li>
+                <a href="#none">
+                  <span></span>
+                  <span>Companies</span>
+                </a>
+                </li>
+            </ul>
           </li>
           <li className="collectivesMenu">
             COLLECTIVES
-            <li>
-              <MdStars color="#f48225" fontSize="13px" />
-              <span>Explore Collectives</span>
-            </li>
+            <ul>
+              <li>
+                <a href="#none">
+                  <span><MdStars color="#f48225" fontSize="13px" /></span>
+                  <span>Explore Collectives</span>
+                </a>
+              </li>
+            </ul>
           </li>
           <li className="teamsMenu">
             TEAMS
-            <li>
-              <IoMdBriefcase color="#f48225" fontSize="13px" />
-              <span>Create free Team</span>
-            </li>
+            <ul>
+              <li>
+                <a href="#none">
+                  <span><IoMdBriefcase color="#f48225" fontSize="13px" /></span>
+                  <span>Create free Team</span>
+                </a>
+              </li>
+            </ul>
           </li>
-        </ol>
+        </ul>
       </Navbar>
     </NavContainer>
   );
