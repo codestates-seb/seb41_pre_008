@@ -11,13 +11,14 @@ import {
   ButtonContainer,
   EditIntroCard,
   EditCard,
-  CancelButton,
 } from "../QuestionEditPage/QuestionEditPage";
+import { CancelButton } from "../QuestionDetailPage/DetailComponents/ButtonBundle";
 import { useEffect } from "react";
 
 const Main = styled.main`
   display: flex;
   flex-direction: column;
+  min-width: 500px;
   width: 750px;
 `;
 

@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import test from "../../img/test/test.png";
-import { IoFilter } from 'react-icons/io5';
+import { IoFilter } from "react-icons/io5";
 
 const Main = styled.div`
   display: flex;
@@ -188,16 +188,16 @@ const QuestionListPage = () => {
       <Section>
         <header>
           <h2>All Questions</h2>
-          <a href='/questions/ask'>Ask Question</a>
+          <a href="/questions/ask">Ask Question</a>
         </header>
         <div className="alignFilter">
-          <div className='questionsNumber'>
+          <div className="questionsNumber">
             <span>23,353,200</span>
             questions
           </div>
-          <div className='filterButtons'>
+          <div className="filterButtons">
             <button type="button">Newest</button>
-            <button type='button'>Active</button>
+            <button type="button">Active</button>
             <button type="button">
               Bountied
               <span>242</span>
@@ -205,8 +205,10 @@ const QuestionListPage = () => {
             <button type="button">Unanswered</button>
             <button type="button">More</button>
           </div>
-          <button type='button' className='filterButton'>
-            <span><IoFilter /></span>
+          <button type="button" className="filterButton">
+            <span>
+              <IoFilter />
+            </span>
             Filter
           </button>
         </div>

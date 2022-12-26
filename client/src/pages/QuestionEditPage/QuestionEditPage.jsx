@@ -5,11 +5,13 @@ import "@toast-ui/editor/dist/toastui-editor.css";
 import { useRef } from "react";
 import { MainButton } from "../QuestionDetailPage/DetailComponents/ButtonBundle";
 import { useNavigate } from "react-router-dom";
-import { Tag } from "./TestTags";
+import { CancelButton } from "../QuestionDetailPage/DetailComponents/ButtonBundle";
+import TagsInput from "./TagsInput";
 
 const Main = styled.main`
   display: flex;
   flex-direction: column;
+  min-width: 500px;
   width: 750px;
 `;
 
@@ -34,6 +36,13 @@ export const Container = styled.section`
   display: flex;
   flex-direction: column;
   margin: 1rem 2rem;
+  .editor {
+    &:focus-within {
+      border-radius: 5px;
+      border: 1px solid #0a95ff;
+      box-shadow: 0 0 0 5px #d3ecff;
+    }
+  }
 `;
 
 export const EditTitle = styled.h2`
@@ -57,22 +66,6 @@ export const ButtonContainer = styled.section`
   display: flex;
   align-items: center;
   margin: 1rem 2rem;
-`;
-
-export const CancelButton = styled.button`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100px;
-  height: 35px;
-  border: none;
-  color: #0a95ff;
-  background-color: white;
-  border-radius: 5px;
-  margin: 1rem 0;
-  &:hover {
-    filter: brightness(120%);
-  }
 `;
 
 export const EditCard = ({ editTitle, placeholder }) => {
@@ -110,22 +103,22 @@ const QuestionEditPage = () => {
       <EditCard editTitle="Title" />
       <Container>
         <EditTitle>Body</EditTitle>
-        <Editor
-          className="editor"
-          ref={editorRef}
-          initialValue=" "
-          placeholder="Please enter your contents"
-          initialEditType="wysiwyg"
-          previewStyle="vertical"
-          height="300px"
-          useCommandShortcut={false}
-        />
+        <div className="editor">
+          <Editor
+            ref={editorRef}
+            initialValue=" "
+            placeholder="Please enter your contents"
+            initialEditType="wysiwyg"
+            previewStyle="vertical"
+            height="300px"
+            useCommandShortcut={false}
+          />
+        </div>
       </Container>
       <Container>
         <EditTitle>Tags</EditTitle>
-        <EditInput></EditInput>
+        <TagsInput />
       </Container>
-      <Tag />
       <EditCard
         editTitle="Edit Summary"
         placeholder="briefly explain your changes (corrected spelling, fixed grammer, improved formatting)"

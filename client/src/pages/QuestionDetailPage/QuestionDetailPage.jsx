@@ -63,6 +63,7 @@ const dummytags = [
 const Main = styled.main`
   display: flex;
   flex-direction: column;
+  min-width: 500px;
   width: 750px;
   .question {
     border-bottom: 1px solid rgb(210, 212, 219);
@@ -168,6 +169,7 @@ const QuestionDetailPage = () => {
     document.getElementById("modal").classList.remove("hide");
     console.log(document.getElementById("modal").classList);
   };
+  // window.scrollTo(0, 0);
 
   return (
     <Main onClick={handleShare}>
@@ -180,9 +182,7 @@ const QuestionDetailPage = () => {
             </QuestionTitle>
             <QuestionTitleDetail>Asked: Modified: Viewed:</QuestionTitleDetail>
           </div>
-          <MainButton onClick={() => navigate("/questions/ask")}>
-            Ask Question
-          </MainButton>
+          <MainButton href="/questions/ask">Ask Question</MainButton>
         </QuestionTitleSection>
         <QuestionContentSection>
           <Vote>
