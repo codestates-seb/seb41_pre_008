@@ -8,6 +8,8 @@ const FooterContainer = styled.footer`
   height: 200px;
   background-color: #282c30;
   padding: 1rem;
+  position: relative;
+  z-index: 10;
 `;
 
 const FooterSection = styled.section`
