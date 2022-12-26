@@ -20,12 +20,13 @@ const Section = styled.div`
       font-size: 27px;
     }
 
-    button {
+    a {
       padding: 10px;
       background-color: #0a95ff;
       color: #fff;
       border: 0;
       border-radius: 3px;
+      font-size: 13px;
     }
   }
 
@@ -187,7 +188,7 @@ const QuestionListPage = () => {
       <Section>
         <header>
           <h2>All Questions</h2>
-          <button>Ask Question</button>
+          <a href='/questions/ask'>Ask Question</a>
         </header>
         <div className="alignFilter">
           <div className='questionsNumber'>
