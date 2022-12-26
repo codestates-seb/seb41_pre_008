@@ -9,5 +9,4 @@ import java.util.Optional;
 public interface AnswerVoteRepository extends JpaRepository<AnswerVote, Long> {
     @Query(value = "SELECT sum(status) FROM AnswerVote")
     int sumByStatus();
-    Optional<AnswerVote> findByMemberMemberId(Long aLong);
 }

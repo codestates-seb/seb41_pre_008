@@ -1,17 +1,17 @@
-package com.codestates.pre_project.vote.questionVote;
+package com.codestates.pre_project.vote.questionVote.entity;
 
 import com.codestates.pre_project.member.entity.Member;
 import com.codestates.pre_project.question.entity.Question;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 @Entity
+@Builder
 public class QuestionVote {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
