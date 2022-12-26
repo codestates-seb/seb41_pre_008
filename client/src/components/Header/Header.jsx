@@ -8,6 +8,7 @@ import search from "../../img/Login/search.png";
 const HeaderWrap = styled.div`
   top: 0;
   position: fixed;
+  left: 0;
   width: 100%;
   height: 53px;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2);

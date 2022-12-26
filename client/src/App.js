@@ -13,6 +13,11 @@ import AnswerEditPage from './pages/AnswerEditPage/AnswerEditPage';
 import Aside from './components/Aside/Aside';
 import styled from 'styled-components';
 
+const FullContainer = styled.div`
+  max-width: 1400px;
+  margin: 0 auto;
+`;
+
 const Container = styled.div`
   display: flex;
   padding: 74px 0 0 214px;
@@ -73,14 +78,14 @@ const Main = ({ children }) => {
 
 function App() {
   return (
-    <>
+    <FullContainer>
       <Header />
       <Main>
         <RouterProvider router={router} />
         <Aside />
       </Main>
       <Footer />
-    </>
+    </FullContainer>
   );
 }
 
