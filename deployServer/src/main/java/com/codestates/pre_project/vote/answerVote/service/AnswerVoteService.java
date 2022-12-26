@@ -11,23 +11,23 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-@Service
-@RequiredArgsConstructor
-public class AnswerVoteService {
-
-    private final AnswerVoteRepository avRepository;
-    private final MemberRepository memberRepository;
-
-    public AnswerVote createAnswerVote(AnswerVote av){}
-    public AnswerVote updateAnswerVote(AnswerVote av) {}
-    public AnswerVote findAnswerVote(long avId){}
-    public Page<AnswerVote> findAnswerVotes(int page, int size){}
-    public void deleteAnswerVote(long avId) {}
-    private AnswerVote findVerifiedAV(long avId){}
-
-    // 이미 체크한 회원인지 확인 true -> 체크한 회원 false->
-    private boolean verifyAlreadyCheckedMember(AnswerVote av){
-         Optional<Member> optionalMember = memberRepository.findById(av.getMember().getMemberId());
-         if(optionalMember.isPresent()) return true;
-    }
-}
+//@Service
+//@RequiredArgsConstructor
+//public class AnswerVoteService {
+//
+//    private final AnswerVoteRepository avRepository;
+//    private final MemberRepository memberRepository;
+//
+//    public AnswerVote createAnswerVote(AnswerVote av){}
+//    public AnswerVote updateAnswerVote(AnswerVote av) {}
+//    public AnswerVote findAnswerVote(long avId){}
+//    public Page<AnswerVote> findAnswerVotes(int page, int size){}
+//    public void deleteAnswerVote(long avId) {}
+//    private AnswerVote findVerifiedAV(long avId){}
+//
+//    // 이미 체크한 회원인지 확인 true -> 체크한 회원 false->
+//    private boolean verifyAlreadyCheckedMember(AnswerVote av){
+//         Optional<Member> optionalMember = memberRepository.findById(av.getMember().getMemberId());
+//         if(optionalMember.isPresent()) return true;
+//    }
+//}
