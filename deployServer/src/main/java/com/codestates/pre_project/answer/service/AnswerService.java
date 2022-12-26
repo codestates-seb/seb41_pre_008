@@ -11,6 +11,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,6 +32,8 @@ public class AnswerService {
         // answer는 answerContent만 고칠 수 있다.
         Optional.ofNullable(answer.getAnswerContent())
                 .ifPresent(findAnswer::setAnswerContent);
+        // 추가됨
+        findAnswer.setModifiedAt(LocalDateTime.now());
         return answerRepository.save(findAnswer);
     }
 

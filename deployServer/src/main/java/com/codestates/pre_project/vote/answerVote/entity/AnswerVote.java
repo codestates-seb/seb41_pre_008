@@ -1,4 +1,4 @@
-package com.codestates.pre_project.vote.answerVote;
+package com.codestates.pre_project.vote.answerVote.entity;
 
 import com.codestates.pre_project.answer.entity.Answer;
 import com.codestates.pre_project.member.entity.Member;
@@ -27,5 +27,4 @@ public class AnswerVote {
     @OneToOne
     @JoinColumn(name = "MEMBER_ID", nullable = false)
     private Member member;
-
 }

@@ -1,6 +1,6 @@
 package com.codestates.pre_project.question.entity;
 
-import com.codestates.pre_project.comment.entity.Comment;
+import com.codestates.pre_project.questionComment.entity.Comment;
 import com.codestates.pre_project.member.entity.Member;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

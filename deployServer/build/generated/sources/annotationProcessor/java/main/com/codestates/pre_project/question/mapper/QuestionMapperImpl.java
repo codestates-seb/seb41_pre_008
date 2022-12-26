@@ -1,5 +1,6 @@
 package com.codestates.pre_project.question.mapper;
 
+import com.codestates.pre_project.member.entity.Member;
 import com.codestates.pre_project.question.dto.QuestionPatchDto;
 import com.codestates.pre_project.question.dto.QuestionResponseDto;
 import com.codestates.pre_project.question.dto.QuestionTagDto;
@@ -15,7 +16,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-12-25T16:01:39+0900",
+    date = "2022-12-25T16:58:01+0900",
     comments = "version: 1.4.2.Final, compiler: IncrementalProcessingEnvironment from gradle-language-java-7.5.1.jar, environment: Java 11.0.16 (Azul Systems, Inc.)"
 )
 @Component
@@ -61,6 +62,11 @@ public class QuestionMapperImpl implements QuestionMapper {
 
         QuestionResponseDto questionResponseDto = new QuestionResponseDto();
 
+        Long memberId = questionMemberMemberId( question );
+        if ( memberId != null ) {
+            questionResponseDto.setMemberId( memberId );
+        }
+        questionResponseDto.setNickName( questionMemberNickName( question ) );
         if ( question.getQuestionId() != null ) {
             questionResponseDto.setQuestionId( question.getQuestionId() );
         }
@@ -113,6 +119,36 @@ public class QuestionMapperImpl implements QuestionMapper {
         }
 
         return list1;
+    }
+
+    private Long questionMemberMemberId(Question question) {
+        if ( question == null ) {
+            return null;
+        }
+        Member member = question.getMember();
+        if ( member == null ) {
+            return null;
+        }
+        Long memberId = member.getMemberId();
+        if ( memberId == null ) {
+            return null;
+        }
+        return memberId;
+    }
+
+    private String questionMemberNickName(Question question) {
+        if ( question == null ) {
+            return null;
+        }
+        Member member = question.getMember();
+        if ( member == null ) {
+            return null;
+        }
+        String nickName = member.getNickName();
+        if ( nickName == null ) {
+            return null;
+        }
+        return nickName;
     }
 
     protected List<QuestionTagResponseDto> questionTagListToQuestionTagResponseDtoList(List<QuestionTag> list) {
