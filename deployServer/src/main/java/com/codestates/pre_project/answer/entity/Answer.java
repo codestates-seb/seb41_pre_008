@@ -33,6 +33,7 @@ public class Answer {
     @Column(nullable = false, name = "LAST_MODIFIED_AT")
     private LocalDateTime modifiedAt = LocalDateTime.now();
 
+
     @ManyToOne   // (1)
     @JoinColumn(name = "MEMBER_ID")  // (2)
     private Member member;

@@ -10,7 +10,8 @@ public enum ExceptionCode {
     QUESTION_NOT_FOUND(404, "Question not found"),
     TAG_NOT_FOUND(404, "Tag not found"),
     CANNOT_DELETE_QUESTION(403, "Question can not delete"),
-    ALREADY_DELETE_QUESTION(403, "Question already delete");
+    ALREADY_DELETE_QUESTION(403, "Question already delete"),
+    COMMENT_NOT_FOUND(404, "Comment not found");
 
     @Getter
     private int status;

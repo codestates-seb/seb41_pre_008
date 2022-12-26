@@ -69,17 +69,18 @@ public class QuestionService {
         return findVerifiedQuestion(questionId);
     }
 
-    /*
+
     public Page<Question> findQuestions(int page, int size) {
 
         return questionRepository.findAll(PageRequest.of(page, size,
                 Sort.by("questionId").descending()));
     }
-
-     */
+    /*
     public List<Question> findQuestions() {
         return (List<Question>) questionRepository.findAll();
     }
+
+     */
 
     public void deleteQuestion(long questionId) {
         Question question = findVerifiedQuestion(questionId);
@@ -90,7 +91,7 @@ public class QuestionService {
         questionRepository.save(question);
     }
 
-    private Question findVerifiedQuestion(long questionId) {
+    public Question findVerifiedQuestion(long questionId) {
         Optional<Question> optionalQuestion = questionRepository.findById(questionId);
         String status = optionalQuestion.get().getQuestionStatus().getStatus();
         if(status.equals("삭제된 질문"))
