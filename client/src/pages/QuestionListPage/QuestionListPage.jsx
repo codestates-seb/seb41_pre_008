@@ -118,7 +118,7 @@ const Section = styled.div`
     .questionInfo {
       flex-grow: 1;
 
-      h3 {
+      .questionTitle {
         font-size: 17px;
         color: #0074cc;
         margin-bottom: 8px;
@@ -183,6 +183,7 @@ const Section = styled.div`
 `;
 
 const QuestionListPage = () => {
+
   return (
     <Main>
       <Section>
@@ -227,7 +228,7 @@ const QuestionListPage = () => {
             </ul>
           </div>
           <div className="questionInfo">
-            <h3>Question Title</h3>
+            <a href='/questions/:questionId' className='questionTitle'>Question Title</a>
             <div className="questionSub">
               <div className="tags">
                 <a href="/">tag</a>
