@@ -135,6 +135,7 @@ const Header = () => {
               <LoginLogoutButton href="/logout">Log out</LoginLogoutButton>
             </MenuHeader>
           </HeaderWrap>
+          <Nav />
         </>
       ) : (
         <>
