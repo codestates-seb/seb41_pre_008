@@ -40,5 +40,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "proxy": "https://5fc1-222-109-195-131.jp.ngrok.io"
 }
