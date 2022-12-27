@@ -16,6 +16,7 @@ import {
   SideButton,
   CancelButton,
 } from "./DetailComponents/ButtonBundle";
+import EditModalCard from "./EditModal/EditModal";
 // import axios from "axios";
 
 const data = [
@@ -78,6 +79,9 @@ const Main = styled.main`
   }
   .answerTitle {
     padding: 2rem 2rem 0 2rem;
+  }
+  .viewer {
+    /* margin-left: 2rem; */
   }
 `;
 
@@ -154,12 +158,12 @@ const BottomButtonSection = styled.div`
 `;
 
 const QuestionDetailPage = () => {
-  // const [testData, setTestData] = useState({});
+  // const [isEditModalData, setIsEditModalData] = useState({});
   // axios
-  //   .get("https://4d34-124-5-96-42.jp.ngrok.io/questions/1")
+  //   .get("https://5fc1-222-109-195-131.jp.ngrok.io/questions/1")
   //   .then((res) => {
-  //     setTestData(res.data);
-  //     console.log(testData);
+  //     // setIsEditModalData(res.data);
+  //     console.log(res.data);
   //   })
   //   .catch((err) => console.log(err));
 
@@ -168,32 +172,38 @@ const QuestionDetailPage = () => {
   const [isBookMark, setIsBookMark] = useState(false);
   const [text, setText] = useState("");
   const [isViewer, setIsViewer] = useState(false);
+  const [isEditModal, setIsEditModal] = useState(false);
+
   const onChange = () => {
     setText(editorRef.current.getInstance().getMarkdown());
     console.log(text);
   };
 
-  const handleShare = (e) => {
-    e.stopPropagation();
-    document.getElementById("modal").classList.add("hide");
-    console.log(document.getElementById("modal").classList);
-  };
   const handlePostAnswer = () => {
     // 추가해야 할 내용: 서버에 post 요청 보내기
-    console.log(editorRef.current.getInstance().getHTML());
+    console.log(editorRef.current.getInstance().getMarkdown());
     window.scrollTo(0, 0);
     navigate("/questions/1");
   };
 
-  const handleShowModal = (e) => {
+  const handleHideShareModal = (e) => {
+    e.stopPropagation();
+    document.getElementById("modal").classList.add("hide");
+    console.log(document.getElementById("modal").classList);
+  };
+
+  const handleShowShareModal = (e) => {
     e.stopPropagation();
     document.getElementById("modal").classList.remove("hide");
     console.log(document.getElementById("modal").classList);
   };
-  // window.scrollTo(0, 0);
+
+  const handleEditModal = () => {
+    setIsEditModal(!isEditModal);
+  };
 
   return (
-    <Main onClick={handleShare}>
+    <Main onClick={handleHideShareModal}>
       <Container className="question">
         <QuestionTitleSection>
           <div>
@@ -231,7 +241,7 @@ const QuestionDetailPage = () => {
             <TagCard tags={dummytags} />
             <SideSeciton>
               <SideButtonSection>
-                <SideButton onClick={handleShowModal}>Share</SideButton>
+                <SideButton onClick={handleShowShareModal}>Share</SideButton>
                 <SideButton
                   onClick={() => navigate("/questions/:questionId/edit")}
                 >
@@ -257,23 +267,26 @@ const QuestionDetailPage = () => {
       </Container>
       <Container className="answer">
         <AnswerTitle className="answerPostTitle">Your Answer</AnswerTitle>
-        <Editor
-          ref={editorRef}
-          initialValue=" "
-          initialEditType="wysiwyg"
-          previewStyle="vertical"
-          placeholder="Please enter your contents"
-          height="300px"
-          toolbarItems={[
-            ["heading", "bold", "italic", "strike"],
-            ["code", "codeblock"],
-            ["hr", "quote"],
-            ["ul", "ol", "task"],
-            ["table", "image", "link"],
-          ]}
-          useCommandShortcut={false}
-          onChange={onChange}
-        />
+        <div onFocus={() => setIsEditModal(true)}>
+          <Editor
+            ref={editorRef}
+            initialValue=" "
+            initialEditType="wysiwyg"
+            previewStyle="vertical"
+            placeholder="Please enter your contents"
+            height="300px"
+            toolbarItems={[
+              ["heading", "bold", "italic", "strike"],
+              ["code", "codeblock"],
+              ["hr", "quote"],
+              ["ul", "ol", "task"],
+              ["table", "image", "link"],
+            ]}
+            useCommandShortcut={false}
+            onChange={onChange}
+            autofocus={false}
+          />
+        </div>
         <BottomButtonSection>
           <MainButton type="submit" onClick={handlePostAnswer}>
             Post Your Answer
@@ -282,7 +295,8 @@ const QuestionDetailPage = () => {
             {isViewer ? "Close viewer" : "Open viewer"}
           </CancelButton>
         </BottomButtonSection>
-        {isViewer && <Viewer initialValue={text} />}
+        {isEditModal && <EditModalCard setIsEditModal={handleEditModal} />}
+        {isViewer && <Viewer className="viewer" initialValue={text} />}
       </Container>
     </Main>
   );

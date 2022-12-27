@@ -72,6 +72,7 @@ const AnswerEditPage = () => {
             ]}
             useCommandShortcut={false}
             onChange={onChange}
+            autofocus={false}
           />
         </div>
         <MainButton onClick={() => setIsViewer(!isViewer)}>
