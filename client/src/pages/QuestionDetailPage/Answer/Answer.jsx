@@ -12,6 +12,7 @@ import {
   SideButtonSection,
   SideButton,
 } from "../DetailComponents/ButtonBundle";
+import { Viewer } from "@toast-ui/react-editor";
 
 const dummytags = [
   { id: 5, tag: "php" },
@@ -86,7 +87,8 @@ const Answer = ({ answer }) => {
         )}
       </Vote>
       <AnswerContentContainer>
-        {answer.content}
+        <Viewer initialValue={answer.content} />
+        {/* {answer.content} */}
         <TagCard tags={dummytags} />
         <SideSeciton>
           <SideButtonSection>

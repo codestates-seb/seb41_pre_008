@@ -17,6 +17,7 @@ import {
   CancelButton,
 } from "./DetailComponents/ButtonBundle";
 import EditModalCard from "./EditModal/EditModal";
+// import { useEffect } from "react";
 // import axios from "axios";
 
 const data = [
@@ -25,7 +26,6 @@ const data = [
     content:
       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
     vote: 1,
-    bookmark: true,
     tag: "gogo",
     user: "TaTa",
   },
@@ -34,7 +34,6 @@ const data = [
     content:
       "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).",
     vote: 3,
-    bookmark: false,
     tag: "gogo",
     user: "TaTa",
   },
@@ -43,7 +42,6 @@ const data = [
     content:
       "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.",
     vote: 2,
-    bookmark: false,
     tag: "gogo",
     user: "TaTa",
   },
@@ -51,7 +49,6 @@ const data = [
     id: 4,
     content: "asdggdffherhdfbfdbdf",
     vote: 0,
-    bookmark: true,
     tag: "gogo",
     user: "TaTa",
   },
@@ -80,8 +77,12 @@ const Main = styled.main`
   .answerTitle {
     padding: 2rem 2rem 0 2rem;
   }
-  .viewer {
-    /* margin-left: 2rem; */
+  .editor {
+    &:focus-within {
+      border-radius: 5px;
+      border: 1px solid #0a95ff;
+      box-shadow: 0 0 0 5px #d3ecff;
+    }
   }
 `;
 
@@ -149,8 +150,27 @@ export const SideSeciton = styled.section`
 `;
 
 const AnswerTitle = styled.h2`
+  display: flex;
   color: #3b4045;
   font-size: x-large;
+  justify-content: space-between;
+  align-items: center;
+  div {
+    font-size: 13px;
+    select {
+      width: 260px;
+      height: 35px;
+      padding: 0 0.3rem;
+      margin: 0 0.3rem;
+      border-color: rgb(169, 170, 178);
+      border-radius: 3px;
+      &:focus-within {
+        outline: none !important;
+        border: 1px solid #0a95ff;
+        box-shadow: 0 0 0 5px #d3ecff;
+      }
+    }
+  }
 `;
 
 const BottomButtonSection = styled.div`
@@ -158,14 +178,7 @@ const BottomButtonSection = styled.div`
 `;
 
 const QuestionDetailPage = () => {
-  // const [isEditModalData, setIsEditModalData] = useState({});
-  // axios
-  //   .get("https://5fc1-222-109-195-131.jp.ngrok.io/questions/1")
-  //   .then((res) => {
-  //     // setIsEditModalData(res.data);
-  //     console.log(res.data);
-  //   })
-  //   .catch((err) => console.log(err));
+  const [testData, setTestData] = useState(data);
 
   const navigate = useNavigate();
   const editorRef = useRef();
@@ -173,6 +186,20 @@ const QuestionDetailPage = () => {
   const [text, setText] = useState("");
   const [isViewer, setIsViewer] = useState(false);
   const [isEditModal, setIsEditModal] = useState(false);
+
+  // const [mod, setMod] = useState("");
+
+  // useEffect(() => {
+  //   axios
+  //     .get("/members/1")
+  //     .then((res) => {
+  //       console.log(res.data);
+  //       setMod(res.data);
+  //     })
+  //     .catch((err) => console.log(err));
+  // }, []);
+
+  // console.log(mod);
 
   const onChange = () => {
     setText(editorRef.current.getInstance().getMarkdown());
@@ -182,7 +209,17 @@ const QuestionDetailPage = () => {
   const handlePostAnswer = () => {
     // 추가해야 할 내용: 서버에 post 요청 보내기
     console.log(editorRef.current.getInstance().getMarkdown());
-    window.scrollTo(0, 0);
+    setTestData([
+      ...testData,
+      {
+        id: Math.random(),
+        content: text,
+        vote: 1,
+        tag: "gogo",
+        user: "TaTa",
+      },
+    ]);
+    // window.location.reload();
     navigate("/questions/1");
   };
 
@@ -235,9 +272,12 @@ const QuestionDetailPage = () => {
             )}
           </Vote>
           <QuestionContent>
-            I am facing one issue related to incoming calls, so the situation is
+            <Viewer
+              initialValue="I am facing one issue related to incoming calls, so the situation is
             API is in .NET 6 and it's frontend is in Angular app and also it's
-            multi-tenant application.
+            multi-tenant application."
+            />
+
             <TagCard tags={dummytags} />
             <SideSeciton>
               <SideButtonSection>
@@ -262,12 +302,23 @@ const QuestionDetailPage = () => {
         </QuestionContentSection>
       </Container>
       <Container>
-        <AnswerTitle className="answerTitle">{data.length} Answer</AnswerTitle>
-        <AnswerList data={data} />
+        <AnswerTitle className="answerTitle">
+          {testData.length} Answer
+          <div>
+            Sorted by:
+            <select name="answersort" id="sorted">
+              <option value="1">Highest score (default)</option>
+              <option value="2">Trending (recent votes count more)</option>
+              <option value="3">Date modified (newest first)</option>
+              <option value="4">Date created (oldest first)</option>
+            </select>{" "}
+          </div>
+        </AnswerTitle>
+        <AnswerList testData={testData} />
       </Container>
       <Container className="answer">
         <AnswerTitle className="answerPostTitle">Your Answer</AnswerTitle>
-        <div onFocus={() => setIsEditModal(true)}>
+        <div className="editor" onFocus={() => setIsEditModal(true)}>
           <Editor
             ref={editorRef}
             initialValue=" "
@@ -287,6 +338,8 @@ const QuestionDetailPage = () => {
             autofocus={false}
           />
         </div>
+        {isEditModal && <EditModalCard setIsEditModal={handleEditModal} />}
+        {isViewer && <Viewer className="viewer" initialValue={text} />}
         <BottomButtonSection>
           <MainButton type="submit" onClick={handlePostAnswer}>
             Post Your Answer
@@ -295,8 +348,6 @@ const QuestionDetailPage = () => {
             {isViewer ? "Close viewer" : "Open viewer"}
           </CancelButton>
         </BottomButtonSection>
-        {isEditModal && <EditModalCard setIsEditModal={handleEditModal} />}
-        {isViewer && <Viewer className="viewer" initialValue={text} />}
       </Container>
     </Main>
   );

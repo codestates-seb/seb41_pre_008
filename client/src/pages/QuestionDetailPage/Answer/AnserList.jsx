@@ -1,10 +1,10 @@
 import React from "react";
 import Answer from "./Answer";
 
-const AnswerList = ({ data }) => {
+const AnswerList = ({ testData }) => {
   return (
     <div>
-      {data.map((el) => (
+      {testData.map((el) => (
         <Answer answer={el} key={el.id} />
       ))}
     </div>

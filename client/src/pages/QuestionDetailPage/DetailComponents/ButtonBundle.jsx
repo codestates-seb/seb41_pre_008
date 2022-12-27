@@ -54,24 +54,6 @@ export const CancelButton = styled.a`
   }
 `;
 
-// export const CancelButton = styled.a`
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   width: 100px;
-//   height: 35px;
-//   border: 0;
-//   cursor: pointer;
-//   color: #0a95ff;
-//   font-size: 13px;
-//   background-color: white;
-//   border-radius: 5px;
-//   margin: 1rem 0;
-//   &:hover {
-//     filter: brightness(120%);
-//   }
-// `;
-
 export const ButtonContainer = styled.section`
   display: flex;
   align-items: center;

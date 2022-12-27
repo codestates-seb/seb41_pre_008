@@ -131,3 +131,7 @@ a {
   text-decoration: none;
   color: inherit;
 }
+
+.toastui-editor-contents p {
+  font-size: 15px;
+}

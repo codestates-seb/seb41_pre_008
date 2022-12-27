@@ -9,7 +9,7 @@ const EditIntroContainer = styled.section`
   background-color: #fff9e3;
   line-height: 15px;
   padding: 0.8rem;
-  margin-bottom: 1rem;
+  margin: 1rem 0 0 0;
   p {
     font-size: smaller;
     color: #3b4045;
