@@ -10,8 +10,9 @@ const EditIntroContainer = styled.section`
   line-height: 15px;
   padding: 0.8rem;
   margin: 1rem 0 0 0;
-  p {
-    font-size: smaller;
+  p,
+  section {
+    font-size: 13px;
     color: #3b4045;
     padding: 0.5rem;
     ul {
@@ -41,16 +42,16 @@ const EditModalCard = ({ setIsEditModal }) => {
     <EditIntroContainer id="editmodal" className="editmodal hide">
       <section>
         <p>Thanks for contributing an answer to Stack Overflow!</p>
-        <p>
+        <section>
           <ul>
             <li>
               Please be sure to answer the question. Provide details and share
               your research!
             </li>
           </ul>
-        </p>
+        </section>
         <p>But avoid …</p>
-        <p>
+        <section>
           <ul>
             <li>
               Asking for help, clarification, or responding to other answers.
@@ -60,7 +61,7 @@ const EditModalCard = ({ setIsEditModal }) => {
               or personal experience.
             </li>
           </ul>
-        </p>
+        </section>
         <p>
           To learn more, see our{" "}
           <a href="https://stackoverflow.com/help/how-to-answer">

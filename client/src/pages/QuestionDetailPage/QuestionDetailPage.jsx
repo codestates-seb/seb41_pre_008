@@ -24,7 +24,7 @@ const data = [
   {
     id: 1,
     content:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+      "Lorem Ipsum is simply dummy body of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy body ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
     vote: 1,
     tag: "gogo",
     user: "TaTa",
@@ -32,7 +32,7 @@ const data = [
   {
     id: 2,
     content:
-      "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).",
+      "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model body, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).",
     vote: 3,
     tag: "gogo",
     user: "TaTa",
@@ -40,7 +40,7 @@ const data = [
   {
     id: 3,
     content:
-      "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.",
+      "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of body. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.",
     vote: 2,
     tag: "gogo",
     user: "TaTa",
@@ -78,11 +78,24 @@ const Main = styled.main`
     padding: 2rem 2rem 0 2rem;
   }
   .editor {
+    border: 1px solid #fe5353;
+    border-radius: 5px;
+    &:focus-within {
+      box-shadow: 0 0 0 5px #ffecec;
+    }
+  }
+  .editor.hide {
+    border: none;
     &:focus-within {
       border-radius: 5px;
       border: 1px solid #0a95ff;
       box-shadow: 0 0 0 5px #d3ecff;
     }
+  }
+  .warning {
+    margin: 0.5rem 0.1rem;
+    font-size: 12px;
+    color: #fe5353;
   }
 `;
 
@@ -178,14 +191,41 @@ const BottomButtonSection = styled.div`
 `;
 
 const QuestionDetailPage = () => {
-  const [testData, setTestData] = useState(data);
+  const [testData, setTestData] = useState(
+    data.sort((a, b) => a.vote - b.vote)
+  );
 
   const navigate = useNavigate();
   const editorRef = useRef();
   const [isBookMark, setIsBookMark] = useState(false);
-  const [text, setText] = useState("");
   const [isViewer, setIsViewer] = useState(false);
   const [isEditModal, setIsEditModal] = useState(false);
+  const [body, setBody] = useState("");
+  const [bodyPost, setBodyPost] = useState(true);
+  const handlePost = () => {
+    if (editorRef.current.getInstance().getMarkdown().length >= 30) {
+      setBodyPost(true);
+      document.getElementById("editor").classList.add("hide");
+      // 추가해야 할 내용: 서버에 post 요청 보내기
+      console.log(editorRef.current.getInstance().getMarkdown());
+      setTestData([
+        ...testData,
+        {
+          id: Math.random(),
+          content: body,
+          vote: 1,
+          tag: "gogo",
+          user: "TaTa",
+        },
+      ]);
+      // window.location.reload();
+      navigate("/questions/1");
+    }
+    if (editorRef.current.getInstance().getMarkdown().length < 30) {
+      setBodyPost(false);
+      document.getElementById("editor").classList.remove("hide");
+    }
+  };
 
   // const [mod, setMod] = useState("");
 
@@ -201,26 +241,13 @@ const QuestionDetailPage = () => {
 
   // console.log(mod);
 
-  const onChange = () => {
-    setText(editorRef.current.getInstance().getMarkdown());
-    console.log(text);
-  };
+  // useEffect(() => {
+  //   setTestData(data);
+  // }, [testData]);
 
-  const handlePostAnswer = () => {
-    // 추가해야 할 내용: 서버에 post 요청 보내기
-    console.log(editorRef.current.getInstance().getMarkdown());
-    setTestData([
-      ...testData,
-      {
-        id: Math.random(),
-        content: text,
-        vote: 1,
-        tag: "gogo",
-        user: "TaTa",
-      },
-    ]);
-    // window.location.reload();
-    navigate("/questions/1");
+  const onChange = () => {
+    setBody(editorRef.current.getInstance().getMarkdown());
+    console.log(body);
   };
 
   const handleHideShareModal = (e) => {
@@ -237,6 +264,22 @@ const QuestionDetailPage = () => {
 
   const handleEditModal = () => {
     setIsEditModal(!isEditModal);
+  };
+
+  const newData = testData;
+
+  const changeValue = (e) => {
+    console.log(typeof e.target.value);
+    if (e.target.value === "1") {
+      // const newData = testData;
+      setTestData(newData.sort((a, b) => a.vote - b.vote));
+      // window.location.reload();
+    } else if (e.target.value === "2") {
+      // const newData = testData;
+      setTestData(newData.sort((a, b) => a.id - b.id));
+      // window.location.reload();
+    }
+    console.log(testData);
   };
 
   return (
@@ -306,19 +349,23 @@ const QuestionDetailPage = () => {
           {testData.length} Answer
           <div>
             Sorted by:
-            <select name="answersort" id="sorted">
+            <select name="answersort" id="body" onChange={changeValue}>
               <option value="1">Highest score (default)</option>
               <option value="2">Trending (recent votes count more)</option>
               <option value="3">Date modified (newest first)</option>
               <option value="4">Date created (oldest first)</option>
-            </select>{" "}
+            </select>
           </div>
         </AnswerTitle>
         <AnswerList testData={testData} />
       </Container>
       <Container className="answer">
         <AnswerTitle className="answerPostTitle">Your Answer</AnswerTitle>
-        <div className="editor" onFocus={() => setIsEditModal(true)}>
+        <div
+          id="editor"
+          className="editor hide"
+          onFocus={() => setIsEditModal(true)}
+        >
           <Editor
             ref={editorRef}
             initialValue=" "
@@ -338,10 +385,19 @@ const QuestionDetailPage = () => {
             autofocus={false}
           />
         </div>
+        {bodyPost ? (
+          ""
+        ) : (
+          <div className="warning">
+            Body must be at least 30 characters; you entered{" "}
+            {editorRef.current.getInstance().getMarkdown().length}.
+          </div>
+        )}
+
         {isEditModal && <EditModalCard setIsEditModal={handleEditModal} />}
-        {isViewer && <Viewer className="viewer" initialValue={text} />}
+        {isViewer && <Viewer className="viewer" initialValue={body} />}
         <BottomButtonSection>
-          <MainButton type="submit" onClick={handlePostAnswer}>
+          <MainButton type="submit" onClick={handlePost}>
             Post Your Answer
           </MainButton>
           <CancelButton onClick={() => setIsViewer(!isViewer)}>

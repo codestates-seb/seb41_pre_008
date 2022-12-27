@@ -38,9 +38,44 @@ export const Container = styled.section`
   flex-direction: column;
   margin: 1rem 2rem;
   .editor {
+    border: 1px solid #fe5353;
+    border-radius: 5px;
+    &:focus-within {
+      box-shadow: 0 0 0 5px #ffecec;
+    }
+  }
+  .editor.hide {
+    border: none;
     &:focus-within {
       border-radius: 5px;
       border: 1px solid #0a95ff;
+      box-shadow: 0 0 0 5px #d3ecff;
+    }
+  }
+  .warning {
+    margin: 0.5rem 0.1rem;
+    font-size: 12px;
+    color: #fe5353;
+  }
+  .editwarning {
+    display: flex;
+    padding: 0.5rem;
+    border: 1px solid #fe5353;
+    border-radius: 3px;
+    &:focus-within {
+      outline: none !important;
+      border-color: #fe5353;
+      box-shadow: 0 0 0 5px #ffecec;
+    }
+  }
+  .editwarning.hide {
+    display: flex;
+    padding: 0.5rem;
+    border: 1px solid rgb(169, 170, 178);
+    border-radius: 3px;
+    &:focus-within {
+      outline: none !important;
+      border-color: #0a95ff;
       box-shadow: 0 0 0 5px #d3ecff;
     }
   }
@@ -51,23 +86,36 @@ export const EditTitle = styled.h2`
   margin: 0.5rem 0;
 `;
 
-const EditInput = styled.input`
-  display: flex;
-  padding: 0.5rem;
-  border: 1px solid rgb(169, 170, 178);
-  border-radius: 3px;
-  &:focus {
-    outline: none !important;
-    border-color: #0a95ff;
-    box-shadow: 0 0 0 5px #d3ecff;
-  }
-`;
+// const EditInput = styled.input`
+//   display: flex;
+//   padding: 0.5rem;
+//   border: 1px solid rgb(169, 170, 178);
+//   border-radius: 3px;
+//   &:focus {
+//     outline: none !important;
+//     border-color: #0a95ff;
+//     box-shadow: 0 0 0 5px #d3ecff;
+//   }
+// `;
 
-export const EditCard = ({ editTitle, placeholder }) => {
+export const EditCard = ({
+  id,
+  editTitle,
+  placeholder,
+  handleChange,
+  post,
+  warningContent,
+}) => {
   return (
     <Container>
       <EditTitle>{editTitle}</EditTitle>
-      <EditInput placeholder={placeholder ? placeholder : ""} />
+      <input
+        id={id}
+        className="editwarning hide"
+        placeholder={placeholder ? placeholder : ""}
+        onChange={handleChange}
+      />
+      {post ? "" : <div className="warning">{warningContent}</div>}
     </Container>
   );
 };
@@ -92,20 +140,72 @@ export const EditIntroCard = () => {
 const QuestionEditPage = () => {
   const editorRef = useRef();
   const navigate = useNavigate();
-  const [text, setText] = useState("");
   const [isViewer, setIsViewer] = useState(false);
+  const [title, setTitle] = useState("");
+  const [titlepost, setTitlePost] = useState(true);
+  const [body, setBody] = useState("");
+  const [bodyPost, setBodyPost] = useState(true);
+  const [summary, setSummary] = useState("");
+  const [summaryPost, setSummaryPost] = useState(true);
+
   const onChange = () => {
-    setText(editorRef.current.getInstance().getMarkdown());
-    console.log(text);
+    setBody(editorRef.current.getInstance().getMarkdown());
+  };
+
+  const handleTitleChange = (e) => {
+    setTitle(e.target.value);
+  };
+
+  const handleSummaryChange = (e) => {
+    setSummary(e.target.value);
+  };
+
+  const handlePost = () => {
+    if (
+      title.length >= 15 &&
+      summary.length >= 10 &&
+      editorRef.current.getInstance().getMarkdown().length >= 30
+    )
+      navigate("/questions/1");
+    if (title.length >= 15) {
+      setTitlePost(true);
+      document.getElementById("title").classList.add("hide");
+    }
+    if (title.length < 15) {
+      setTitlePost(false);
+      document.getElementById("title").classList.remove("hide");
+    }
+    if (summary.length >= 10) {
+      setSummaryPost(true);
+      document.getElementById("summary").classList.add("hide");
+    }
+    if (summary.length < 10) {
+      setSummaryPost(false);
+      document.getElementById("summary").classList.remove("hide");
+    }
+    if (editorRef.current.getInstance().getMarkdown().length >= 30) {
+      setBodyPost(true);
+      document.getElementById("editor").classList.add("hide");
+    }
+    if (editorRef.current.getInstance().getMarkdown().length < 30) {
+      setBodyPost(false);
+      document.getElementById("editor").classList.remove("hide");
+    }
   };
 
   return (
     <Main>
       <EditIntroCard />
-      <EditCard editTitle="Title" />
+      <EditCard
+        id="title"
+        editTitle="Title"
+        handleChange={handleTitleChange}
+        post={titlepost}
+        warningContent="Title must be at least 15 characters."
+      />
       <Container>
         <EditTitle>Body</EditTitle>
-        <div className="editor">
+        <div id="editor" className="editor hide">
           <Editor
             ref={editorRef}
             initialValue=" "
@@ -125,26 +225,34 @@ const QuestionEditPage = () => {
             autofocus={false}
           />
         </div>
+        {bodyPost ? (
+          ""
+        ) : (
+          <div className="warning">
+            Body must be at least 30 characters; you entered{" "}
+            {editorRef.current.getInstance().getMarkdown().length}.
+          </div>
+        )}
         <MainButton onClick={() => setIsViewer(!isViewer)}>
           {isViewer ? "Close viewer" : "Open viewer"}
         </MainButton>
-        {isViewer && <Viewer initialValue={text} />}
+        {isViewer && <Viewer initialValue={body} />}
       </Container>
       <Container>
         <EditTitle>Tags</EditTitle>
         <TagsInput />
       </Container>
       <EditCard
+        id="summary"
         editTitle="Edit Summary"
         placeholder="briefly explain your changes (corrected spelling, fixed grammer, improved formatting)"
+        handleChange={handleSummaryChange}
+        post={summaryPost}
+        warningContent="Your edit summary must be at least 10 characters."
       />
       <ButtonContainer>
-        <MainButton onClick={() => navigate("/questions/1")}>
-          Save edits
-        </MainButton>
-        <CancelButton onClick={() => navigate("/questions/1")}>
-          Cancel
-        </CancelButton>
+        <MainButton onClick={handlePost}>Save edits</MainButton>
+        <CancelButton onClick={() => navigate(-1)}>Cancel</CancelButton>
       </ButtonContainer>
     </Main>
   );
