@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Editor } from "@toast-ui/react-editor";
+import { Editor, Viewer } from "@toast-ui/react-editor";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import { useRef, useState } from "react";
 import { MainButton } from "../QuestionDetailPage/DetailComponents/ButtonBundle";
@@ -8,18 +8,14 @@ import { useNavigate } from "react-router-dom";
 import {
   Container,
   EditTitle,
-  ButtonContainer,
   EditIntroCard,
   EditCard,
 } from "../QuestionEditPage/QuestionEditPage";
-import { CancelButton } from "../QuestionDetailPage/DetailComponents/ButtonBundle";
+import {
+  CancelButton,
+  ButtonContainer,
+} from "../QuestionDetailPage/DetailComponents/ButtonBundle";
 import { useEffect } from "react";
-// import markdownIt from "markdown-it";
-// import DOMPurify from "dompurify";
-// import ReactMarkdown from "react-markdown";
-// import { ReactMarkdown } from "react-markdown/lib/react-markdown";
-// import remarkGfm from "remark-gfm";
-// import parse from "html-react-parser";
 
 const Main = styled.main`
   display: flex;
@@ -39,10 +35,10 @@ const AnswerEditPage = () => {
   const editorRef = useRef();
   const navigate = useNavigate();
   const [text, setText] = useState("");
-  // const sanitizer = DOMPurify.sanitize;
+  const [isViewer, setIsViewer] = useState(false);
+
   const onChange = () => {
-    // const data = editorRef.current.getInstance().getMarkdown();
-    setText(editorRef.current.getInstance().getHTML());
+    setText(editorRef.current.getInstance().getMarkdown());
     console.log(text);
   };
 
@@ -63,22 +59,25 @@ const AnswerEditPage = () => {
           <Editor
             ref={editorRef}
             initialValue=" "
-            // initialEditType="wysiwyg"
+            initialEditType="wysiwyg"
             previewStyle="vertical"
             placeholder="Please enter your contents"
             height="300px"
+            toolbarItems={[
+              ["heading", "bold", "italic", "strike"],
+              ["code", "codeblock"],
+              ["hr", "quote"],
+              ["ul", "ol", "task"],
+              ["table", "image", "link"],
+            ]}
             useCommandShortcut={false}
             onChange={onChange}
           />
         </div>
-        {/* <div
-          className="test"
-          dangerouslySetInnerHTML={{
-            __html: sanitizer(text),
-          }}
-        ></div> */}
-        {/* <ReactMarkdown remarkPlugins={[remarkGfm]}>{text}</ReactMarkdown> */}
-        {/* <div>{parse(text)}</div> */}
+        <MainButton onClick={() => setIsViewer(!isViewer)}>
+          {isViewer ? "Close viewer" : "Open viewer"}
+        </MainButton>
+        {isViewer && <Viewer initialValue={text} />}
       </Container>
       <EditCard
         editTitle="Edit Summary"

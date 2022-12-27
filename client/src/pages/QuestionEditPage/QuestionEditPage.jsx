@@ -1,12 +1,13 @@
 import React from "react";
 import styled from "styled-components";
-import { Editor } from "@toast-ui/react-editor";
+import { Editor, Viewer } from "@toast-ui/react-editor";
 import "@toast-ui/editor/dist/toastui-editor.css";
-import { useRef } from "react";
+import { useState, useRef } from "react";
 import { MainButton } from "../QuestionDetailPage/DetailComponents/ButtonBundle";
 import { useNavigate } from "react-router-dom";
 import { CancelButton } from "../QuestionDetailPage/DetailComponents/ButtonBundle";
 import TagsInput from "./TagsInput";
+import { ButtonContainer } from "../QuestionDetailPage/DetailComponents/ButtonBundle";
 
 const Main = styled.main`
   display: flex;
@@ -62,12 +63,6 @@ const EditInput = styled.input`
   }
 `;
 
-export const ButtonContainer = styled.section`
-  display: flex;
-  align-items: center;
-  margin: 1rem 2rem;
-`;
-
 export const EditCard = ({ editTitle, placeholder }) => {
   return (
     <Container>
@@ -97,6 +92,13 @@ export const EditIntroCard = () => {
 const QuestionEditPage = () => {
   const editorRef = useRef();
   const navigate = useNavigate();
+  const [text, setText] = useState("");
+  const [isViewer, setIsViewer] = useState(false);
+  const onChange = () => {
+    setText(editorRef.current.getInstance().getMarkdown());
+    console.log(text);
+  };
+
   return (
     <Main>
       <EditIntroCard />
@@ -107,13 +109,25 @@ const QuestionEditPage = () => {
           <Editor
             ref={editorRef}
             initialValue=" "
-            placeholder="Please enter your contents"
             initialEditType="wysiwyg"
             previewStyle="vertical"
+            placeholder="Please enter your contents"
             height="300px"
+            toolbarItems={[
+              ["heading", "bold", "italic", "strike"],
+              ["code", "codeblock"],
+              ["hr", "quote"],
+              ["ul", "ol", "task"],
+              ["table", "image", "link"],
+            ]}
             useCommandShortcut={false}
+            onChange={onChange}
           />
         </div>
+        <MainButton onClick={() => setIsViewer(!isViewer)}>
+          {isViewer ? "Close viewer" : "Open viewer"}
+        </MainButton>
+        {isViewer && <Viewer initialValue={text} />}
       </Container>
       <Container>
         <EditTitle>Tags</EditTitle>

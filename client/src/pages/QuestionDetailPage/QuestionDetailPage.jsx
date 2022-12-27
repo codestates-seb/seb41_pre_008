@@ -4,7 +4,7 @@ import { RiArrowUpSFill, RiArrowDownSFill } from "react-icons/ri";
 import { FaBookmark, FaRegBookmark } from "react-icons/fa";
 import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { Editor } from "@toast-ui/react-editor";
+import { Editor, Viewer } from "@toast-ui/react-editor";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import AnswerList from "./Answer/AnserList";
 import LinkModal from "./LinkModal/LinkModal";
@@ -14,6 +14,7 @@ import {
   MainButton,
   SideButtonSection,
   SideButton,
+  CancelButton,
 } from "./DetailComponents/ButtonBundle";
 // import axios from "axios";
 
@@ -148,6 +149,10 @@ const AnswerTitle = styled.h2`
   font-size: x-large;
 `;
 
+const BottomButtonSection = styled.div`
+  display: flex;
+`;
+
 const QuestionDetailPage = () => {
   // const [testData, setTestData] = useState({});
   // axios
@@ -161,6 +166,12 @@ const QuestionDetailPage = () => {
   const navigate = useNavigate();
   const editorRef = useRef();
   const [isBookMark, setIsBookMark] = useState(false);
+  const [text, setText] = useState("");
+  const [isViewer, setIsViewer] = useState(false);
+  const onChange = () => {
+    setText(editorRef.current.getInstance().getMarkdown());
+    console.log(text);
+  };
 
   const handleShare = (e) => {
     e.stopPropagation();
@@ -253,11 +264,25 @@ const QuestionDetailPage = () => {
           previewStyle="vertical"
           placeholder="Please enter your contents"
           height="300px"
+          toolbarItems={[
+            ["heading", "bold", "italic", "strike"],
+            ["code", "codeblock"],
+            ["hr", "quote"],
+            ["ul", "ol", "task"],
+            ["table", "image", "link"],
+          ]}
           useCommandShortcut={false}
+          onChange={onChange}
         />
-        <MainButton type="submit" onClick={handlePostAnswer}>
-          Post Your Answer
-        </MainButton>
+        <BottomButtonSection>
+          <MainButton type="submit" onClick={handlePostAnswer}>
+            Post Your Answer
+          </MainButton>
+          <CancelButton onClick={() => setIsViewer(!isViewer)}>
+            {isViewer ? "Close viewer" : "Open viewer"}
+          </CancelButton>
+        </BottomButtonSection>
+        {isViewer && <Viewer initialValue={text} />}
       </Container>
     </Main>
   );
