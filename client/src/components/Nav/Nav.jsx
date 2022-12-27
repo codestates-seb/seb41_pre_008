@@ -34,14 +34,24 @@ const Navbar = styled.nav`
     &:hover {
       color: #000;
     }
-
-    &:active {
-      font-weight: bold;
-      color: #000;
-      background-color: #f1f2f3;
-      border-right: 3px solid #f38225;
-    }
   }             
+  
+  .active {
+    font-weight: bold;
+    color: #000;
+    background-color: #f1f2f3;
+    border-right: 3px solid #f38225;
+  }
+
+  .homeActive {
+    display: block;
+    margin-bottom: 16px;
+    padding: 8px 6px 8px 0;
+    font-weight: bold;
+    color: #000;
+    background-color: #f1f2f3;
+    border-right: 3px solid #f38225;
+  }
 
   .publicMenu,
   .collectivesMenu,
@@ -75,15 +85,15 @@ const Nav = () => {
   return (
     <NavContainer>
       <Navbar>
-        <a href="/" className="homeMenu">
-          Home
-        </a>
+          <a href="/" className={location === '/' ? "homeActive" : "homeMenu"}>
+            Home
+          </a>
         <ul>
           <li className="publicMenu">
             PUBLIC
             <ul>
               <li>
-                <a href="/questions">
+                <a href="/questions" className={location === "/questions" ? "active" : null}>
                   <span><IoEarth /></span>
                   <span>Questions</span>
                 </a>
