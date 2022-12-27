@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from "styled-components";
+import { MdError } from 'react-icons/md';
 
 const AskContainer = styled.div`
   padding: 60px;
@@ -76,6 +77,22 @@ const AskContainer = styled.div`
       padding: 0 2px;
     }
 
+    .titleInput {
+      position: relative;
+
+      input {
+        width: 100%;
+      }
+
+      span {
+        position: absolute;
+        color: #c2223e;
+        font-size: 20px;
+        right: 10px;
+        top: 8px;
+      }
+    }
+
     label {
       font-size: 12px;
       margin-bottom: 6px;
@@ -85,6 +102,57 @@ const AskContainer = styled.div`
       padding: 7.8px 9.1px;
       border: 1px solid #e3e6e8;
       border-radius: 3px;
+      outline: none;
+      box-shadow: none;
+
+      &:focus {
+        border: 1px solid #0074cc;
+        box-shadow: 0 0 2px 4px #cde9fe;
+      }
+
+      &.error {
+        border: 1px solid #d0393e;
+        color: #000;
+        box-shadow: none;
+      }
+    }
+
+    .tagsInput {
+      padding: 7.8px 9.1px;
+      border: 1px solid #e3e6e8;
+      border-radius: 3px;
+      outline: none;
+      box-shadow: none;
+
+      &:focus-within {
+        border: 1px solid #0074cc;
+        box-shadow: 0 0 2px 4px #cde9fe;
+      }
+
+      input {
+        padding: 0;
+        border: 0;
+        background-color: transparent;
+        outline: none;
+        box-shadow: none;
+        width: 30%;
+      }
+
+      span {
+        font-size: 12px;
+        background-color: #e1ecf4;
+        color: #39749d;
+        padding: 4.8px 6px;
+        margin: 0 2px 2px 0;
+        border-radius: 3px;
+      }
+
+      button {
+        border: 0;
+        background-color: transparent;
+        color: #39749d;
+        font-weight: bold;
+      }
     }
   }
 
@@ -112,19 +180,33 @@ const AskContainer = styled.div`
       }
     }
   }
+
+  .error {
+    color: #d0393e;
+    font-size: 12px;
+    margin: 2px 0;
+    padding: 2px;
+  }
 `
 
-
 const AskPage = () => {
+  // tag
+  const tagList = [];
+  const [tag, setTag] = useState(tagList);
+
+  // input value
   const [inputValue, setInputValue] = useState({
     title: '',
     problemContent: '',
     expectContent: '',
-    tags: '',
+    tags: tag,
   })
 
-  // inputValue에서 값 추출 -> input value 속성에 추출한 값 할당
-  const { title, problemContent, expectContent, tags } = inputValue;
+  const { title, problemContent, expectContent } = inputValue;
+  
+  // title error
+  const [titleError, setTitleError] = useState(false);
+  const [titleErrorMessage, setTitleErrorMessage] = useState('');
 
   // e.target name/value를 inputValue 객체에 복사
   const onChangeValue = (e) => {
@@ -133,16 +215,41 @@ const AskPage = () => {
       [e.target.name]: e.target.value,
     });
   };
-
+  
+  console.log(inputValue);
   // 입력한 값 초기화 버튼 
   const deleteValue = (e) => {
     setInputValue({
       title: '',
       problemContent: '',
       expectContent: '',
-      tags: '',
+      tags: setTag([]),
     });
+    setTitleError(false);
   }
+
+  // title 에러
+  const handleError = () => {
+    if(title === '') {
+      setTitleError(true);
+      setTitleErrorMessage('Title is missing.')
+    } else if (title.length < 15) {
+      setTitleError(true);
+      setTitleErrorMessage('Title must be at least 15 characters.')
+    }
+  };
+
+  // tags 추가
+  const addTag = (e) => {
+    if(e.length !== 0) {
+      setTag([...tag, e]);
+    }
+  };
+  // tags 삭제
+  const deleteTag = (e) => {
+    const filterTag = tag.filter((el, idx) => idx !== e);
+    setTag(filterTag);
+  };
 
   return (
     <AskContainer>
@@ -167,7 +274,11 @@ const AskPage = () => {
         <div className='writingTitle'>
           <label for='title' className='labelTitle'>Title</label>
           <label for='title'>Be specific and imagine you’re asking a question to another person.</label>
-          <input name='title' type='text' id='title' placeholder='e.g. Is there an R function for finding the index of an element in a vector?' value={title} onChange={onChangeValue}></input>
+          <div className='titleInput'>
+            <input name='title' type='text' id='title' className={titleError ? "error" : ""} placeholder='e.g. Is there an R function for finding the index of an element in a vector?' value={title} onChange={onChangeValue} />
+            {titleError ? <span><MdError /></span> : null}
+          </div>
+          {titleError ? <div className='error'>{titleErrorMessage}</div> : null}
         </div>
         <div className='writingProblem'>
           <label for='problem' className='labelTitle'>What are the details of your problem?</label>
@@ -182,10 +293,22 @@ const AskPage = () => {
         <div className='writingTags'>
           <label for='tags' className='labelTitle'>Tags</label>
           <label for='tags'>Add up to 5 tags to describe what your question is about. Start typing to see suggestions.</label>
-          <input name='tags' type='text' id='tags' placeholder='e.g. (c# laravel typescript)' value={tags} onChange={onChangeValue}></input>
+          <div className='tagsInput'>
+            {tag.map((el, idx) => (
+                <span key={idx}>{el}
+                  <button type='button' onClick={() => deleteTag(idx)}>X</button>
+                </span>
+            ))}
+            <input name='tags' type='text' id='tags' placeholder={tag.length !== 0 ? '' : 'e.g. (c# laravel typescript)'} onKeyUp={(e) => {
+              if(e.key === 'Enter') {
+                addTag(e.target.value);
+                e.target.value = null;
+              } else if(e.key === 'Backspace') {};
+            }} />
+          </div>
         </div>
         <div className='buttons'>
-          <button type='submit' className='submitButton'>Review your question</button>
+          <button type='button' className='submitButton' onClick={handleError}>Review your question</button>
           <button type='button' className='deleteButton' onClick={deleteValue}>Discard draft</button>
         </div>
       </form>
