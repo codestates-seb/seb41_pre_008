@@ -4,6 +4,11 @@ import Nav from "../Nav/Nav";
 import stacklogo from "../../img/Login/stacklogo.png";
 import menu from "../../img/Login/menu.png";
 import search from "../../img/Login/search.png";
+import menu1 from "../../img/Login/menu1.png";
+import menu2 from "../../img/Login/menu2.png";
+import menu3 from "../../img/Login/menu3.png";
+import menu4 from "../../img/Login/menu4.png";
+import menu5 from "../../img/Login/menu5.png";
 
 const HeaderWrap = styled.div`
   top: 0;
@@ -64,7 +69,7 @@ const SearchImg = styled.img`
   top: 6px;
 `;
 
-const LoginButton = styled.a`
+const LoginLogoutButton = styled.a`
   width: 59.5px;
   height: 33px;
   color: #39739d;
@@ -92,32 +97,68 @@ const SignUpButton = styled.a`
   right: 14px;
 `;
 
+const UserInfo = styled.div`
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background-color: #d2d1d1;
+`;
+
+const MenuLoginImg = styled.img`
+  width: 24px;
+`;
+
 const Header = () => {
-  const [isLogin, setIsLogin] = useState(
-    JSON.parse(window.localStorage.getItem("user"))
-  );
+  const [isLogin, setIsLogin] = useState(true);
 
   return (
     <>
-      <HeaderWrap>
-        <OrangeBg />
-        <MenuHeader>
-          <MenuImg src={menu} />
-          <a href="/">
-            <LogoImg src={stacklogo} />
-          </a>
-          <Menu>About</Menu>
-          <Menu>Products</Menu>
-          <Menu>For Teams</Menu>
-          <SearchWrap>
-            <SearchBox placeholder="Search..." />
-            <SearchImg src={search} />
-          </SearchWrap>
-          <LoginButton href="/login">Log in</LoginButton>
-          <SignUpButton href="/signup">Sign up</SignUpButton>
-        </MenuHeader>
-      </HeaderWrap>
-      <Nav />
+      {isLogin ? (
+        <>
+          <HeaderWrap>
+            <OrangeBg />
+            <MenuHeader>
+              <a href="/">
+                <LogoImg src={stacklogo} />
+              </a>
+              <Menu>Products</Menu>
+              <SearchWrap>
+                <SearchBox placeholder="Search..." />
+                <SearchImg src={search} />
+              </SearchWrap>
+              <UserInfo />
+              <MenuLoginImg src={menu1} />
+              <MenuLoginImg src={menu2} />
+              <MenuLoginImg src={menu3} />
+              <MenuLoginImg src={menu4} />
+              <MenuLoginImg src={menu5} />
+              <LoginLogoutButton href="/logout">Log out</LoginLogoutButton>
+            </MenuHeader>
+          </HeaderWrap>
+        </>
+      ) : (
+        <>
+          <HeaderWrap>
+            <OrangeBg />
+            <MenuHeader>
+              <MenuImg src={menu} />
+              <a href="/">
+                <LogoImg src={stacklogo} />
+              </a>
+              <Menu>About</Menu>
+              <Menu>Products</Menu>
+              <Menu>For Teams</Menu>
+              <SearchWrap>
+                <SearchBox placeholder="Search..." />
+                <SearchImg src={search} />
+              </SearchWrap>
+              <LoginLogoutButton href="/login">Log in</LoginLogoutButton>
+              <SignUpButton href="/signup">Sign up</SignUpButton>
+            </MenuHeader>
+          </HeaderWrap>
+          <Nav />
+        </>
+      )}
     </>
   );
 };
