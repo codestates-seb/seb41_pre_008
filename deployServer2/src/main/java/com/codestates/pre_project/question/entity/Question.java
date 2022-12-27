@@ -25,6 +25,9 @@ public class Question {
     private String title;
 
     @Column(nullable = false)
+    private int likes = 0;
+
+    @Column(nullable = false)
     private String problemContent;
 
     @Column(nullable = false)

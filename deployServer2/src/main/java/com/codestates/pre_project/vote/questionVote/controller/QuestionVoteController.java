@@ -30,6 +30,7 @@ public class QuestionVoteController {
         return new ResponseEntity<>(mapper.questionVoteToResponseDto(questionVote), HttpStatus.CREATED);
     }
 
+
     @PatchMapping("/{qv-id}")
     public ResponseEntity patchQuestionVote(@PathVariable("qv-id") @Positive long qvId,
                                           @RequestBody QuestionVotePatchDto patchDto) {

@@ -6,6 +6,8 @@ import com.codestates.pre_project.exception.BusinessLogicException;
 import com.codestates.pre_project.exception.ExceptionCode;
 import com.codestates.pre_project.member.service.MemberService;
 import com.codestates.pre_project.question.entity.Question;
+import com.codestates.pre_project.vote.answerVote.entity.AnswerVote;
+import com.codestates.pre_project.vote.answerVote.repository.AnswerVoteRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -22,11 +24,16 @@ import java.util.Optional;
 @Service
 public class AnswerService {
     private final AnswerRepository answerRepository;
+    private final AnswerVoteRepository answerVoteRepository;
     private final MemberService memberService;
 
     public Answer createAnswer(Answer answer){
-        verifyAnswer(answer);
-        // answer는 중복체크할 필요가 없으니 그냥 repository에 저장
+//        Answer created = answerRepository.save(answer);
+//        AnswerVote av = new AnswerVote();
+//        av.setAnswer(created);
+//        answerVoteRepository.save(av);
+//        return answerRepository.findById(created.getAnswerId())
+//                .orElseThrow(()-> new NullPointerException("null accessed"));
         return answerRepository.save(answer);
     }
 
@@ -69,6 +76,20 @@ public class AnswerService {
         if(optionalAnswer.isPresent()) {
             throw new BusinessLogicException(ExceptionCode.ANSWER_NOT_FOUND);
         }
+    }
+
+    public int upAnswer(long answerId){
+        Answer answer = findVerifiedAnswer(answerId);
+        answer.setLikes(answer.getLikes()+1);
+        Answer saved = answerRepository.save(answer);
+        return saved.getLikes();
+    }
+
+    public int downAnswer(long answerId){
+        Answer answer = findVerifiedAnswer(answerId);
+        answer.setLikes(answer.getLikes()-1);
+        Answer saved = answerRepository.save(answer);
+        return saved.getLikes();
     }
 
 }

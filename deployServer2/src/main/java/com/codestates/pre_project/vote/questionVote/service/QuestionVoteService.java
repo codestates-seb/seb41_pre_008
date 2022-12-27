@@ -103,7 +103,7 @@ public class QuestionVoteService {
     }
     private QuestionVote findVerifiedAV(long qvId){
         return qvRepository.findById(qvId).orElseThrow(
-                ()-> new BusinessLogicException(ExceptionCode.ANSWERCOMMENT_NOT_FOUND));
+                ()-> new BusinessLogicException(ExceptionCode.QUESTIONVOTE_NOT_FOUND));
     }
 
     // 이미 체크한 회원인지 확인 true -> 체크한 회원 false-> 이번에 처음 체크한 회원

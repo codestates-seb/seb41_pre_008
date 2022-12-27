@@ -1,5 +1,6 @@
 package com.codestates.pre_project.question.service;
 
+import com.codestates.pre_project.answer.entity.Answer;
 import com.codestates.pre_project.comment.entity.Comment;
 import com.codestates.pre_project.comment.repository.CommentRepository;
 import com.codestates.pre_project.exception.BusinessLogicException;
@@ -130,5 +131,17 @@ public class QuestionService {
         question.setMember(member);
 
         return questionRepository.save(question);
+    }
+    public int upQuestion(long questionId){
+        Question question = findVerifiedQuestion(questionId);
+        question.setLikes(question.getLikes()+1);
+        Question saved = questionRepository.save(question);
+        return saved.getLikes();
+    }
+    public int downQuestion(long questionId){
+        Question question = findVerifiedQuestion(questionId);
+        question.setLikes(question.getLikes()-1);
+        Question saved = questionRepository.save(question);
+        return saved.getLikes();
     }
 }

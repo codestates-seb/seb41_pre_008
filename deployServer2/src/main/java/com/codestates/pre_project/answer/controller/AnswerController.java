@@ -1,5 +1,6 @@
 package com.codestates.pre_project.answer.controller;
 
+import com.codestates.pre_project.answer.dto.AnswerLikesResponseDto;
 import com.codestates.pre_project.answer.dto.AnswerPatchDto;
 import com.codestates.pre_project.answer.dto.AnswerPostDto;
 import com.codestates.pre_project.answer.dto.AnswerResponseDto;
@@ -15,6 +16,9 @@ import com.codestates.pre_project.comment.service.CommentService;
 import com.codestates.pre_project.member.dto.MemberDto;
 import com.codestates.pre_project.member.entity.Member;
 import com.codestates.pre_project.member.service.MemberService;
+import com.codestates.pre_project.vote.answerVote.dto.AnswerVoteResponseDto;
+import com.codestates.pre_project.vote.answerVote.entity.AnswerVote;
+import com.codestates.pre_project.vote.answerVote.repository.AnswerVoteRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.data.domain.Page;
@@ -48,10 +52,24 @@ public class AnswerController {
     @PostMapping
     public ResponseEntity postAnswer(@Valid @RequestBody AnswerPostDto answerPostDto) {
         Answer answer = answerMapper.answerPostDtoToAnswer(answerPostDto);
-
         Answer createdAnswer = answerService.createAnswer(answer);
 
         return new ResponseEntity<>(answerMapper.answerToAnswerResponseDto(createdAnswer), HttpStatus.CREATED);
+    }
+    @PostMapping("/up/{answer-id}")
+    public ResponseEntity upAnswer(@PathVariable("answer-id")@Positive long answerId){
+        int likes = answerService.upAnswer(answerId);
+        AnswerLikesResponseDto response = new AnswerLikesResponseDto();
+        response.setLikes(likes);
+        return new ResponseEntity(response,HttpStatus.OK);
+    }
+
+    @PostMapping("/down/{answer-id}")
+    public ResponseEntity downAnswer(@PathVariable("answer-id")@Positive long answerId){
+        int likes = answerService.downAnswer(answerId);
+        AnswerLikesResponseDto response = new AnswerLikesResponseDto();
+        response.setLikes(likes);
+        return new ResponseEntity(response,HttpStatus.OK);
     }
 
     @PatchMapping("/{answer-id}")
@@ -87,4 +105,5 @@ public class AnswerController {
         answerService.deleteAnswer(answerId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
 }

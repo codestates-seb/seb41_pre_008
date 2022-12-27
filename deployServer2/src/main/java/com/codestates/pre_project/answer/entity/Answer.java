@@ -3,6 +3,7 @@ package com.codestates.pre_project.answer.entity;
 import com.codestates.pre_project.comment.entity.Comment;
 import com.codestates.pre_project.member.entity.Member;
 import com.codestates.pre_project.question.entity.Question;
+import com.codestates.pre_project.vote.answerVote.entity.AnswerVote;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -23,6 +24,9 @@ public class Answer {
 
     @Column(nullable = false)
     private String answerContent;
+
+    @Column(nullable = false)
+    private int likes = 0;
 
     @Enumerated(value = EnumType.STRING)
     @Column(length = 20, nullable = false)
@@ -48,6 +52,9 @@ public class Answer {
     @ManyToOne
     @JoinColumn(name = "QUESTION_ID")
     private Question question;
+
+//    @OneToOne(mappedBy = "member", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+//    private AnswerVote answerVote;
 
 
     public enum AnswerStatus {

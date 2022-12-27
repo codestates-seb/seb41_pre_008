@@ -30,6 +30,11 @@ public interface AnswerVoteMapper {
         av.setStatus(patch.getStatus());
         return av;
     };
-    @Mapping(target = "memberId", source = "member.memberId")
-    AnswerVoteResponseDto answerToResponseDto(AnswerVote answerVote);
+    default AnswerVoteResponseDto answerToResponseDto(AnswerVote answerVote){
+        return AnswerVoteResponseDto.builder()
+                .voteId(answerVote.getVoteId())
+                .memberId(answerVote.getMember().getMemberId())
+                .status(answerVote.getStatus())
+                .build();
+    };
 }

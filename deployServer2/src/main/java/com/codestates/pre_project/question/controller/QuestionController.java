@@ -2,6 +2,7 @@ package com.codestates.pre_project.question.controller;
 
 import com.codestates.pre_project.comment.entity.Comment;
 import com.codestates.pre_project.comment.mapper.CommentMapper;
+import com.codestates.pre_project.question.dto.QuestionLikesResponseDto;
 import com.codestates.pre_project.question.dto.QuestionPatchDto;
 import com.codestates.pre_project.question.dto.QuestionPostDto;
 import com.codestates.pre_project.question.dto.QuestionResponseDto;
@@ -53,6 +54,21 @@ public class QuestionController {
         return new ResponseEntity<>(questionMapper.questionToQuestionResponseDto(question), HttpStatus.CREATED);
     }
 
+    @PostMapping("/up/{question-id}")
+    public ResponseEntity upQuestion(@PathVariable("question-id")@Positive long questionId){
+        int likes = questionService.upQuestion(questionId);
+        QuestionLikesResponseDto response = new QuestionLikesResponseDto();
+        response.setLikes(likes);
+        return new ResponseEntity(response, HttpStatus.OK);
+    }
+
+    @PostMapping("/down/{question-id}")
+    public ResponseEntity downQuestion(@PathVariable("question-id")@Positive long questionId){
+        int likes = questionService.downQuestion(questionId);
+        QuestionLikesResponseDto response = new QuestionLikesResponseDto();
+        response.setLikes(likes);
+        return new ResponseEntity(response, HttpStatus.OK);
+    }
 
     @PatchMapping("/{question-id}")
     public ResponseEntity patchQuestion(@PathVariable("question-id") @Positive long questionId,

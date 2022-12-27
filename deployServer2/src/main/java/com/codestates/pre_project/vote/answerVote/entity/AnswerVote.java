@@ -21,10 +21,11 @@ public class AnswerVote {
     private int status;
 
     @OneToOne
-    @JoinColumn(name = "ANSWER_ID", nullable = false)
+    @JoinColumn(name="ANSWER_ID")
     private Answer answer;
 
     @OneToOne
-    @JoinColumn(name = "MEMBER_ID", nullable = false)
+    @JoinColumn(name = "MEMBER_ID")
     private Member member;
+
 }

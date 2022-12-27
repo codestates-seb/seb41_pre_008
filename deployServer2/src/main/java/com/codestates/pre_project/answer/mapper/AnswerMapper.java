@@ -8,6 +8,7 @@ import com.codestates.pre_project.comment.dto.CommentResponseDto;
 import com.codestates.pre_project.comment.entity.Comment;
 import com.codestates.pre_project.member.entity.Member;
 import com.codestates.pre_project.question.entity.Question;
+import com.codestates.pre_project.vote.answerVote.entity.AnswerVote;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -54,6 +55,7 @@ public interface AnswerMapper {
                                 comment.getCreatedAt(),
                                 comment.getModifiedAt()))
                 .collect(Collectors.toList());
+
 
         return AnswerResponseDto.builder()
                 .answerId(answer.getAnswerId())
