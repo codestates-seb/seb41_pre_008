@@ -64,11 +64,9 @@ public class Question {
     }
 
 
+    /* question comment 임시 매핑 삭제
     @OneToMany(mappedBy = "question", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<Comment> comments = new ArrayList<>();
-
-    @OneToMany(mappedBy = "question", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-    private List<Answer> answers = new ArrayList<>();
 
     public void setComment(Comment comment) {
         comments.add(comment);
@@ -76,6 +74,10 @@ public class Question {
             comment.setQuestion(this);
         }
     }
+     */
+
+    @OneToMany(mappedBy = "question", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    private List<Answer> answers = new ArrayList<>();
 
     public void setAnswer(Answer answer){
         answers.add(answer);

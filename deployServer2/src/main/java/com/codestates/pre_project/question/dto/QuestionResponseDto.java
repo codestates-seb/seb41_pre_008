@@ -27,6 +27,6 @@ public class QuestionResponseDto {
     private List<QuestionTagResponseDto> questionTags;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
-    private List<CommentResponseDto> comments;
+    //private List<CommentResponseDto> comments;
     private List<AnswerResponseDto> answers;
 }

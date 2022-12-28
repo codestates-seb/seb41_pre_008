@@ -45,9 +45,11 @@ public class Comment {
         this.member = member;
     }
 
+    /*comment question 매핑 임시 삭제
     @ManyToOne
     @JoinColumn(name = "QUESTION_ID")
     private Question question;
+
 
 
     public void setQuestion(Question question) {
@@ -56,6 +58,8 @@ public class Comment {
             this.question.getComments().add(this);
         }
     }
+
+     */
 
     /*
     @ManyToOne   // (1)

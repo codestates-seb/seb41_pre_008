@@ -69,7 +69,7 @@ public class CommentService {
         // 회원이 존재하는지 확인
         memberService.findVerifiedMember(comment.getMember().getMemberId());
         // 질문이 존재하는지 확인
-        questionService.findVerifiedQuestion(comment.getQuestion().getQuestionId());
+        //questionService.findVerifiedQuestion(comment.getQuestion().getQuestionId());
     }
 
 

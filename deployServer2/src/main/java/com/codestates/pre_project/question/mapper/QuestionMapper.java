@@ -61,12 +61,14 @@ public interface QuestionMapper {
     QuestionResponseDto questionToQuestionResponseDto(Question question);
 
  */
+     //question과 comment 임시 매핑 삭제
     default QuestionResponseDto questionToQuestionResponseDto(Question question) {
         Member member = question.getMember();
-        List<Comment> comments = question.getComments();
+       // List<Comment> comments = question.getComments();
         List<QuestionTag> tags = question.getQuestionTags();
         List<Answer> answers = question.getAnswers();
         //List<CommentResponseDto> answerComments = answers.getAnswerComment(answers);
+        /*
         List<CommentResponseDto> commentResponse
                 = comments.stream()
                 .map(comment ->
@@ -79,6 +81,8 @@ public interface QuestionMapper {
                                 comment.getCreatedAt(),
                                 comment.getModifiedAt()))
                 .collect(Collectors.toList());
+
+     */
 
         /*
         List<CommentResponseDto> commentResponse2
@@ -144,7 +148,7 @@ public interface QuestionMapper {
                 .questionTags(questionTags)
                 .createdAt(question.getCreatedAt())
                 .modifiedAt(question.getModifiedAt())
-                .comments(commentResponse)
+                //.comments(commentResponse)
                 .answers(answerResponse)
                 .build();
 

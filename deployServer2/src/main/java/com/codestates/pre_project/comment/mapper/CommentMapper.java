@@ -53,7 +53,7 @@ public interface CommentMapper {
         member.setMemberId(commentPostDto.getMemberId());
         question.setQuestionId(commentPostDto.getQuestionId());
         comment.setMember(member);
-        comment.setQuestion(question);
+        //comment.setQuestion(question);
         System.out.println("finish");
         return comment;
 
@@ -77,7 +77,7 @@ public interface CommentMapper {
                 .commentId(comment.getCommentId())
                 .memberId(member.getMemberId())
                 .nickName(member.getNickName())
-                .questionId(comment.getQuestion().getQuestionId())
+                //.questionId(comment.getQuestion().getQuestionId())
                 //.answerId(comment.getAnswer().getAnswerId())
                 .content(comment.getContent())
                 .createdAt(comment.getCreatedAt())
