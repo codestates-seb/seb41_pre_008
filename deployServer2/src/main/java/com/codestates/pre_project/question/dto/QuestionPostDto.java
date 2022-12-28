@@ -13,6 +13,7 @@ import javax.validation.constraints.Positive;
 import java.util.List;
 
 @Getter
+@AllArgsConstructor
 public class QuestionPostDto {
 
     @Positive
