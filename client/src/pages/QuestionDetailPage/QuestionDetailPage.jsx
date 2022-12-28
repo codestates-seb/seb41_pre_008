@@ -17,7 +17,10 @@ import {
   CancelButton,
 } from "./DetailComponents/ButtonBundle";
 import EditModalCard from "./EditModal/EditModal";
-// import { useEffect } from "react";
+import { MdError } from "react-icons/md";
+
+import { useEffect } from "react";
+
 // import axios from "axios";
 
 const data = [
@@ -77,25 +80,40 @@ const Main = styled.main`
   .answerTitle {
     padding: 2rem 2rem 0 2rem;
   }
-  .editor {
-    border: 1px solid #fe5353;
-    border-radius: 5px;
-    &:focus-within {
-      box-shadow: 0 0 0 5px #ffecec;
+  .body {
+    position: relative;
+    .editor {
+      width: 100%;
+      .toastui-editor-main-container {
+        border: 1px solid #d0393e;
+        &:focus-within {
+          box-shadow: 0 0 0 4px rgba(208, 57, 62, 0.2);
+        }
+      }
     }
-  }
-  .editor.hide {
-    border: none;
-    &:focus-within {
-      border-radius: 5px;
-      border: 1px solid #0a95ff;
-      box-shadow: 0 0 0 5px #d3ecff;
+    .editor.hide {
+      width: 100%;
+      .toastui-editor-main-container {
+        border: none;
+        &:focus-within {
+          border: 1px solid #0a95ff;
+          box-shadow: 0 0 0 4px rgba(10, 149, 255, 0.1);
+        }
+      }
+    }
+
+    .icon {
+      position: absolute;
+      color: #d0393e;
+      font-size: 20px;
+      right: 8px;
+      top: 150px;
     }
   }
   .warning {
     margin: 0.5rem 0.1rem;
     font-size: 12px;
-    color: #fe5353;
+    color: #d0393e;
   }
 `;
 
@@ -174,7 +192,7 @@ const AnswerTitle = styled.h2`
       width: 260px;
       height: 35px;
       padding: 0 0.3rem;
-      margin: 0 0.3rem;
+      margin-left: 0.3rem;
       border-color: rgb(169, 170, 178);
       border-radius: 3px;
       &:focus-within {
@@ -191,23 +209,49 @@ const BottomButtonSection = styled.div`
 `;
 
 const QuestionDetailPage = () => {
-  const [testData, setTestData] = useState(
-    data.sort((a, b) => a.vote - b.vote)
-  );
-
   const navigate = useNavigate();
   const editorRef = useRef();
+  const [testData, setTestData] = useState([]);
   const [isBookMark, setIsBookMark] = useState(false);
   const [isViewer, setIsViewer] = useState(false);
   const [isEditModal, setIsEditModal] = useState(false);
   const [body, setBody] = useState("");
   const [bodyPost, setBodyPost] = useState(true);
+
+  // const [mod, setMod] = useState([]);
+
+  // 답변 정렬 기능 구현
+  useEffect(() => {
+    setTestData(data.sort((a, b) => a.vote - b.vote).reverse());
+    if (localStorage.getItem("state") === "vote") {
+      // console.log("vote");
+      setTestData(data.sort((a, b) => a.vote - b.vote).reverse());
+    }
+    if (localStorage.getItem("state") === "id") {
+      // console.log("id");
+      setTestData(data.sort((a, b) => a.id - b.id));
+    }
+    // axios
+    //   .get("/questions/1")
+    //   .then((res) => {
+    //     console.log(res.data);
+    //     // setMod(res.data);
+    //   })
+    //   .catch((err) => console.log(err));
+  }, []);
+
+  // console.log(mod);
+
+  // const [mod, setMod] = useState("");
+
+  // console.log(mod);
+
+  // 답변 작성 후 버튼 클릭 시 post 요청 보내는 핸들러
   const handlePost = () => {
-    if (editorRef.current.getInstance().getMarkdown().length >= 30) {
+    if (body.length >= 30) {
       setBodyPost(true);
       document.getElementById("editor").classList.add("hide");
       // 추가해야 할 내용: 서버에 post 요청 보내기
-      console.log(editorRef.current.getInstance().getMarkdown());
       setTestData([
         ...testData,
         {
@@ -219,67 +263,41 @@ const QuestionDetailPage = () => {
         },
       ]);
       // window.location.reload();
-      navigate("/questions/1");
-    }
-    if (editorRef.current.getInstance().getMarkdown().length < 30) {
+      // navigate("/questions/1");
+    } else {
       setBodyPost(false);
       document.getElementById("editor").classList.remove("hide");
     }
   };
 
-  // const [mod, setMod] = useState("");
-
-  // useEffect(() => {
-  //   axios
-  //     .get("/members/1")
-  //     .then((res) => {
-  //       console.log(res.data);
-  //       setMod(res.data);
-  //     })
-  //     .catch((err) => console.log(err));
-  // }, []);
-
-  // console.log(mod);
-
-  // useEffect(() => {
-  //   setTestData(data);
-  // }, [testData]);
-
   const onChange = () => {
     setBody(editorRef.current.getInstance().getMarkdown());
-    console.log(body);
   };
 
+  // 링크 공유 모달 핸들러
   const handleHideShareModal = (e) => {
     e.stopPropagation();
     document.getElementById("modal").classList.add("hide");
-    console.log(document.getElementById("modal").classList);
   };
 
   const handleShowShareModal = (e) => {
     e.stopPropagation();
     document.getElementById("modal").classList.remove("hide");
-    console.log(document.getElementById("modal").classList);
   };
 
+  // 답변 입력 시 보이는 하단 안내 문구 모달 핸들러
   const handleEditModal = () => {
     setIsEditModal(!isEditModal);
   };
 
-  const newData = testData;
-
   const changeValue = (e) => {
-    console.log(typeof e.target.value);
-    if (e.target.value === "1") {
-      // const newData = testData;
-      setTestData(newData.sort((a, b) => a.vote - b.vote));
-      // window.location.reload();
-    } else if (e.target.value === "2") {
-      // const newData = testData;
-      setTestData(newData.sort((a, b) => a.id - b.id));
-      // window.location.reload();
+    if (e.target.value === "vote") {
+      localStorage.setItem("state", "vote");
     }
-    console.log(testData);
+    if (e.target.value === "id") {
+      localStorage.setItem("state", "id");
+    }
+    window.location.reload();
   };
 
   return (
@@ -320,7 +338,6 @@ const QuestionDetailPage = () => {
             API is in .NET 6 and it's frontend is in Angular app and also it's
             multi-tenant application."
             />
-
             <TagCard tags={dummytags} />
             <SideSeciton>
               <SideButtonSection>
@@ -349,9 +366,14 @@ const QuestionDetailPage = () => {
           {testData.length} Answer
           <div>
             Sorted by:
-            <select name="answersort" id="body" onChange={changeValue}>
-              <option value="1">Highest score (default)</option>
-              <option value="2">Trending (recent votes count more)</option>
+            <select
+              name="answersort"
+              id="body"
+              onChange={changeValue}
+              value={localStorage.getItem("state")}
+            >
+              <option value="vote">Highest score (default)</option>
+              <option value="id">Trending (recent votes count more)</option>
               <option value="3">Date modified (newest first)</option>
               <option value="4">Date created (oldest first)</option>
             </select>
@@ -361,36 +383,38 @@ const QuestionDetailPage = () => {
       </Container>
       <Container className="answer">
         <AnswerTitle className="answerPostTitle">Your Answer</AnswerTitle>
-        <div
-          id="editor"
-          className="editor hide"
-          onFocus={() => setIsEditModal(true)}
-        >
-          <Editor
-            ref={editorRef}
-            initialValue=" "
-            initialEditType="wysiwyg"
-            previewStyle="vertical"
-            placeholder="Please enter your contents"
-            height="300px"
-            toolbarItems={[
-              ["heading", "bold", "italic", "strike"],
-              ["code", "codeblock"],
-              ["hr", "quote"],
-              ["ul", "ol", "task"],
-              ["table", "image", "link"],
-            ]}
-            useCommandShortcut={false}
-            onChange={onChange}
-            autofocus={false}
-          />
+        <div className="body">
+          <div
+            id="editor"
+            className="editor hide"
+            onFocus={() => setIsEditModal(true)}
+          >
+            <Editor
+              ref={editorRef}
+              initialValue=" "
+              initialEditType="wysiwyg"
+              previewStyle="vertical"
+              placeholder="Please enter your contents"
+              height="300px"
+              toolbarItems={[
+                ["heading", "bold", "italic", "strike"],
+                ["code", "codeblock"],
+                ["hr", "quote"],
+                ["ul", "ol", "task"],
+                ["table", "image", "link"],
+              ]}
+              useCommandShortcut={false}
+              onChange={onChange}
+              autofocus={false}
+            />
+          </div>
+          {bodyPost ? "" : <MdError className="icon" />}
         </div>
         {bodyPost ? (
           ""
         ) : (
           <div className="warning">
-            Body must be at least 30 characters; you entered{" "}
-            {editorRef.current.getInstance().getMarkdown().length}.
+            Body must be at least 30 characters; you entered {body.length}.
           </div>
         )}
 

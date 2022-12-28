@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Nav from "../Nav/Nav";
 import stacklogo from "../../img/Login/stacklogo.png";
@@ -14,7 +14,7 @@ const HeaderWrap = styled.div`
   top: 0;
   position: fixed;
   left: 0;
-  width: 100%;
+  width: 100vw;
   height: 53px;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
   background-color: #f8f9f9;
@@ -80,6 +80,7 @@ const LoginLogoutButton = styled.a`
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
 `;
 
 const SignUpButton = styled.a`
@@ -109,7 +110,20 @@ const MenuLoginImg = styled.img`
 `;
 
 const Header = () => {
-  const [isLogin, setIsLogin] = useState(true);
+  const [isLogin, setIsLogin] = useState(false);
+
+  useEffect(() => {
+    if (JSON.parse(window.localStorage.getItem("user"))) {
+      setIsLogin(JSON.parse(window.localStorage.getItem("user")).signIn);
+    } else {
+      setIsLogin(false);
+    }
+  }, []);
+
+  const logoutHandler = () => {
+    window.location.replace("/login");
+    window.localStorage.removeItem("user");
+  };
 
   return (
     <>
@@ -132,7 +146,9 @@ const Header = () => {
               <MenuLoginImg src={menu3} />
               <MenuLoginImg src={menu4} />
               <MenuLoginImg src={menu5} />
-              <LoginLogoutButton href="/logout">Log out</LoginLogoutButton>
+              <LoginLogoutButton onClick={logoutHandler}>
+                Log out
+              </LoginLogoutButton>
             </MenuHeader>
           </HeaderWrap>
           <Nav />

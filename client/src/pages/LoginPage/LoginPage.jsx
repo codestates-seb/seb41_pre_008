@@ -214,7 +214,7 @@ const LoginPage = () => {
 
   const loginHandler = () => {
     axios
-      .post("https://ee12-222-109-195-131.jp.ngrok.io/members/signin", {
+      .post("/members/signin", {
         email,
         password,
       })
@@ -222,7 +222,7 @@ const LoginPage = () => {
       .then((res) => {
         if (res.signIn === true) {
           window.localStorage.setItem("user", JSON.stringify(res));
-          navigate("/");
+          window.location.replace("/");
         } else {
           setErrorMessage("The email or password is incorrect.");
           console.log();

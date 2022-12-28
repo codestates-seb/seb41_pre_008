@@ -54,20 +54,20 @@ const AnswerContentContainer = styled.section`
 const Answer = ({ answer }) => {
   const [isBookMark, setIsBookMark] = useState(false);
   const navigate = useNavigate();
-  const handleShare = (e) => {
+
+  // 링크 공유 모달 핸들러
+  const handleHideShareModal = (e) => {
     e.stopPropagation();
     document.getElementById(`${answer.id}`).classList.add("hide");
-    console.log(document.getElementById(`${answer.id}`).classList);
   };
 
-  const handleShowModal = (e) => {
+  const handleShowShareModal = (e) => {
     e.stopPropagation();
     document.getElementById(`${answer.id}`).classList.remove("hide");
-    console.log(document.getElementById(`${answer.id}`).classList);
   };
 
   return (
-    <AnswerContentSection onClick={handleShare}>
+    <AnswerContentSection onClick={handleHideShareModal}>
       <Vote>
         <RiArrowUpSFill className="icon" size={64} />
         <span>{answer.vote}</span>
@@ -88,11 +88,10 @@ const Answer = ({ answer }) => {
       </Vote>
       <AnswerContentContainer>
         <Viewer initialValue={answer.content} />
-        {/* {answer.content} */}
         <TagCard tags={dummytags} />
         <SideSeciton>
           <SideButtonSection>
-            <SideButton onClick={handleShowModal}>Share</SideButton>
+            <SideButton onClick={handleShowShareModal}>Share</SideButton>
             <SideButton
               onClick={() =>
                 navigate("/questions/:questionId/answer/edit/:answerId")

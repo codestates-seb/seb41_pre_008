@@ -15,26 +15,41 @@ import {
   CancelButton,
   ButtonContainer,
 } from "../QuestionDetailPage/DetailComponents/ButtonBundle";
-import { useEffect } from "react";
+import { MdError } from "react-icons/md";
 
 const Main = styled.main`
   display: flex;
   flex-direction: column;
   min-width: 500px;
   width: 750px;
-  .editor {
-    border: 1px solid #fe5353;
-    border-radius: 5px;
-    &:focus-within {
-      box-shadow: 0 0 0 5px #ffecec;
+  .body {
+    position: relative;
+    .editor {
+      width: 100%;
+      .toastui-editor-main-container {
+        border: 1px solid #d0393e;
+        &:focus-within {
+          box-shadow: 0 0 0 4px rgba(208, 57, 62, 0.2);
+        }
+      }
     }
-  }
-  .editor.hide {
-    border: none;
-    &:focus-within {
-      border-radius: 5px;
-      border: 1px solid #0a95ff;
-      box-shadow: 0 0 0 5px #d3ecff;
+    .editor.hide {
+      width: 100%;
+      .toastui-editor-main-container {
+        border: none;
+        &:focus-within {
+          border: 1px solid #0a95ff;
+          box-shadow: 0 0 0 4px rgba(10, 149, 255, 0.1);
+        }
+      }
+    }
+
+    .icon {
+      position: absolute;
+      color: #d0393e;
+      font-size: 20px;
+      right: 8px;
+      top: 150px;
     }
   }
 `;
@@ -48,21 +63,28 @@ const AnswerEditPage = () => {
   const [summary, setSummary] = useState("");
   const [summaryPost, setSummaryPost] = useState(true);
 
-  const onChange = () => {
+  // 본문, 요약의 내용을 각각의 상태에 저장하는 핸들러
+  const handleBodyChange = () => {
     setBody(editorRef.current.getInstance().getMarkdown());
-    console.log(body);
   };
 
   const handleSummaryChange = (e) => {
     setSummary(e.target.value);
   };
 
+  // 버튼 클릭 시 수정된 답변 post 요청 보내는 핸들러
   const handlePost = () => {
-    if (
-      summary.length >= 10 &&
-      editorRef.current.getInstance().getMarkdown().length >= 30
-    )
-      navigate("/questions/1");
+    // 본문 길이 30, 요약 길이 10 이상일 경우에만 post 요청 가능
+    if (body.length >= 30 && summary.length >= 10) navigate("/questions/1");
+    // 나머지 경우 post 요청 대신 문구와 디자인으로 경고 표시
+    if (body.length >= 30) {
+      setBodyPost(true);
+      document.getElementById("editor").classList.add("hide");
+    }
+    if (body.length < 30) {
+      setBodyPost(false);
+      document.getElementById("editor").classList.remove("hide");
+    }
     if (summary.length >= 10) {
       setSummaryPost(true);
       document.getElementById("summary").classList.add("hide");
@@ -71,50 +93,41 @@ const AnswerEditPage = () => {
       setSummaryPost(false);
       document.getElementById("summary").classList.remove("hide");
     }
-    if (editorRef.current.getInstance().getMarkdown().length >= 30) {
-      setBodyPost(true);
-      document.getElementById("editor").classList.add("hide");
-    }
-    if (editorRef.current.getInstance().getMarkdown().length < 30) {
-      setBodyPost(false);
-      document.getElementById("editor").classList.remove("hide");
-    }
   };
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
   return (
     <Main>
       <EditIntroCard />
       <Container>
         <EditTitle>Answer</EditTitle>
-        <div id="editor" className="editor hide">
-          <Editor
-            ref={editorRef}
-            initialValue=" "
-            initialEditType="wysiwyg"
-            previewStyle="vertical"
-            placeholder="Please enter your contents"
-            height="300px"
-            toolbarItems={[
-              ["heading", "bold", "italic", "strike"],
-              ["code", "codeblock"],
-              ["hr", "quote"],
-              ["ul", "ol", "task"],
-              ["table", "image", "link"],
-            ]}
-            useCommandShortcut={false}
-            onChange={onChange}
-            autofocus={false}
-          />
+        <div className="body">
+          <div id="editor" className="editor hide">
+            <Editor
+              ref={editorRef}
+              initialValue=" "
+              initialEditType="wysiwyg"
+              previewStyle="vertical"
+              placeholder="Please enter your contents"
+              height="300px"
+              toolbarItems={[
+                ["heading", "bold", "italic", "strike"],
+                ["code", "codeblock"],
+                ["hr", "quote"],
+                ["ul", "ol", "task"],
+                ["table", "image", "link"],
+              ]}
+              useCommandShortcut={false}
+              onChange={handleBodyChange}
+              autofocus={false}
+            />
+          </div>
+          {bodyPost ? "" : <MdError className="icon" />}
         </div>
         {bodyPost ? (
           ""
         ) : (
           <div className="warning">
-            Body must be at least 30 characters; you entered{" "}
-            {editorRef.current.getInstance().getMarkdown().length}.
+            Body must be at least 30 characters; you entered {body.length}.
           </div>
         )}
         <MainButton onClick={() => setIsViewer(!isViewer)}>
