@@ -38,6 +38,7 @@ const UserProfileContainer = styled.section`
   }
 `;
 
+// 사용자 프로필 카드
 const UserProfileCard = ({ type = false, time, name, reputation, src }) => {
   return (
     <UserProfileContainer>

@@ -108,6 +108,7 @@ const ModalContainer = styled.section`
 `;
 
 const LinkModal = ({ modalId, isAnswer }) => {
+  // 링크 공유 버튼 클릭 시 실행되는 팝업창 구현
   const handleCopyLink = async (text) => {
     try {
       await navigator.clipboard.writeText(text);

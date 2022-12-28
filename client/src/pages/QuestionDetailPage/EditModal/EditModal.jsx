@@ -35,6 +35,7 @@ const EditIntroContainer = styled.section`
 `;
 
 const EditModalCard = ({ setIsEditModal }) => {
+  // 상태 끌어올리기
   const handleClick = () => {
     setIsEditModal();
   };

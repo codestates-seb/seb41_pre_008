@@ -9,7 +9,7 @@ const TagsInputContainer = styled.div`
   padding: 0 4px;
   &:focus-within {
     border-color: #0a95ff;
-    box-shadow: 0 0 0 5px #d3ecff;
+    box-shadow: 0 0 0 4px rgba(10, 149, 255, 0.1);
   }
   ul {
     display: flex;

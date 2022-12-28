@@ -24,6 +24,7 @@ const Tag = styled.a`
   }
 `;
 
+// 태그 구현
 const TagCard = ({ tags }) => {
   return (
     <TagContainer>
