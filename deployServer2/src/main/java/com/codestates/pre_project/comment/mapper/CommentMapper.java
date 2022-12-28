@@ -15,6 +15,7 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface CommentMapper {
+    /*
     Comment commentPostDtoToComment(CommentPostDto commentPostDto);
     default Comment commentPostToComment(CommentPostDto commentPostDto) {
         Comment comment = new Comment();
@@ -25,30 +26,39 @@ public interface CommentMapper {
         return comment;
     }
 
-    /*
+     */
+
+
     default Comment commentPostDtoToComment(CommentPostDto commentPostDto){
         Comment comment = new Comment();
         Member member = new Member();
-        Question question = new Question();
-        Answer answer = new Answer();
 
+        /*
         if(commentPostDto.getAnswerId()>0){
+            System.out.println(commentPostDto.getAnswerId());
+            Answer answer = new Answer();
             comment.setContent(commentPostDto.getContent());
             member.setMemberId(commentPostDto.getMemberId());
             answer.setAnswerId(commentPostDto.getAnswerId());
             comment.setMember(member);
             comment.setAnswer(answer);
+            System.out.println("finish");
             return comment;
         }
+
+         */
+        System.out.println(commentPostDto.getQuestionId());
+        Question question = new Question();
         comment.setContent(commentPostDto.getContent());
         member.setMemberId(commentPostDto.getMemberId());
         question.setQuestionId(commentPostDto.getQuestionId());
         comment.setMember(member);
         comment.setQuestion(question);
+        System.out.println("finish");
         return comment;
-    }
 
-     */
+
+    }
 
     Comment commentPatchDtoToComment(CommentPatchDto commentPatchDto);
 
@@ -68,7 +78,7 @@ public interface CommentMapper {
                 .memberId(member.getMemberId())
                 .nickName(member.getNickName())
                 .questionId(comment.getQuestion().getQuestionId())
-                .answerId(comment.getAnswer().getAnswerId())
+                //.answerId(comment.getAnswer().getAnswerId())
                 .content(comment.getContent())
                 .createdAt(comment.getCreatedAt())
                 .modifiedAt(comment.getModifiedAt())

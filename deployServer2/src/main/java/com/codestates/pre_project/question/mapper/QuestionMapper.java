@@ -66,8 +66,23 @@ public interface QuestionMapper {
         List<Comment> comments = question.getComments();
         List<QuestionTag> tags = question.getQuestionTags();
         List<Answer> answers = question.getAnswers();
+        //List<CommentResponseDto> answerComments = answers.getAnswerComment(answers);
         List<CommentResponseDto> commentResponse
                 = comments.stream()
+                .map(comment ->
+                        new CommentResponseDto(comment.getCommentId(),
+                                comment.getMember().getMemberId(),
+                                comment.getMember().getNickName(),
+                                comment.getQuestion().getQuestionId(),
+                                //comment.getAnswer().getAnswerId(),
+                                comment.getContent(),
+                                comment.getCreatedAt(),
+                                comment.getModifiedAt()))
+                .collect(Collectors.toList());
+
+        /*
+        List<CommentResponseDto> commentResponse2
+                = answers.stream()
                 .map(comment ->
                         new CommentResponseDto(comment.getCommentId(),
                                 comment.getMember().getMemberId(),
@@ -79,6 +94,9 @@ public interface QuestionMapper {
                                 comment.getModifiedAt()))
                 .collect(Collectors.toList());
 
+         */
+
+
         List<QuestionTagResponseDto> questionTags
                 = tags.stream()
                 .map(tag ->
@@ -86,6 +104,7 @@ public interface QuestionMapper {
                                 tag.getTag().getName()))
                 .collect(Collectors.toList());
 
+        /*
         List<AnswerResponseDto> answerResponse =
                 answers.stream()
                         .map(answer ->
@@ -97,9 +116,22 @@ public interface QuestionMapper {
                                         answer.getAnswerStatus(),
                                         answer.getCreatedAt(),
                                         answer.getModifiedAt(),
-                                        commentResponse)).collect(Collectors.toList());
+                                        commentResponse2)
+                        ).collect(Collectors.toList());
 
 
+         */
+        List<AnswerResponseDto> answerResponse =
+                answers.stream()
+                        .map(answer ->
+                                new AnswerResponseDto(answer.getAnswerId(),
+                                        answer.getMember().getMemberId(),
+                                        answer.getMember().getNickName(),
+                                        answer.getQuestion().getQuestionId(),
+                                        answer.getAnswerContent(),
+                                        answer.getAnswerStatus(),
+                                        answer.getCreatedAt(),
+                                        answer.getModifiedAt())).collect(Collectors.toList());
 
         return QuestionResponseDto.builder()
                 .questionId(question.getQuestionId())

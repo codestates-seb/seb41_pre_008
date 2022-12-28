@@ -36,13 +36,7 @@ public class CommentService {
     }
 
     public Comment createComment(Comment comment){
-        /*
-        if(comment.getQuestion().getQuestionId() > 0)
-            verifyComment1(comment);
-        else if(comment.getAnswer().getAnswerId() > 0)
-            verifyComment2(comment);
-
-         */
+        verifyComment(comment);
         return commentRepository.save(comment);
     }
 
@@ -71,7 +65,7 @@ public class CommentService {
 
         commentRepository.delete(findComment);
     }
-    private void verifyComment1(Comment comment) {
+    private void verifyComment(Comment comment) {
         // 회원이 존재하는지 확인
         memberService.findVerifiedMember(comment.getMember().getMemberId());
         // 질문이 존재하는지 확인
@@ -83,7 +77,7 @@ public class CommentService {
         // 회원이 존재하는지 확인
         memberService.findVerifiedMember(comment.getMember().getMemberId());
         // 답변이 존재하는지 확인
-        answerService.findVerifiedAnswer(comment.getAnswer().getAnswerId());
+        //answerService.findVerifiedAnswer(comment.getAnswer().getAnswerId());
     }
 
 

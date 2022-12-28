@@ -21,6 +21,6 @@ public class AnswerResponseDto {
     private Answer.AnswerStatus answerStatus;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
-    private List<CommentResponseDto> comments;
+    //private List<CommentResponseDto> comments;
 
 }
