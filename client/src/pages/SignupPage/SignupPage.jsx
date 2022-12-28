@@ -256,7 +256,6 @@ const Error = styled.div`
 const SignupPage = () => {
   const [nickName, setNickName] = useState("");
   const [isNameError, setIsNameError] = useState(false);
-  const [nameErrorMessage, setNameErrorMessage] = useState("");
   const [nameState, setNameState] = useState(false);
 
   const [email, setEmail] = useState("");
@@ -314,11 +313,9 @@ const SignupPage = () => {
     if (password === "") {
       setIsPwError(false);
     } else if (password.length >= 8 && password.match(/[a-zA-Z]+[0-9]+/)) {
-      // pwRef.current.style = "border: 1px solid rgb(186, 191, 196)";
       setIsPwError(false);
       setPwState(true);
     } else if (!password.match(/[0-9]+/) && password.match(/[a-zA-z]+/)) {
-      // pwRef.current.style = "border: 1px solid #d0393e";
       setPwErrorMessage(
         "Please add one of the following things to make your password stronger: number"
       );
@@ -354,6 +351,7 @@ const SignupPage = () => {
             console.log("이미 가입된 회원입니다.");
           }
         });
+      // axios.get("/members/1").then((res) => console.log(res.data));
     }
   };
 
@@ -412,7 +410,6 @@ const SignupPage = () => {
           <SignupForm>
             <Name>Display name</Name>
             <NameForm onChange={nickNameHandler} isNameError={isNameError} />
-            {isNameError ? <Error>{nameErrorMessage}</Error> : null}
             <Email>Email</Email>
             <EmailForm onChange={emailHandler} isEmailError={isEmailError} />
             {isEmailError ? <Error>{emailErrorMessage}</Error> : null}
