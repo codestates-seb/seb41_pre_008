@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Nav from "../Nav/Nav";
 import stacklogo from "../../img/Login/stacklogo.png";
@@ -9,6 +9,7 @@ import menu2 from "../../img/Login/menu2.png";
 import menu3 from "../../img/Login/menu3.png";
 import menu4 from "../../img/Login/menu4.png";
 import menu5 from "../../img/Login/menu5.png";
+import { useNavigate } from "react-router-dom";
 
 const HeaderWrap = styled.div`
   top: 0;
@@ -109,7 +110,20 @@ const MenuLoginImg = styled.img`
 `;
 
 const Header = () => {
-  const [isLogin, setIsLogin] = useState(true);
+  const [isLogin, setIsLogin] = useState(false);
+
+  useEffect(() => {
+    if (JSON.parse(window.localStorage.getItem("user"))) {
+      setIsLogin(JSON.parse(window.localStorage.getItem("user")).signIn);
+    } else {
+      setIsLogin(false);
+    }
+  }, []);
+
+  const logoutHandler = () => {
+    window.location.replace("/login");
+    window.localStorage.removeItem("user");
+  };
 
   return (
     <>
@@ -132,7 +146,9 @@ const Header = () => {
               <MenuLoginImg src={menu3} />
               <MenuLoginImg src={menu4} />
               <MenuLoginImg src={menu5} />
-              <LoginLogoutButton href="/logout">Log out</LoginLogoutButton>
+              <LoginLogoutButton onClick={logoutHandler}>
+                Log out
+              </LoginLogoutButton>
             </MenuHeader>
           </HeaderWrap>
           <Nav />
