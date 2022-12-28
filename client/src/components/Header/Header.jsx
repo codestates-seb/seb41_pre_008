@@ -80,6 +80,7 @@ const LoginLogoutButton = styled.a`
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
 `;
 
 const SignUpButton = styled.a`

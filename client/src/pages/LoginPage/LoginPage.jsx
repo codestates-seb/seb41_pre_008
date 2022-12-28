@@ -213,22 +213,22 @@ const LoginPage = () => {
   // }
 
   const loginHandler = () => {
-    // axios
-    //   .post("/members/signin", {
-    //     email,
-    //     password,
-    //   })
-    //   .then((res) => res.data)
-    //   .then((res) => {
-    //     if (res.signIn === true) {
-    //       window.localStorage.setItem("user", JSON.stringify(res));
-    //       navigate("/");
-    //     } else {
-    //       setErrorMessage("The email or password is incorrect.");
-    //       console.log();
-    //       setIsError(true);
-    //     }
-    //   });
+    axios
+      .post("/members/signin", {
+        email,
+        password,
+      })
+      .then((res) => res.data)
+      .then((res) => {
+        if (res.signIn === true) {
+          window.localStorage.setItem("user", JSON.stringify(res));
+          window.location.replace("/");
+        } else {
+          setErrorMessage("The email or password is incorrect.");
+          console.log();
+          setIsError(true);
+        }
+      });
   };
 
   return (

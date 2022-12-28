@@ -6,7 +6,7 @@ import icon1 from "../../img/Signup/icon1.png";
 import icon2 from "../../img/Signup/icon2.png";
 import icon3 from "../../img/Signup/icon3.png";
 import icon4 from "../../img/Signup/icon4.png";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -110,7 +110,7 @@ const FaceBookText = styled.span`
 
 const SignupForm = styled.div`
   width: 316px;
-  height: 390px;
+  height: 410px;
   background-color: white;
   border-radius: 7px;
   padding: 24px;
@@ -287,17 +287,18 @@ const SignupPage = () => {
     navigate("/login");
   };
 
-  const signUpHandler = () => {
+  useEffect(() => {
     if (nickName === "") {
-      setNameErrorMessage("Please enter a name to use");
-      setIsNameError(true);
+      setIsNameError(false);
       setNameState(false);
     } else {
       setIsNameError(false);
       setNameState(true);
     }
 
-    if (
+    if (email === "") {
+      setIsEmailError(false);
+    } else if (
       email.match(
         /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i
       )
@@ -310,7 +311,9 @@ const SignupPage = () => {
       setEmailState(false);
     }
 
-    if (password.length >= 8 && password.match(/[a-zA-Z]+[0-9]+/)) {
+    if (password === "") {
+      setIsPwError(false);
+    } else if (password.length >= 8 && password.match(/[a-zA-Z]+[0-9]+/)) {
       // pwRef.current.style = "border: 1px solid rgb(186, 191, 196)";
       setIsPwError(false);
       setPwState(true);
@@ -332,10 +335,12 @@ const SignupPage = () => {
       setIsPwError(true);
       setPwState(false);
     }
+  }, [nickName, email, password]);
 
+  const signUpHandler = () => {
     if (pwState === true && emailState === true && nameState === true) {
       axios
-        .post("https://ee12-222-109-195-131.jp.ngrok.io/members/signup", {
+        .post("/members/signup", {
           nickName,
           email,
           password,
@@ -422,7 +427,9 @@ const SignupPage = () => {
               Passwords must contain at least eight characters, including at
               least 1 letter and 1 number.
             </PasswordMessage>
-            <SignupSubmit onClick={signUpHandler}>Sign up</SignupSubmit>
+            <SignupSubmit className="signup" onClick={signUpHandler}>
+              Sign up
+            </SignupSubmit>
           </SignupForm>
           <LoginMessage>
             Don't have an account?

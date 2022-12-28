@@ -41,5 +41,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "https://5fc1-222-109-195-131.jp.ngrok.io"
+  "proxy": "http://ec2-3-36-86-114.ap-northeast-2.compute.amazonaws.com:8080"
 }
