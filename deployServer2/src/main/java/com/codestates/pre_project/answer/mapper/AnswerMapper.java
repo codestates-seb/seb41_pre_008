@@ -41,10 +41,11 @@ public interface AnswerMapper {
 
     default AnswerResponseDto answerToAnswerResponseDto(Answer answer) {
         Member member = answer.getMember();
+        /*
         List<Comment> comments = answer.getComments();
         List<CommentResponseDto> commentResponse
                 = comments.stream()
-                .filter(a -> a.getCommentType().equals(Comment.CommentType.ANSWER))
+                //.filter(a -> a.getCommentType().equals(Comment.CommentType.ANSWER))
                 .map(comment ->
                         new CommentResponseDto(comment.getCommentId(),
                                 comment.getMember().getMemberId(),
@@ -56,6 +57,8 @@ public interface AnswerMapper {
                                 comment.getModifiedAt()))
                 .collect(Collectors.toList());
 
+         */
+
 
         return AnswerResponseDto.builder()
                 .answerId(answer.getAnswerId())
@@ -66,7 +69,7 @@ public interface AnswerMapper {
                 .answerStatus(answer.getAnswerStatus())
                 .createdAt(answer.getCreatedAt())
                 .modifiedAt(answer.getModifiedAt())
-                .comments(commentResponse)
+                //.comments(commentResponse)
                 .build();
     }
     List<AnswerResponseDto> answersToAnswerResponseDtos(List<Answer> answers);

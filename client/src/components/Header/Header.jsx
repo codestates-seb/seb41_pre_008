@@ -9,7 +9,6 @@ import menu2 from "../../img/Login/menu2.png";
 import menu3 from "../../img/Login/menu3.png";
 import menu4 from "../../img/Login/menu4.png";
 import menu5 from "../../img/Login/menu5.png";
-import { useNavigate } from "react-router-dom";
 
 const HeaderWrap = styled.div`
   top: 0;

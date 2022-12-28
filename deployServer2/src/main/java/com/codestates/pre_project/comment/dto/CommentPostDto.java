@@ -7,7 +7,7 @@ import lombok.Getter;
 public class CommentPostDto {
     private long memberId;
     private long questionId;
-    private long answerId;
+    //private long answerId;
     private String content;
     //private Comment.CommentType commentType;
 }

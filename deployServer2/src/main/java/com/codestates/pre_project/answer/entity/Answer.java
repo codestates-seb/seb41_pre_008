@@ -46,8 +46,11 @@ public class Answer {
         this.member = member;
     }
 
+    /*
     @OneToMany(mappedBy = "answer")
     private List<Comment> comments = new ArrayList<>();
+
+     */
 
     @ManyToOne
     @JoinColumn(name = "QUESTION_ID")

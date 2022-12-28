@@ -3,6 +3,7 @@ package com.codestates.pre_project.comment.entity;
 import com.codestates.pre_project.answer.entity.Answer;
 import com.codestates.pre_project.member.entity.Member;
 import com.codestates.pre_project.question.entity.Question;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,6 +12,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 @Entity
@@ -28,9 +30,12 @@ public class Comment {
     @Column(nullable = false, name = "LAST_MODIFIED_AT")
     private LocalDateTime modifiedAt = LocalDateTime.now();
 
+    /*
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private CommentType commentType;
+
+     */
 
     @ManyToOne
     @JoinColumn(name = "MEMBER_ID")
@@ -52,6 +57,7 @@ public class Comment {
         }
     }
 
+    /*
     @ManyToOne   // (1)
     @JoinColumn(name = "ANSWER_ID")  // (2)
     private Answer answer;
@@ -62,6 +68,9 @@ public class Comment {
             this.answer.getComments().add(this);
         }
     }
+
+     */
+    /*
     public Comment(CommentType commentType, Member member, Question question, String content) {
         this.member = member;
         this.commentType = commentType;
@@ -95,6 +104,8 @@ public class Comment {
         QUESTION,
         ANSWER
     }
+
+     */
 
     /*
     public long getQuestionId() {

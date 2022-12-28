@@ -1,6 +1,7 @@
 package com.codestates.pre_project.question.entity;
 
 import com.codestates.pre_project.answer.entity.Answer;
+import com.codestates.pre_project.comment.dto.CommentResponseDto;
 import com.codestates.pre_project.comment.entity.Comment;
 import com.codestates.pre_project.member.entity.Member;
 import lombok.Getter;
@@ -11,6 +12,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @NoArgsConstructor
 @Getter
@@ -81,6 +83,7 @@ public class Question {
             answer.setQuestion(this);
         }
     }
+
 
 
     public enum QuestionStatus {
