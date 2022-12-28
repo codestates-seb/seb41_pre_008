@@ -38,7 +38,7 @@ export const Container = styled.section`
   flex-direction: column;
   margin: 1rem 2rem;
   .editor {
-    border: 1px solid #fe5353;
+    border: 1px solid #d0393e;
     border-radius: 5px;
     &:focus-within {
       box-shadow: 0 0 0 5px #ffecec;
@@ -55,16 +55,16 @@ export const Container = styled.section`
   .warning {
     margin: 0.5rem 0.1rem;
     font-size: 12px;
-    color: #fe5353;
+    color: #d0393e;
   }
   .editwarning {
     display: flex;
     padding: 0.5rem;
-    border: 1px solid #fe5353;
+    border: 1px solid #d0393e;
     border-radius: 3px;
     &:focus-within {
       outline: none !important;
-      border-color: #fe5353;
+      border-color: #d0393e;
       box-shadow: 0 0 0 5px #ffecec;
     }
   }
@@ -161,11 +161,7 @@ const QuestionEditPage = () => {
   };
 
   const handlePost = () => {
-    if (
-      title.length >= 15 &&
-      summary.length >= 10 &&
-      editorRef.current.getInstance().getMarkdown().length >= 30
-    )
+    if (title.length >= 15 && summary.length >= 10 && body.length >= 30)
       navigate("/questions/1");
     if (title.length >= 15) {
       setTitlePost(true);
@@ -183,11 +179,11 @@ const QuestionEditPage = () => {
       setSummaryPost(false);
       document.getElementById("summary").classList.remove("hide");
     }
-    if (editorRef.current.getInstance().getMarkdown().length >= 30) {
+    if (body.length >= 30) {
       setBodyPost(true);
       document.getElementById("editor").classList.add("hide");
     }
-    if (editorRef.current.getInstance().getMarkdown().length < 30) {
+    if (body.length < 30) {
       setBodyPost(false);
       document.getElementById("editor").classList.remove("hide");
     }
@@ -229,8 +225,7 @@ const QuestionEditPage = () => {
           ""
         ) : (
           <div className="warning">
-            Body must be at least 30 characters; you entered{" "}
-            {editorRef.current.getInstance().getMarkdown().length}.
+            Body must be at least 30 characters; you entered {body.length}.
           </div>
         )}
         <MainButton onClick={() => setIsViewer(!isViewer)}>

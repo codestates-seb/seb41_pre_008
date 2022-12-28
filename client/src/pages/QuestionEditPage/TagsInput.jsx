@@ -52,6 +52,7 @@ const TagsInputContainer = styled.div`
     border: none;
     border-radius: 3px;
     min-width: 70px;
+    height: 33px;
     &:focus {
       outline: transparent;
     }

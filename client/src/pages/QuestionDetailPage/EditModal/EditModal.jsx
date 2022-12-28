@@ -4,6 +4,7 @@ import { RiCloseFill } from "react-icons/ri";
 
 const EditIntroContainer = styled.section`
   display: flex;
+  justify-content: space-between;
   border: 1px solid #dfc257;
   border-radius: 5px;
   background-color: #fff9e3;

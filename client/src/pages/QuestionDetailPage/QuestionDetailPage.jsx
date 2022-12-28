@@ -17,7 +17,8 @@ import {
   CancelButton,
 } from "./DetailComponents/ButtonBundle";
 import EditModalCard from "./EditModal/EditModal";
-// import { useEffect } from "react";
+import { useEffect } from "react";
+
 // import axios from "axios";
 
 const data = [
@@ -78,7 +79,7 @@ const Main = styled.main`
     padding: 2rem 2rem 0 2rem;
   }
   .editor {
-    border: 1px solid #fe5353;
+    border: 1px solid #d0393e;
     border-radius: 5px;
     &:focus-within {
       box-shadow: 0 0 0 5px #ffecec;
@@ -95,7 +96,7 @@ const Main = styled.main`
   .warning {
     margin: 0.5rem 0.1rem;
     font-size: 12px;
-    color: #fe5353;
+    color: #d0393e;
   }
 `;
 
@@ -174,7 +175,7 @@ const AnswerTitle = styled.h2`
       width: 260px;
       height: 35px;
       padding: 0 0.3rem;
-      margin: 0 0.3rem;
+      margin-left: 0.3rem;
       border-color: rgb(169, 170, 178);
       border-radius: 3px;
       &:focus-within {
@@ -191,9 +192,18 @@ const BottomButtonSection = styled.div`
 `;
 
 const QuestionDetailPage = () => {
-  const [testData, setTestData] = useState(
-    data.sort((a, b) => a.vote - b.vote)
-  );
+  const [testData, setTestData] = useState([]);
+  useEffect(() => {
+    setTestData(data.sort((a, b) => a.vote - b.vote).reverse());
+    if (localStorage.getItem("state") === "vote") {
+      console.log("vote");
+      setTestData(data.sort((a, b) => a.vote - b.vote).reverse());
+    }
+    if (localStorage.getItem("state") === "id") {
+      console.log("id");
+      setTestData(data.sort((a, b) => a.id - b.id));
+    }
+  }, [testData]);
 
   const navigate = useNavigate();
   const editorRef = useRef();
@@ -203,7 +213,7 @@ const QuestionDetailPage = () => {
   const [body, setBody] = useState("");
   const [bodyPost, setBodyPost] = useState(true);
   const handlePost = () => {
-    if (editorRef.current.getInstance().getMarkdown().length >= 30) {
+    if (body.length >= 30) {
       setBodyPost(true);
       document.getElementById("editor").classList.add("hide");
       // 추가해야 할 내용: 서버에 post 요청 보내기
@@ -218,10 +228,9 @@ const QuestionDetailPage = () => {
           user: "TaTa",
         },
       ]);
-      // window.location.reload();
-      navigate("/questions/1");
-    }
-    if (editorRef.current.getInstance().getMarkdown().length < 30) {
+      window.location.reload();
+      // navigate("/questions/1");
+    } else {
       setBodyPost(false);
       document.getElementById("editor").classList.remove("hide");
     }
@@ -243,7 +252,7 @@ const QuestionDetailPage = () => {
 
   // useEffect(() => {
   //   setTestData(data);
-  // }, [testData]);
+  // }, [testData]);s
 
   const onChange = () => {
     setBody(editorRef.current.getInstance().getMarkdown());
@@ -253,34 +262,37 @@ const QuestionDetailPage = () => {
   const handleHideShareModal = (e) => {
     e.stopPropagation();
     document.getElementById("modal").classList.add("hide");
-    console.log(document.getElementById("modal").classList);
   };
 
   const handleShowShareModal = (e) => {
     e.stopPropagation();
     document.getElementById("modal").classList.remove("hide");
-    console.log(document.getElementById("modal").classList);
   };
 
   const handleEditModal = () => {
     setIsEditModal(!isEditModal);
   };
 
-  const newData = testData;
-
   const changeValue = (e) => {
     console.log(typeof e.target.value);
-    if (e.target.value === "1") {
-      // const newData = testData;
-      setTestData(newData.sort((a, b) => a.vote - b.vote));
-      // window.location.reload();
-    } else if (e.target.value === "2") {
-      // const newData = testData;
-      setTestData(newData.sort((a, b) => a.id - b.id));
-      // window.location.reload();
+    if (e.target.value === "vote") {
+      localStorage.setItem("state", "vote");
     }
-    console.log(testData);
+    if (e.target.value === "id") {
+      localStorage.setItem("state", "id");
+    }
+    window.location.reload();
   };
+
+  // const handleSortVote = () => {
+  //   // const newData = testData;
+  //   localStorage.setItem("state", "vote");
+  //   window.location.reload();
+  // };
+  // const handleSortId = () => {
+  //   localStorage.setItem("state", "id");
+  //   window.location.reload();
+  // };
 
   return (
     <Main onClick={handleHideShareModal}>
@@ -349,9 +361,14 @@ const QuestionDetailPage = () => {
           {testData.length} Answer
           <div>
             Sorted by:
-            <select name="answersort" id="body" onChange={changeValue}>
-              <option value="1">Highest score (default)</option>
-              <option value="2">Trending (recent votes count more)</option>
+            <select
+              name="answersort"
+              id="body"
+              onChange={changeValue}
+              value={localStorage.getItem("state")}
+            >
+              <option value="vote">Highest score (default)</option>
+              <option value="id">Trending (recent votes count more)</option>
               <option value="3">Date modified (newest first)</option>
               <option value="4">Date created (oldest first)</option>
             </select>
@@ -389,8 +406,7 @@ const QuestionDetailPage = () => {
           ""
         ) : (
           <div className="warning">
-            Body must be at least 30 characters; you entered{" "}
-            {editorRef.current.getInstance().getMarkdown().length}.
+            Body must be at least 30 characters; you entered {body.length}.
           </div>
         )}
 

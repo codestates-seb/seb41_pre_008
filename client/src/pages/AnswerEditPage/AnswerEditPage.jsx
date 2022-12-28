@@ -23,7 +23,7 @@ const Main = styled.main`
   min-width: 500px;
   width: 750px;
   .editor {
-    border: 1px solid #fe5353;
+    border: 1px solid #d0393e;
     border-radius: 5px;
     &:focus-within {
       box-shadow: 0 0 0 5px #ffecec;
@@ -58,11 +58,7 @@ const AnswerEditPage = () => {
   };
 
   const handlePost = () => {
-    if (
-      summary.length >= 10 &&
-      editorRef.current.getInstance().getMarkdown().length >= 30
-    )
-      navigate("/questions/1");
+    if (summary.length >= 10 && body.length >= 30) navigate("/questions/1");
     if (summary.length >= 10) {
       setSummaryPost(true);
       document.getElementById("summary").classList.add("hide");
@@ -71,11 +67,11 @@ const AnswerEditPage = () => {
       setSummaryPost(false);
       document.getElementById("summary").classList.remove("hide");
     }
-    if (editorRef.current.getInstance().getMarkdown().length >= 30) {
+    if (body.length >= 30) {
       setBodyPost(true);
       document.getElementById("editor").classList.add("hide");
     }
-    if (editorRef.current.getInstance().getMarkdown().length < 30) {
+    if (body.length < 30) {
       setBodyPost(false);
       document.getElementById("editor").classList.remove("hide");
     }
@@ -113,8 +109,7 @@ const AnswerEditPage = () => {
           ""
         ) : (
           <div className="warning">
-            Body must be at least 30 characters; you entered{" "}
-            {editorRef.current.getInstance().getMarkdown().length}.
+            Body must be at least 30 characters; you entered {body.length}.
           </div>
         )}
         <MainButton onClick={() => setIsViewer(!isViewer)}>
