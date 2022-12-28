@@ -2,6 +2,7 @@ package com.codestates.pre_project.tag.entity;
 
 import com.codestates.pre_project.question.entity.Question;
 import com.codestates.pre_project.question.entity.QuestionTag;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -45,6 +46,11 @@ public class Tag {
         if (questionTag.getTag() != this) {
             questionTag.setTag(this);
         }
+    }
+
+    public Tag(String name , String content){
+        this.name = name;
+        this.content = content;
     }
 }
 
