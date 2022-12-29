@@ -4,11 +4,8 @@ import { IoMdBriefcase } from "react-icons/io";
 import { IoEarth } from "react-icons/io5";
 
 const NavContainer = styled.div`
-  position: fixed;
-  top: 53px;
   width: 164px;
   height: 100vh;
-  margin-left: 50px;
   padding-top: 24px;
   border-right: 1px solid #d6d9dc;
   background-color: transparent;
@@ -34,8 +31,8 @@ const Navbar = styled.nav`
     &:hover {
       color: #000;
     }
-  }             
-  
+  }
+
   .active {
     font-weight: bold;
     color: #000;
@@ -72,7 +69,7 @@ const Navbar = styled.nav`
     }
   }
 `;
-  
+
 const Nav = () => {
   let location = window.location.pathname;
   if (
@@ -85,16 +82,21 @@ const Nav = () => {
   return (
     <NavContainer>
       <Navbar>
-          <a href="/" className={location === '/' ? "homeActive" : "homeMenu"}>
-            Home
-          </a>
+        <a href="/" className={location === "/" ? "homeActive" : "homeMenu"}>
+          Home
+        </a>
         <ul>
           <li className="publicMenu">
             PUBLIC
             <ul>
               <li>
-                <a href="/questions" className={location === "/questions" ? "active" : null}>
-                  <span><IoEarth /></span>
+                <a
+                  href="/questions"
+                  className={location === "/questions" ? "active" : null}
+                >
+                  <span>
+                    <IoEarth />
+                  </span>
                   <span>Questions</span>
                 </a>
               </li>
@@ -103,19 +105,19 @@ const Nav = () => {
                   <span></span>
                   <span>Tags</span>
                 </a>
-                </li>
+              </li>
               <li>
                 <a href="#none">
                   <span></span>
                   <span>Users</span>
                 </a>
-                </li>
+              </li>
               <li>
                 <a href="#none">
                   <span></span>
                   <span>Companies</span>
                 </a>
-                </li>
+              </li>
             </ul>
           </li>
           <li className="collectivesMenu">
@@ -123,7 +125,9 @@ const Nav = () => {
             <ul>
               <li>
                 <a href="#none">
-                  <span><MdStars color="#f48225" fontSize="13px" /></span>
+                  <span>
+                    <MdStars color="#f48225" fontSize="13px" />
+                  </span>
                   <span>Explore Collectives</span>
                 </a>
               </li>
@@ -134,7 +138,9 @@ const Nav = () => {
             <ul>
               <li>
                 <a href="#none">
-                  <span><IoMdBriefcase color="#f48225" fontSize="13px" /></span>
+                  <span>
+                    <IoMdBriefcase color="#f48225" fontSize="13px" />
+                  </span>
                   <span>Create free Team</span>
                 </a>
               </li>

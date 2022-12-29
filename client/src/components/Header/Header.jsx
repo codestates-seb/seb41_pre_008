@@ -121,7 +121,7 @@ const Header = () => {
   }, []);
 
   const logoutHandler = () => {
-    window.location.replace("/login");
+    window.location.replace("/");
     window.localStorage.removeItem("user");
   };
 
@@ -151,7 +151,6 @@ const Header = () => {
               </LoginLogoutButton>
             </MenuHeader>
           </HeaderWrap>
-          <Nav />
         </>
       ) : (
         <>
@@ -173,7 +172,6 @@ const Header = () => {
               <SignUpButton href="/signup">Sign up</SignUpButton>
             </MenuHeader>
           </HeaderWrap>
-          <Nav />
         </>
       )}
     </>

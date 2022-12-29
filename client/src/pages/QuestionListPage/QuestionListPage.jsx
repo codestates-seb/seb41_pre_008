@@ -183,7 +183,6 @@ const Section = styled.div`
 `;
 
 const QuestionListPage = () => {
-
   return (
     <Main>
       <Section>
@@ -228,7 +227,9 @@ const QuestionListPage = () => {
             </ul>
           </div>
           <div className="questionInfo">
-            <a href='/questions/:questionId' className='questionTitle'>Question Title</a>
+            <a href="/questions/:questionId" className="questionTitle">
+              Question Title
+            </a>
             <div className="questionSub">
               <div className="tags">
                 <a href="/">tag</a>

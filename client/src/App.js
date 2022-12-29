@@ -12,6 +12,7 @@ import QuestionListPage from "./pages/QuestionListPage/QuestionListPage";
 import AnswerEditPage from "./pages/AnswerEditPage/AnswerEditPage";
 import Aside from "./components/Aside/Aside";
 import styled from "styled-components";
+import Nav from "./components/Nav/Nav";
 
 const FullContainer = styled.div`
   margin: 0 auto;
@@ -19,7 +20,9 @@ const FullContainer = styled.div`
 
 const Container = styled.div`
   display: flex;
-  padding: 74px 0 0 214px;
+  padding: 75px 0 0 0px;
+  justify-content: center;
+  min-width: 1264px;
 `;
 
 const router = createBrowserRouter([
@@ -80,6 +83,7 @@ function App() {
     <FullContainer>
       <Header />
       <Main>
+        <Nav />
         <RouterProvider router={router} />
         <Aside />
       </Main>
