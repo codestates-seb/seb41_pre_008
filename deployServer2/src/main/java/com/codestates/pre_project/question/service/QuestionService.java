@@ -132,16 +132,14 @@ public class QuestionService {
 
         return questionRepository.save(question);
     }
-    public int upQuestion(long questionId){
+    public Question upQuestion(long questionId){
         Question question = findVerifiedQuestion(questionId);
         question.setLikes(question.getLikes()+1);
-        Question saved = questionRepository.save(question);
-        return saved.getLikes();
+        return questionRepository.save(question);
     }
-    public int downQuestion(long questionId){
+    public Question downQuestion(long questionId){
         Question question = findVerifiedQuestion(questionId);
         question.setLikes(question.getLikes()-1);
-        Question saved = questionRepository.save(question);
-        return saved.getLikes();
+        return questionRepository.save(question);
     }
 }

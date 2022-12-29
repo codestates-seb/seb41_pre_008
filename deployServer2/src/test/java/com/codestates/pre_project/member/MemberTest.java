@@ -194,9 +194,9 @@ public class MemberTest {
                         ),
                         requestFields(
                                 List.of(
-                                        fieldWithPath("memberId").type(JsonFieldType.NUMBER).description("회원 ID"),
-                                        fieldWithPath("email").type(JsonFieldType.STRING).description("회원 이메일"),
-                                        fieldWithPath("password").type(JsonFieldType.STRING).description("회원 비밀번호")
+                                        fieldWithPath("memberId").type(JsonFieldType.NUMBER).description("회원 ID").ignored(),
+                                        fieldWithPath("email").type(JsonFieldType.STRING).description("회원 이메일").optional(),
+                                        fieldWithPath("password").type(JsonFieldType.STRING).description("회원 비밀번호").optional()
                                 )
                         ),
                         responseFields(
