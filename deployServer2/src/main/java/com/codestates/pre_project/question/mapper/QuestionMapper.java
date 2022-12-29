@@ -142,6 +142,7 @@ public interface QuestionMapper {
                 .title(question.getTitle())
                 .problemContent(question.getProblemContent())
                 .expectContent(question.getExpectContent())
+                .likes(question.getLikes()) // 12.29 pm 1:31 추가
                 .questionStatus(question.getQuestionStatus())
                 .questionTags(questionTags)
                 .createdAt(question.getCreatedAt())
