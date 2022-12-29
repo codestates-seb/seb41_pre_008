@@ -1,5 +1,6 @@
 package com.codestates.pre_project.question;
 
+import com.codestates.pre_project.answer.dto.AnswerLikesResponseDto;
 import com.codestates.pre_project.answer.dto.AnswerPostDto;
 import com.codestates.pre_project.answer.dto.AnswerResponseDto;
 import com.codestates.pre_project.answer.entity.Answer;
@@ -105,7 +106,7 @@ public class QuestionControllerRestDocsTest {
         QuestionResponseDto responseDto =
                 new QuestionResponseDto
                         (1L, 1L, "nickName", "title", "problemContent",
-                                "expectContent", Question.QuestionStatus.QUESTION_NOTSELECT, questionTagResponseDtos,
+                                "expectContent", 0,Question.QuestionStatus.QUESTION_NOTSELECT, questionTagResponseDtos,
                                 LocalDateTime.now(), LocalDateTime.now(), answerResponseDtos);
 
         // willReturn()이 최소 null은 아니어야 한다.
@@ -157,6 +158,7 @@ public class QuestionControllerRestDocsTest {
                                         fieldWithPath("title").type(JsonFieldType.STRING).description("질문 제목"),
                                         fieldWithPath("problemContent").type(JsonFieldType.STRING).description("질문 내용"),
                                         fieldWithPath("expectContent").type(JsonFieldType.STRING).description("원하는 해결 방향"),
+                                        fieldWithPath("likes").type(JsonFieldType.NUMBER).description("좋아요 수"),
                                         fieldWithPath("questionStatus").type(JsonFieldType.STRING).description("질문 상태 : 채택된 답안이 있는 문의/ 채택된 답안이 없는 문의"),
                                         fieldWithPath("questionTags").type(JsonFieldType.ARRAY).description("질문과 관련된 태그들"),
                                         fieldWithPath("questionTags[].tagId").type(JsonFieldType.NUMBER).description("태그 식별자"),
@@ -177,6 +179,59 @@ public class QuestionControllerRestDocsTest {
                                 )
                         )
                 ));   // =========== (2) API 문서화 관련 코드 끝========
+    }
+
+    @Test
+    public void upQuestionLikesTes() throws Exception {
+        long questionId = 1L;
+        QuestionLikesResponseDto response = new QuestionLikesResponseDto();
+        response.setLikes(1);
+
+        given(questionService.upQuestion(Mockito.anyLong())).willReturn(new Question());
+        given(mapper.questionToQuestionLikesResponseDto(Mockito.any(Question.class))).willReturn(response);
+
+        ResultActions actions =
+                mockMvc.perform(
+                        post("/questions/up/{question-id}", questionId)
+                );
+        actions
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("likes").value(response.getLikes()))
+                .andDo(document("up-question",
+                        getDocumentResponse(),
+                        pathParameters(
+                                parameterWithName("question-id").description("질문 식별자")
+                        ),
+                        responseFields(
+                                fieldWithPath("likes").type(JsonFieldType.NUMBER).description("좋아요 수")
+                        )
+                ));
+    }
+    @Test
+    public void downQuestionLikesTes() throws Exception {
+        long questionId = 1L;
+        QuestionLikesResponseDto response = new QuestionLikesResponseDto();
+        response.setLikes(1);
+
+        given(questionService.downQuestion(Mockito.anyLong())).willReturn(new Question());
+        given(mapper.questionToQuestionLikesResponseDto(Mockito.any(Question.class))).willReturn(response);
+
+        ResultActions actions =
+                mockMvc.perform(
+                        post("/questions/down/{question-id}", questionId)
+                );
+        actions
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("likes").value(response.getLikes()))
+                .andDo(document("down-question",
+                        getDocumentResponse(),
+                        pathParameters(
+                                parameterWithName("question-id").description("질문 식별자")
+                        ),
+                        responseFields(
+                                fieldWithPath("likes").type(JsonFieldType.NUMBER).description("좋아요 수")
+                        )
+                ));
     }
     @Test
     public void patchQuestionTest() throws Exception {
@@ -224,7 +279,7 @@ public class QuestionControllerRestDocsTest {
         QuestionResponseDto responseDto =
                 new QuestionResponseDto
                         (1L, 1L, "nickName", "title", "problemContent",
-                                "expectContent", Question.QuestionStatus.QUESTION_NOTSELECT, questionTagResponseDtos,
+                                "expectContent", 0, Question.QuestionStatus.QUESTION_NOTSELECT, questionTagResponseDtos,
                                 LocalDateTime.now(), LocalDateTime.now(), answerResponseDtos);
 
 
@@ -258,7 +313,7 @@ public class QuestionControllerRestDocsTest {
                         ),
                         requestFields(
                                 List.of(
-                                        fieldWithPath("questionId").type(JsonFieldType.NUMBER).description("질문 식별자"),
+                                        fieldWithPath("questionId").type(JsonFieldType.NUMBER).description("질문 식별자").ignored(),
                                         fieldWithPath("title").type(JsonFieldType.STRING).description("질문 제목"),
                                         fieldWithPath("problemContent").type(JsonFieldType.STRING).description("질문 내용"),
                                         fieldWithPath("expectContent").type(JsonFieldType.STRING).description("원하는 해결 방향"),
@@ -276,6 +331,7 @@ public class QuestionControllerRestDocsTest {
                                         fieldWithPath("title").type(JsonFieldType.STRING).description("질문 제목"),
                                         fieldWithPath("problemContent").type(JsonFieldType.STRING).description("질문 내용"),
                                         fieldWithPath("expectContent").type(JsonFieldType.STRING).description("원하는 해결 방향"),
+                                        fieldWithPath("likes").type(JsonFieldType.NUMBER).description("좋아요 수"),
                                         fieldWithPath("questionStatus").type(JsonFieldType.STRING).description("질문 상태 : 채택된 답안이 있는 문의/ 채택된 답안이 없는 문의"),
                                         fieldWithPath("questionTags").type(JsonFieldType.ARRAY).description("질문과 관련된 태그들"),
                                         fieldWithPath("questionTags[].tagId").type(JsonFieldType.NUMBER).description("태그 식별자"),
@@ -332,7 +388,7 @@ public class QuestionControllerRestDocsTest {
         QuestionResponseDto response =
                 new QuestionResponseDto
                         (1L, 1L, "nickName", "title", "problemContent",
-                                "expectContent", Question.QuestionStatus.QUESTION_NOTSELECT, questionTagResponseDtos,
+                                "expectContent", 0,Question.QuestionStatus.QUESTION_NOTSELECT, questionTagResponseDtos,
                                 LocalDateTime.now(), LocalDateTime.now(), answerResponseDtos);
 
         // Stubbing by Mockito
@@ -362,6 +418,7 @@ public class QuestionControllerRestDocsTest {
                                         fieldWithPath("title").type(JsonFieldType.STRING).description("질문 제목"),
                                         fieldWithPath("problemContent").type(JsonFieldType.STRING).description("질문 내용"),
                                         fieldWithPath("expectContent").type(JsonFieldType.STRING).description("원하는 해결 방향"),
+                                        fieldWithPath("likes").type(JsonFieldType.NUMBER).description("좋아요 수"),
                                         fieldWithPath("questionStatus").type(JsonFieldType.STRING).description("질문 상태 : 채택된 답안이 있는 문의/ 채택된 답안이 없는 문의"),
                                         fieldWithPath("questionTags").type(JsonFieldType.ARRAY).description("질문과 관련된 태그들"),
                                         fieldWithPath("questionTags[].tagId").type(JsonFieldType.NUMBER).description("태그 식별자"),
@@ -419,13 +476,13 @@ public class QuestionControllerRestDocsTest {
         QuestionResponseDto response1 =
                 new QuestionResponseDto
                         (1L, 1L, "nickName", "title", "problemContent",
-                                "expectContent", Question.QuestionStatus.QUESTION_NOTSELECT, questionTagResponseDtos,
+                                "expectContent", 0, Question.QuestionStatus.QUESTION_NOTSELECT, questionTagResponseDtos,
                                 LocalDateTime.now(), LocalDateTime.now(), answerResponseDtos);
 
         QuestionResponseDto response2 =
                 new QuestionResponseDto
                         (2L, 2L, "nickName2", "title2", "problemContent2",
-                                "expectContent2", Question.QuestionStatus.QUESTION_NOTSELECT, questionTagResponseDtos,
+                                "expectContent2", 0,Question.QuestionStatus.QUESTION_NOTSELECT, questionTagResponseDtos,
                                 LocalDateTime.now(), LocalDateTime.now(), answerResponseDtos);
 
         Page<Question> pageQuestions =
@@ -463,6 +520,7 @@ public class QuestionControllerRestDocsTest {
                                         fieldWithPath("data[].title").type(JsonFieldType.STRING).description("질문 제목"),
                                         fieldWithPath("data[].problemContent").type(JsonFieldType.STRING).description("질문 내용"),
                                         fieldWithPath("data[].expectContent").type(JsonFieldType.STRING).description("원하는 해결 방향"),
+                                        fieldWithPath("data[].likes").type(JsonFieldType.NUMBER).description("좋아요 수"),
                                         fieldWithPath("data[].questionStatus").type(JsonFieldType.STRING).description("질문 상태 : 채택된 답안이 있는 문의/ 채택된 답안이 없는 문의"),
                                         fieldWithPath("data[].questionTags").type(JsonFieldType.ARRAY).description("질문과 관련된 태그들"),
                                         fieldWithPath("data[].questionTags[].tagId").type(JsonFieldType.NUMBER).description("태그 식별자"),

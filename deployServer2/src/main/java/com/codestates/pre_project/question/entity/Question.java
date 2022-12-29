@@ -27,13 +27,13 @@ public class Question {
     private String title;
 
     @Column(nullable = false)
-    private int likes = 0;
-
-    @Column(nullable = false)
     private String problemContent;
 
     @Column(nullable = false)
     private String expectContent;
+
+    @Column(nullable = false)
+    private int likes = 0;
 
     @Enumerated(value = EnumType.STRING)
     @Column(length = 20, nullable = false)

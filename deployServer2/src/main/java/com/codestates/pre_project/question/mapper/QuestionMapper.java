@@ -5,10 +5,7 @@ import com.codestates.pre_project.answer.entity.Answer;
 import com.codestates.pre_project.comment.dto.CommentResponseDto;
 import com.codestates.pre_project.comment.entity.Comment;
 import com.codestates.pre_project.member.entity.Member;
-import com.codestates.pre_project.question.dto.QuestionPatchDto;
-import com.codestates.pre_project.question.dto.QuestionPostDto;
-import com.codestates.pre_project.question.dto.QuestionResponseDto;
-import com.codestates.pre_project.question.dto.QuestionTagResponseDto;
+import com.codestates.pre_project.question.dto.*;
 import com.codestates.pre_project.question.entity.Question;
 import com.codestates.pre_project.question.entity.QuestionTag;
 import com.codestates.pre_project.tag.entity.Tag;
@@ -133,6 +130,7 @@ public interface QuestionMapper {
                                         answer.getMember().getNickName(),
                                         answer.getQuestion().getQuestionId(),
                                         answer.getAnswerContent(),
+                                        answer.getLikes(),
                                         answer.getAnswerStatus(),
                                         answer.getCreatedAt(),
                                         answer.getModifiedAt())).collect(Collectors.toList());
@@ -224,4 +222,5 @@ public interface QuestionMapper {
     @Mapping(source = "tag.name", target = "name")
     QuestionTagResponseDto questionTagToQuestionTagResponseDto(QuestionTag questionTag);
 
+    QuestionLikesResponseDto questionToQuestionLikesResponseDto(Question question);
 }

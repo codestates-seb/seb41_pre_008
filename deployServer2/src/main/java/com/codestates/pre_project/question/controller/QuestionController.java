@@ -56,17 +56,15 @@ public class QuestionController {
 
     @PostMapping("/up/{question-id}")
     public ResponseEntity upQuestion(@PathVariable("question-id")@Positive long questionId){
-        int likes = questionService.upQuestion(questionId);
-        QuestionLikesResponseDto response = new QuestionLikesResponseDto();
-        response.setLikes(likes);
+        QuestionLikesResponseDto response = questionMapper.
+                questionToQuestionLikesResponseDto(questionService.upQuestion(questionId));
         return new ResponseEntity(response, HttpStatus.OK);
     }
 
     @PostMapping("/down/{question-id}")
     public ResponseEntity downQuestion(@PathVariable("question-id")@Positive long questionId){
-        int likes = questionService.downQuestion(questionId);
-        QuestionLikesResponseDto response = new QuestionLikesResponseDto();
-        response.setLikes(likes);
+        QuestionLikesResponseDto response = questionMapper.
+                questionToQuestionLikesResponseDto(questionService.downQuestion(questionId));
         return new ResponseEntity(response, HttpStatus.OK);
     }
 

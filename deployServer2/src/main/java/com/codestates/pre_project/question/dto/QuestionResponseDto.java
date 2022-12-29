@@ -23,6 +23,7 @@ public class QuestionResponseDto {
     private String title;
     private String problemContent;
     private String expectContent;
+    private int likes;
     private Question.QuestionStatus questionStatus;
     private List<QuestionTagResponseDto> questionTags;
     private LocalDateTime createdAt;
