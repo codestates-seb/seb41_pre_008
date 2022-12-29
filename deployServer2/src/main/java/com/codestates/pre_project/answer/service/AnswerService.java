@@ -78,18 +78,17 @@ public class AnswerService {
         }
     }
 
-    public int upAnswer(long answerId){
+    public Answer upAnswer(long answerId){
         Answer answer = findVerifiedAnswer(answerId);
         answer.setLikes(answer.getLikes()+1);
-        Answer saved = answerRepository.save(answer);
-        return saved.getLikes();
+        return answerRepository.save(answer);
+
     }
 
-    public int downAnswer(long answerId){
+    public Answer downAnswer(long answerId){
         Answer answer = findVerifiedAnswer(answerId);
         answer.setLikes(answer.getLikes()-1);
-        Answer saved = answerRepository.save(answer);
-        return saved.getLikes();
+        return answerRepository.save(answer);
     }
 
 }

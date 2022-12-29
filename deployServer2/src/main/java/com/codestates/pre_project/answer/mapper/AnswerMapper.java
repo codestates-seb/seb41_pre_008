@@ -1,5 +1,6 @@
 package com.codestates.pre_project.answer.mapper;
 
+import com.codestates.pre_project.answer.dto.AnswerLikesResponseDto;
 import com.codestates.pre_project.answer.dto.AnswerPatchDto;
 import com.codestates.pre_project.answer.dto.AnswerPostDto;
 import com.codestates.pre_project.answer.dto.AnswerResponseDto;
@@ -66,6 +67,7 @@ public interface AnswerMapper {
                 .nickName(answer.getMember().getNickName())
                 .questionId(answer.getQuestion().getQuestionId())
                 .answerContent(answer.getAnswerContent())
+                .likes(answer.getLikes())
                 .answerStatus(answer.getAnswerStatus())
                 .createdAt(answer.getCreatedAt())
                 .modifiedAt(answer.getModifiedAt())
@@ -73,4 +75,6 @@ public interface AnswerMapper {
                 .build();
     }
     List<AnswerResponseDto> answersToAnswerResponseDtos(List<Answer> answers);
+
+    AnswerLikesResponseDto answerToAnswerLikesResponseDto(Answer answer);
 }

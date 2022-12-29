@@ -18,6 +18,7 @@ public class AnswerResponseDto {
     private String nickName;
     private long questionId;
     private String answerContent;
+    private int likes;
     private Answer.AnswerStatus answerStatus;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;

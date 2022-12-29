@@ -83,11 +83,11 @@ public class QuestionControllerRestDocsTest {
 
         AnswerResponseDto responseDto1 =
                 new AnswerResponseDto
-                        (1L, 1L, "nickName", 1L, "answerContent", Answer.AnswerStatus.ANSWER_NOTSELECT, LocalDateTime.now(), LocalDateTime.now());
+                        (1L, 1L, "nickName", 1L, "answerContent", 0, Answer.AnswerStatus.ANSWER_NOTSELECT, LocalDateTime.now(), LocalDateTime.now());
 
         AnswerResponseDto responseDto2 =
                 new AnswerResponseDto
-                        (1L, 1L, "nickName", 1L, "answerContent", Answer.AnswerStatus.ANSWER_NOTSELECT, LocalDateTime.now(), LocalDateTime.now());
+                        (1L, 1L, "nickName", 1L, "answerContent",0, Answer.AnswerStatus.ANSWER_NOTSELECT, LocalDateTime.now(), LocalDateTime.now());
 
         List<AnswerResponseDto> answerResponseDtos= new ArrayList<>();
         answerResponseDtos.add(responseDto1);
@@ -169,6 +169,7 @@ public class QuestionControllerRestDocsTest {
                                         fieldWithPath("answers[].nickName").type(JsonFieldType.STRING).description("회원 이름"),
                                         fieldWithPath("answers[].questionId").type(JsonFieldType.NUMBER).description("질문 식별자"),
                                         fieldWithPath("answers[].answerContent").type(JsonFieldType.STRING).description("답변 내용"),
+                                        fieldWithPath("answers[].likes").type(JsonFieldType.NUMBER).description("좋아요 수"),
                                         fieldWithPath("answers[].answerStatus").type(JsonFieldType.STRING).description("답변 상태"),
                                         fieldWithPath("answers[].createdAt").type(JsonFieldType.STRING).description("답변 생성 시간"),
                                         fieldWithPath("answers[].modifiedAt").type(JsonFieldType.STRING).description("답변 수정 시간")
@@ -201,11 +202,11 @@ public class QuestionControllerRestDocsTest {
 
         AnswerResponseDto responseDto1 =
                 new AnswerResponseDto
-                        (1L, 1L, "nickName", 1L, "answerContent", Answer.AnswerStatus.ANSWER_NOTSELECT, LocalDateTime.now(), LocalDateTime.now());
+                        (1L, 1L, "nickName", 1L, "answerContent",0, Answer.AnswerStatus.ANSWER_NOTSELECT, LocalDateTime.now(), LocalDateTime.now());
 
         AnswerResponseDto responseDto2 =
                 new AnswerResponseDto
-                        (1L, 1L, "nickName", 1L, "answerContent", Answer.AnswerStatus.ANSWER_NOTSELECT, LocalDateTime.now(), LocalDateTime.now());
+                        (1L, 1L, "nickName", 1L, "answerContent", 0,Answer.AnswerStatus.ANSWER_NOTSELECT, LocalDateTime.now(), LocalDateTime.now());
 
         List<AnswerResponseDto> answerResponseDtos= new ArrayList<>();
         answerResponseDtos.add(responseDto1);
@@ -287,6 +288,7 @@ public class QuestionControllerRestDocsTest {
                                         fieldWithPath("answers[].nickName").type(JsonFieldType.STRING).description("회원 이름"),
                                         fieldWithPath("answers[].questionId").type(JsonFieldType.NUMBER).description("질문 식별자"),
                                         fieldWithPath("answers[].answerContent").type(JsonFieldType.STRING).description("답변 내용"),
+                                        fieldWithPath("answers[].likes").type(JsonFieldType.NUMBER).description("좋아요 수"),
                                         fieldWithPath("answers[].answerStatus").type(JsonFieldType.STRING).description("답변 상태"),
                                         fieldWithPath("answers[].createdAt").type(JsonFieldType.STRING).description("답변 생성 시간"),
                                         fieldWithPath("answers[].modifiedAt").type(JsonFieldType.STRING).description("답변 수정 시간")
@@ -308,11 +310,11 @@ public class QuestionControllerRestDocsTest {
 
         AnswerResponseDto responseDto1 =
                 new AnswerResponseDto
-                        (1L, 1L, "nickName", 1L, "answerContent", Answer.AnswerStatus.ANSWER_NOTSELECT, LocalDateTime.now(), LocalDateTime.now());
+                        (1L, 1L, "nickName", 1L, "answerContent",0, Answer.AnswerStatus.ANSWER_NOTSELECT, LocalDateTime.now(), LocalDateTime.now());
 
         AnswerResponseDto responseDto2 =
                 new AnswerResponseDto
-                        (1L, 1L, "nickName", 1L, "answerContent", Answer.AnswerStatus.ANSWER_NOTSELECT, LocalDateTime.now(), LocalDateTime.now());
+                        (1L, 1L, "nickName", 1L, "answerContent",0, Answer.AnswerStatus.ANSWER_NOTSELECT, LocalDateTime.now(), LocalDateTime.now());
 
         List<AnswerResponseDto> answerResponseDtos= new ArrayList<>();
         answerResponseDtos.add(responseDto1);
@@ -372,6 +374,7 @@ public class QuestionControllerRestDocsTest {
                                         fieldWithPath("answers[].nickName").type(JsonFieldType.STRING).description("회원 이름"),
                                         fieldWithPath("answers[].questionId").type(JsonFieldType.NUMBER).description("질문 식별자"),
                                         fieldWithPath("answers[].answerContent").type(JsonFieldType.STRING).description("답변 내용"),
+                                        fieldWithPath("answers[].likes").type(JsonFieldType.NUMBER).description("좋아요 수"),
                                         fieldWithPath("answers[].answerStatus").type(JsonFieldType.STRING).description("답변 상태"),
                                         fieldWithPath("answers[].createdAt").type(JsonFieldType.STRING).description("답변 생성 시간"),
                                         fieldWithPath("answers[].modifiedAt").type(JsonFieldType.STRING).description("답변 수정 시간")
@@ -394,11 +397,11 @@ public class QuestionControllerRestDocsTest {
 
         AnswerResponseDto responseDto1 =
                 new AnswerResponseDto
-                        (1L, 1L, "nickName", 1L, "answerContent", Answer.AnswerStatus.ANSWER_NOTSELECT, LocalDateTime.now(), LocalDateTime.now());
+                        (1L, 1L, "nickName", 1L, "answerContent", 0,Answer.AnswerStatus.ANSWER_NOTSELECT, LocalDateTime.now(), LocalDateTime.now());
 
         AnswerResponseDto responseDto2 =
                 new AnswerResponseDto
-                        (1L, 1L, "nickName", 1L, "answerContent", Answer.AnswerStatus.ANSWER_NOTSELECT, LocalDateTime.now(), LocalDateTime.now());
+                        (1L, 1L, "nickName", 1L, "answerContent",0, Answer.AnswerStatus.ANSWER_NOTSELECT, LocalDateTime.now(), LocalDateTime.now());
 
         List<AnswerResponseDto> answerResponseDtos= new ArrayList<>();
         answerResponseDtos.add(responseDto1);
@@ -472,6 +475,7 @@ public class QuestionControllerRestDocsTest {
                                         fieldWithPath("data[].answers[].nickName").type(JsonFieldType.STRING).description("회원 이름"),
                                         fieldWithPath("data[].answers[].questionId").type(JsonFieldType.NUMBER).description("질문 식별자"),
                                         fieldWithPath("data[].answers[].answerContent").type(JsonFieldType.STRING).description("답변 내용"),
+                                        fieldWithPath("data[].answers[].likes").type(JsonFieldType.NUMBER).description("좋아요 수"),
                                         fieldWithPath("data[].answers[].answerStatus").type(JsonFieldType.STRING).description("답변 상태"),
                                         fieldWithPath("data[].answers[].createdAt").type(JsonFieldType.STRING).description("답변 생성 시간"),
                                         fieldWithPath("data[].answers[].modifiedAt").type(JsonFieldType.STRING).description("답변 수정 시간"),

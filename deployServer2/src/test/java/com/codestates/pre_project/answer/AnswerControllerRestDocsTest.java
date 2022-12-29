@@ -1,6 +1,7 @@
 package com.codestates.pre_project.answer;
 
 import com.codestates.pre_project.answer.controller.AnswerController;
+import com.codestates.pre_project.answer.dto.AnswerLikesResponseDto;
 import com.codestates.pre_project.answer.dto.AnswerPatchDto;
 import com.codestates.pre_project.answer.dto.AnswerPostDto;
 import com.codestates.pre_project.answer.dto.AnswerResponseDto;
@@ -74,7 +75,7 @@ public class AnswerControllerRestDocsTest {
 
         AnswerResponseDto responseDto =
                 new AnswerResponseDto
-                        (1L, 1L, "nickName", 1L, "answerContent", Answer.AnswerStatus.ANSWER_NOTSELECT, LocalDateTime.now(), LocalDateTime.now());
+                        (1L, 1L, "nickName", 1L, "answerContent",0, Answer.AnswerStatus.ANSWER_NOTSELECT, LocalDateTime.now(), LocalDateTime.now());
 
         // willReturn()이 최소 null은 아니어야 한다.
         given(mapper.answerPostDtoToAnswer(Mockito.any(AnswerPostDto.class)))
@@ -120,12 +121,67 @@ public class AnswerControllerRestDocsTest {
                                         fieldWithPath("nickName").type(JsonFieldType.STRING).description("회원 이름"),
                                         fieldWithPath("questionId").type(JsonFieldType.NUMBER).description("질문 식별자"),
                                         fieldWithPath("answerContent").type(JsonFieldType.STRING).description("답변 내용"),
+                                        fieldWithPath("likes").type(JsonFieldType.NUMBER).description("좋아요 수"),
                                         fieldWithPath("answerStatus").type(JsonFieldType.STRING).description("답변 상태 : 답안 채택/ 답안 채택 안됨"),
                                         fieldWithPath("createdAt").type(JsonFieldType.STRING).description("답변 생성 시간"),
                                         fieldWithPath("modifiedAt").type(JsonFieldType.STRING).description("답변 수정 시간")
                                 )
                         )
                 ));   // =========== (2) API 문서화 관련 코드 끝========
+    }
+
+    @Test
+    public void upAnswerLikesTest() throws Exception {
+        long answerId = 1L;
+        AnswerLikesResponseDto response = new AnswerLikesResponseDto();
+        response.setLikes(1);
+
+        given(answerService.upAnswer(Mockito.anyLong())).willReturn(new Answer());
+        given(mapper.answerToAnswerLikesResponseDto(Mockito.any(Answer.class))).willReturn(response);
+
+        ResultActions actions =
+                mockMvc.perform(
+                        post("/answers/up/{answer-id}", answerId)
+                );
+        actions
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("likes").value(response.getLikes()))
+                .andDo(document("up-answer",
+                        getDocumentResponse(),
+                        pathParameters(
+                                parameterWithName("answer-id").description("답변 식별자")
+                        ),
+                        responseFields(
+                                fieldWithPath("likes").type(JsonFieldType.NUMBER).description("좋아요 수")
+                        )
+                ));
+    }
+
+    @Test
+    public void downAnswerLikesTest() throws Exception {
+        long answerId = 1L;
+        AnswerLikesResponseDto response = new AnswerLikesResponseDto();
+        response.setLikes(1);
+
+        given(answerService.downAnswer(Mockito.anyLong())).willReturn(new Answer());
+        given(mapper.answerToAnswerLikesResponseDto(Mockito.any(Answer.class))).willReturn(response);
+
+        ResultActions actions =
+                mockMvc.perform(
+                        post("/answers/down/{answer-id}", answerId)
+                );
+        actions
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("likes").value(response.getLikes()))
+                .andDo(document("down-answer",
+                        getDocumentResponse(),
+                        pathParameters(
+                                parameterWithName("answer-id").description("답변 식별자")
+                        ),
+                        responseFields(
+                                fieldWithPath("likes").type(JsonFieldType.NUMBER).description("좋아요 수")
+                        )
+                ));
     }
     @Test
     public void patchAnswerTest() throws Exception {
@@ -136,7 +192,7 @@ public class AnswerControllerRestDocsTest {
 
         AnswerResponseDto responseDto =
                 new AnswerResponseDto
-                        (1L, 1L, "nickName", 1L, "answerContent", Answer.AnswerStatus.ANSWER_NOTSELECT, LocalDateTime.now(), LocalDateTime.now());
+                        (1L, 1L, "nickName", 1L, "answerContent", 0, Answer.AnswerStatus.ANSWER_NOTSELECT, LocalDateTime.now(), LocalDateTime.now());
 
 
         // willReturn()이 최소한 null은 아니어야 한다.
@@ -181,6 +237,7 @@ public class AnswerControllerRestDocsTest {
                                         fieldWithPath("nickName").type(JsonFieldType.STRING).description("회원 이름"),
                                         fieldWithPath("questionId").type(JsonFieldType.NUMBER).description("질문 식별자"),
                                         fieldWithPath("answerContent").type(JsonFieldType.STRING).description("답변 내용"),
+                                        fieldWithPath("likes").type(JsonFieldType.NUMBER).description("좋아요 수"),
                                         fieldWithPath("answerStatus").type(JsonFieldType.STRING).description("답변 상태 : 답안 채택/ 답안 채택 안됨"),
                                         fieldWithPath("createdAt").type(JsonFieldType.STRING).description("답변 생성 시간"),
                                         fieldWithPath("modifiedAt").type(JsonFieldType.STRING).description("답변 수정 시간")
@@ -199,7 +256,7 @@ public class AnswerControllerRestDocsTest {
 
         AnswerResponseDto response =
                 new AnswerResponseDto
-                        (1L, 1L, "nickName", 1L, "answerContent", Answer.AnswerStatus.ANSWER_NOTSELECT, LocalDateTime.now(), LocalDateTime.now());
+                        (1L, 1L, "nickName", 1L, "answerContent", 0, Answer.AnswerStatus.ANSWER_NOTSELECT, LocalDateTime.now(), LocalDateTime.now());
 
 
         // Stubbing by Mockito
@@ -228,6 +285,7 @@ public class AnswerControllerRestDocsTest {
                                         fieldWithPath("nickName").type(JsonFieldType.STRING).description("회원 이름"),
                                         fieldWithPath("questionId").type(JsonFieldType.NUMBER).description("질문 식별자"),
                                         fieldWithPath("answerContent").type(JsonFieldType.STRING).description("답변 내용"),
+                                        fieldWithPath("likes").type(JsonFieldType.NUMBER).description("좋아요 수"),
                                         fieldWithPath("answerStatus").type(JsonFieldType.STRING).description("답변 상태 : 답안 채택/ 답안 채택 안됨"),
                                         fieldWithPath("createdAt").type(JsonFieldType.STRING).description("답변 생성 시간"),
                                         fieldWithPath("modifiedAt").type(JsonFieldType.STRING).description("답변 수정 시간")
@@ -248,8 +306,8 @@ public class AnswerControllerRestDocsTest {
         answer2.setAnswerId(2L);
         answer2.setAnswerContent("answerContent2");
 
-        AnswerResponseDto response1 = new AnswerResponseDto(1L, 1L, "nickName", 1L, "answerContent", Answer.AnswerStatus.ANSWER_NOTSELECT, LocalDateTime.now(), LocalDateTime.now());
-        AnswerResponseDto response2 = new AnswerResponseDto(2L, 2L, "nickName2", 2L, "answerContent2", Answer.AnswerStatus.ANSWER_NOTSELECT, LocalDateTime.now(), LocalDateTime.now());
+        AnswerResponseDto response1 = new AnswerResponseDto(1L, 1L, "nickName", 1L, "answerContent",0,  Answer.AnswerStatus.ANSWER_NOTSELECT, LocalDateTime.now(), LocalDateTime.now());
+        AnswerResponseDto response2 = new AnswerResponseDto(2L, 2L, "nickName2", 2L, "answerContent2",0,  Answer.AnswerStatus.ANSWER_NOTSELECT, LocalDateTime.now(), LocalDateTime.now());
 
         Page<Answer> pageAnswers =
                 new PageImpl<>(List.of(answer1, answer2),
@@ -286,6 +344,7 @@ public class AnswerControllerRestDocsTest {
                                         fieldWithPath("data[].nickName").type(JsonFieldType.STRING).description("회원 이름"),
                                         fieldWithPath("data[].questionId").type(JsonFieldType.NUMBER).description("질문 식별자"),
                                         fieldWithPath("data[].answerContent").type(JsonFieldType.STRING).description("답변 내용"),
+                                        fieldWithPath("data[].likes").type(JsonFieldType.NUMBER).description("좋아요 수"),
                                         fieldWithPath("data[].answerStatus").type(JsonFieldType.STRING).description("답변 상태 : 답안 채택/ 답안 채택 안됨"),
                                         fieldWithPath("data[].createdAt").type(JsonFieldType.STRING).description("딥변 생성 시간"),
                                         fieldWithPath("data[].modifiedAt").type(JsonFieldType.STRING).description("딥변 수정 시간"),

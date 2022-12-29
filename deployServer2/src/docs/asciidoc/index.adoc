@@ -1,13 +1,19 @@
-= 스택오버플로우 애플리케이션    // (1)
+= ``**__스택오버플로우 애플리케이션__**``
 :sectnums:
 :toc: left
 :toclevels: 4
 :toc-title: Table of Contents
 :source-highlighter: prettify
 
-Park Ji Yun <dysm0084@gmail.com>   // (2)
+``__만든 사람__``
+[%header,format=csv]
+|===
+Name, Email
+Park Ji Yun, <dysm0084@gmail.com>
+Lee Sang Yu, <tkddb7347@gmail.com>
+|===
 
-v1.0.0, 2022.04.08    // (3)
+v1.0.0, 2022.12.29
 
 // (4)
 ***
@@ -136,7 +142,7 @@ include::{snippets}/get-answers/http-response.adoc[]
 .response-fields
 include::{snippets}/get-answers/response-fields.adoc[]
 
-=== 특정 태그 정보 삭제
+=== 특정 답변 정보 삭제
 .curl-request
 include::{snippets}/delete-answer/curl-request.adoc[]
 
@@ -151,6 +157,136 @@ include::{snippets}/delete-answer/httpie-request.adoc[]
 
 .path-parameters.adoc
 include::{snippets}/delete-answer/path-parameters.adoc[]
+
+=== 특정 답변 좋아요
+.curl-request
+include::{snippets}/up-answer/curl-request.adoc[]
+
+.http-request
+include::{snippets}/up-answer/http-request.adoc[]
+
+.http-response
+include::{snippets}/up-answer/http-response.adoc[]
+
+.httpie-request
+include::{snippets}/up-answer/httpie-request.adoc[]
+
+.path-parameters.adoc
+include::{snippets}/up-answer/path-parameters.adoc[]
+
+=== 특정 답변 싫어요
+.curl-request
+include::{snippets}/down-answer/curl-request.adoc[]
+
+.http-request
+include::{snippets}/down-answer/http-request.adoc[]
+
+.http-response
+include::{snippets}/down-answer/http-response.adoc[]
+
+.httpie-request
+include::{snippets}/down-answer/httpie-request.adoc[]
+
+.path-parameters.adoc
+include::{snippets}/down-answer/path-parameters.adoc[]
+
+***
+== MemberController
+=== 회원 가입
+.curl-request
+include::{snippets}/signup-member/curl-request.adoc[]
+
+.http-request
+include::{snippets}/signup-member/http-request.adoc[]
+
+.request-fields
+include::{snippets}/signup-member/request-fields.adoc[]
+
+.http-response
+include::{snippets}/signup-member/http-response.adoc[]
+
+.response-fields
+include::{snippets}/signup-member/response-fields.adoc[]
+
+=== 로그인
+.curl-request
+include::{snippets}/signin-member/curl-request.adoc[]
+
+.http-request
+include::{snippets}/signin-member/http-request.adoc[]
+
+.request-fields
+include::{snippets}/signin-member/request-fields.adoc[]
+
+.http-response
+include::{snippets}/signin-member/http-response.adoc[]
+
+.response-fields
+include::{snippets}/signin-member/response-fields.adoc[]
+
+<NOTE>: ``로그인이 제대로 되면 nickNam도 제대로 나와요 ㅎㅎ;;``
+
+
+=== 회원 정보 수정
+.curl-request
+include::{snippets}/patch-member/curl-request.adoc[]
+
+.http-request
+include::{snippets}/patch-member/http-request.adoc[]
+
+.path-parameters
+include::{snippets}/patch-member/path-parameters.adoc[]
+
+.request-fields
+include::{snippets}/patch-member/request-fields.adoc[]
+
+.http-response
+include::{snippets}/patch-member/http-response.adoc[]
+
+.response-fields
+include::{snippets}/patch-member/response-fields.adoc[]
+
+=== 특정 회원 정보 조회
+.curl-request
+include::{snippets}/get-member/curl-request.adoc[]
+
+.http-request
+include::{snippets}/get-member/http-request.adoc[]
+
+.path-parameters
+include::{snippets}/get-member/path-parameters.adoc[]
+
+.http-response
+include::{snippets}/get-member/http-response.adoc[]
+
+.response-fields
+include::{snippets}/get-member/response-fields.adoc[]
+
+=== 모든 회원 정보 조회
+.curl-request
+include::{snippets}/get-members/curl-request.adoc[]
+
+.http-request
+include::{snippets}/get-members/http-request.adoc[]
+
+.http-response
+include::{snippets}/get-members/http-response.adoc[]
+
+.response-fields
+include::{snippets}/get-members/response-fields.adoc[]
+
+=== 회원 정보 삭제
+.curl-request
+include::{snippets}/delete-member/curl-request.adoc[]
+
+.http-request
+include::{snippets}/delete-member/http-request.adoc[]
+
+.path-parameters
+include::{snippets}/delete-member/path-parameters.adoc[]
+
+.http-response
+include::{snippets}/delete-member/http-response.adoc[]
 
 ***
 == QuestionController

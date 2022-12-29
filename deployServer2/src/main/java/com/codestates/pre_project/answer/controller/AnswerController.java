@@ -58,19 +58,16 @@ public class AnswerController {
     }
     @PostMapping("/up/{answer-id}")
     public ResponseEntity upAnswer(@PathVariable("answer-id")@Positive long answerId){
-        int likes = answerService.upAnswer(answerId);
-        AnswerLikesResponseDto response = new AnswerLikesResponseDto();
-        response.setLikes(likes);
+        AnswerLikesResponseDto response = answerMapper.answerToAnswerLikesResponseDto(answerService.upAnswer(answerId));
         return new ResponseEntity(response,HttpStatus.OK);
     }
 
     @PostMapping("/down/{answer-id}")
     public ResponseEntity downAnswer(@PathVariable("answer-id")@Positive long answerId){
-        int likes = answerService.downAnswer(answerId);
-        AnswerLikesResponseDto response = new AnswerLikesResponseDto();
-        response.setLikes(likes);
+        AnswerLikesResponseDto response = answerMapper.answerToAnswerLikesResponseDto(answerService.downAnswer(answerId));
         return new ResponseEntity(response,HttpStatus.OK);
     }
+
 
     @PatchMapping("/{answer-id}")
     public ResponseEntity patchAnswer(@PathVariable("answer-id") @Positive long answerId,

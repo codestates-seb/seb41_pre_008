@@ -58,9 +58,9 @@ public class MemberController {
 
     // 회원가입 핸들러 메서드 - id,isSignUp을 body로 응답하는 responseDto("/members/signup")
     @PostMapping("/signup")
-    public ResponseEntity signUpMember(@Valid @RequestBody MemberDto.Post post) {
+    public ResponseEntity signUpMember(@Valid @RequestBody MemberDto.signUpPost post) {
 
-        Member member = mapper.postToMember(post);
+        Member member = mapper.signUpPostToMember(post);
 
         // 데이터베이스에서 email로 회원 조회
         Optional<Member> optionalMember = memberRepository.findByEmail(member.getEmail());
@@ -91,10 +91,10 @@ public class MemberController {
 
     // 로그인 핸들러 메서드 - id,isSignIn을 body로 응답하는 responseDto("/members/signin")
     @PostMapping("/signin")
-    public ResponseEntity signInMember(@Valid @RequestBody MemberDto.Post post) {
+    public ResponseEntity signInMember(@Valid @RequestBody MemberDto.signInPost post) {
 
         // entity 클래스로 변환
-        Member member = mapper.postToMember(post);
+        Member member = mapper.signInPostToMember(post);
 
         // 데이터베이스에서 email로 회원 조회
         Optional<Member> optionalMember = memberRepository.findByEmail(member.getEmail());
