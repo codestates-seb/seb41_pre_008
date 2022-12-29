@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import test from "../../img/test/test.png";
 import { IoFilter } from "react-icons/io5";
+import axios from 'axios';
+import Tags from './Tags';
+import UserInfo from './UserInfo';
 
 const Main = styled.div`
   display: flex;
@@ -27,6 +29,9 @@ const Section = styled.div`
       border: 0;
       border-radius: 3px;
       font-size: 13px;
+      &:hover {
+        filter: brightness(120%);
+      }
     }
   }
 
@@ -130,59 +135,22 @@ const Section = styled.div`
       justify-content: space-between;
       flex-wrap: wrap;
       flex-grow: 1;
-
-      .tags {
-        flex-grow: 1;
-        display: flex;
-        justify-content: flex-start;
-
-        a {
-          font-size: 12px;
-          background-color: #e1ecf4;
-          color: #39749d;
-          padding: 4.8px 6px;
-          margin: 0 2px 2px 0;
-          border-radius: 3px;
-        }
-      }
-
-      .userInfo {
-        flex-grow: 1;
-        display: flex;
-        justify-content: flex-end;
-        align-items: center;
-        font-size: 12px;
-
-        * {
-          margin-right: 3px;
-        }
-
-        img {
-          width: 16px;
-          height: 16px;
-          border-radius: 3px;
-          position: relative;
-          top: -1px;
-        }
-
-        a {
-          color: #0074cc;
-        }
-
-        span {
-          color: #6a737c;
-        }
-
-        span:nth-child(3) {
-          font-weight: bold;
-          color: #525960;
-        }
-      }
     }
   }
 `;
 
 const QuestionListPage = () => {
+  // 받아온 데이터 저장해서 questions에 저장하기
+  const [questions, setQuestions] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get('http://3.39.203.17:8080/questions?page=1&size=2')
+      .then((res) => {
+        setQuestions([res.data]);
+      })
+      .catch((err) => console.log(err.message));
+  }, []);
   return (
     <Main>
       <Section>
@@ -192,7 +160,7 @@ const QuestionListPage = () => {
         </header>
         <div className="alignFilter">
           <div className="questionsNumber">
-            <span>23,353,200</span>
+            <span>{questions.length}</span>
             questions
           </div>
           <div className="filterButtons">
@@ -226,24 +194,17 @@ const QuestionListPage = () => {
               </li>
             </ul>
           </div>
-          <div className="questionInfo">
-            <a href="/questions/:questionId" className="questionTitle">
-              Question Title
-            </a>
-            <div className="questionSub">
-              <div className="tags">
-                <a href="/">tag</a>
+          {questions.map((el, idx) => {
+            return (
+              <div key={idx} className="questionInfo">
+                <a href='/questions/:questionId' className='questionTitle'>{el.title}</a>
+                <div className="questionSub">
+                  <Tags questionTags={el.questionTags}/>
+                  <UserInfo nickName={el.nickName} createdAt={el.createdAt} modifiedAt={el.modifiedAt}/>
+                </div>
               </div>
-              <div className="userInfo">
-                <img src={test} alt="profile img" />
-                <a href="/mypage">Ron</a>
-                <span>5,281</span>
-                <span>modified</span>
-                <span>1</span>
-                <span>min ago</span>
-              </div>
-            </div>
-          </div>
+            )
+          })}
         </article>
       </Section>
     </Main>

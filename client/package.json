@@ -40,6 +40,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "proxy": "http://3.39.203.17:8080"
+  }
 }

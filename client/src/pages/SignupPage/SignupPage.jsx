@@ -337,7 +337,7 @@ const SignupPage = () => {
   const signUpHandler = () => {
     if (pwState === true && emailState === true && nameState === true) {
       axios
-        .post("/members/signup", {
+        .post("http://3.39.203.17:8080/members/signup", {
           nickName,
           email,
           password,

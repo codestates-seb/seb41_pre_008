@@ -214,7 +214,7 @@ const LoginPage = () => {
 
   const loginHandler = () => {
     axios
-      .post("/members/signin", {
+      .post("http://3.39.203.17:8080/members/signin", {
         email,
         password,
       })

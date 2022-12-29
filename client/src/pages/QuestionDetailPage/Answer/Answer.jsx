@@ -3,23 +3,15 @@ import styled from "styled-components";
 import { RiArrowUpSFill, RiArrowDownSFill } from "react-icons/ri";
 import { FaBookmark, FaRegBookmark } from "react-icons/fa";
 import { useState } from "react";
-import { SideSeciton } from "../QuestionDetailPage";
+import { SideSeciton } from "../Question/Question";
 import { useNavigate } from "react-router-dom";
 import LinkModal from "../LinkModal/LinkModal";
 import UserProfileCard from "../DetailComponents/UserProfileCard";
-import TagCard from "../DetailComponents/TagCard";
 import {
   SideButtonSection,
   SideButton,
 } from "../DetailComponents/ButtonBundle";
 import { Viewer } from "@toast-ui/react-editor";
-
-const dummytags = [
-  { id: 5, tag: "php" },
-  { id: 6, tag: "android" },
-  { id: 7, tag: "html" },
-  { id: 8, tag: "jquery" },
-];
 
 const AnswerContentSection = styled.section`
   display: flex;
@@ -47,8 +39,9 @@ const AnswerContentContainer = styled.section`
   flex-direction: column;
   color: #232629;
   line-height: 25px;
-  margin: 0.5rem 1rem;
+  margin: 0.5rem 0;
   width: 100%;
+  justify-content: space-between;
 `;
 
 const Answer = ({ answer }) => {
@@ -58,19 +51,19 @@ const Answer = ({ answer }) => {
   // 링크 공유 모달 핸들러
   const handleHideShareModal = (e) => {
     e.stopPropagation();
-    document.getElementById(`${answer.id}`).classList.add("hide");
+    document.getElementById(`${answer.answerId}`).classList.add("hide");
   };
 
   const handleShowShareModal = (e) => {
     e.stopPropagation();
-    document.getElementById(`${answer.id}`).classList.remove("hide");
+    document.getElementById(`${answer.answerId}`).classList.remove("hide");
   };
 
   return (
     <AnswerContentSection onClick={handleHideShareModal}>
       <Vote>
         <RiArrowUpSFill className="icon" size={64} />
-        <span>{answer.vote}</span>
+        <span>{answer.likes}</span>
         <RiArrowDownSFill className="icon" size={64} />
         {isBookMark ? (
           <FaBookmark
@@ -87,8 +80,8 @@ const Answer = ({ answer }) => {
         )}
       </Vote>
       <AnswerContentContainer>
-        <Viewer initialValue={answer.content} />
-        <TagCard tags={dummytags} />
+        <Viewer initialValue={answer.answerContent} />
+        {/* {answer.answerContent} */}
         <SideSeciton>
           <SideButtonSection>
             <SideButton onClick={handleShowShareModal}>Share</SideButton>
@@ -100,11 +93,11 @@ const Answer = ({ answer }) => {
               Edit
             </SideButton>
             <SideButton>Delete</SideButton>
-            <LinkModal modalId={answer.id} isAnswer={true} />
+            <LinkModal modalId={answer.answerId} isAnswer={true} />
           </SideButtonSection>
           <UserProfileCard
             time="2"
-            name="lord stock"
+            name={answer.nickName}
             reputation="992"
             src="https://i.pinimg.com/474x/d7/70/33/d7703333ad8ba85827b60fccf42f9c25.jpg"
           />
