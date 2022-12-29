@@ -2,13 +2,15 @@ import React from "react";
 import styled from "styled-components";
 import { Editor, Viewer } from "@toast-ui/react-editor";
 import "@toast-ui/editor/dist/toastui-editor.css";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { MainButton } from "../QuestionDetailPage/DetailComponents/ButtonBundle";
 import { useNavigate } from "react-router-dom";
 import { CancelButton } from "../QuestionDetailPage/DetailComponents/ButtonBundle";
 import TagsInput from "./TagsInput";
 import { ButtonContainer } from "../QuestionDetailPage/DetailComponents/ButtonBundle";
 import { MdError } from "react-icons/md";
+// import { useEffect } from "react";
+import axios from "axios";
 
 const Main = styled.main`
   display: flex;
@@ -124,6 +126,7 @@ export const EditCard = ({
   handleChange,
   post,
   warningContent,
+  value,
 }) => {
   return (
     <Container>
@@ -134,6 +137,7 @@ export const EditCard = ({
           className="editwarning hide"
           placeholder={post ? placeholder : ""}
           onChange={handleChange}
+          value={value}
         />
         {post ? "" : <MdError className="icon" />}
       </div>
@@ -168,6 +172,7 @@ const QuestionEditPage = () => {
   const [bodyPost, setBodyPost] = useState(true);
   const [summary, setSummary] = useState("");
   const [summaryPost, setSummaryPost] = useState(true);
+  const [tags, setTags] = useState([]);
 
   // 제목, 본문, 요약의 내용을 각각의 상태에 저장하는 핸들러
   const handleTitleChange = (e) => {
@@ -191,6 +196,7 @@ const QuestionEditPage = () => {
     if (title.length >= 15) {
       setTitlePost(true);
       document.getElementById("title").classList.add("hide");
+      console.log(title);
     }
     if (title.length < 15) {
       setTitlePost(false);
@@ -214,6 +220,20 @@ const QuestionEditPage = () => {
     }
   };
 
+  useEffect(() => {
+    axios
+      .get("http://3.39.203.17:8080/questions/1")
+      .then((res) => {
+        setTitle(res.data.title);
+        setBody(res.data.problemContent);
+        setTags(res.data.questionTags);
+        // console.log(res.data);
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
+  // console.log(body);
+  // console.log(typeof body);
   return (
     <Main>
       <EditIntroCard />
@@ -223,6 +243,7 @@ const QuestionEditPage = () => {
         handleChange={handleTitleChange}
         post={titlepost}
         warningContent="Title must be at least 15 characters."
+        value={title}
       />
       <Container>
         <EditTitle>Body</EditTitle>
@@ -230,7 +251,8 @@ const QuestionEditPage = () => {
           <div id="editor" className="editor hide">
             <Editor
               ref={editorRef}
-              initialValue=" "
+              // value={body}
+              initialValue={body}
               initialEditType="wysiwyg"
               previewStyle="vertical"
               placeholder="Please enter your contents"
@@ -263,7 +285,7 @@ const QuestionEditPage = () => {
       </Container>
       <Container>
         <EditTitle>Tags</EditTitle>
-        <TagsInput />
+        <TagsInput initialtags={tags} />
       </Container>
       <EditCard
         id="summary"

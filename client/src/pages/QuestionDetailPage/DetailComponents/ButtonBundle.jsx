@@ -25,6 +25,9 @@ export const SideButtonSection = styled.div`
 `;
 
 export const SideButton = styled.button`
+  display: flex;
+  padding-left: 0;
+  padding-right: 0.5rem;
   border: none;
   color: rgb(116, 117, 122);
   background: white;

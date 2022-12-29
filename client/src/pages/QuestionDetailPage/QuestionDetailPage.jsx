@@ -1,67 +1,68 @@
 import React from "react";
 import styled from "styled-components";
-import { RiArrowUpSFill, RiArrowDownSFill } from "react-icons/ri";
-import { FaBookmark, FaRegBookmark } from "react-icons/fa";
+// import { RiArrowUpSFill, RiArrowDownSFill } from "react-icons/ri";
+// import { FaBookmark, FaRegBookmark } from "react-icons/fa";
 import { useState, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { Editor, Viewer } from "@toast-ui/react-editor";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import AnswerList from "./Answer/AnserList";
-import LinkModal from "./LinkModal/LinkModal";
-import UserProfileCard from "./DetailComponents/UserProfileCard";
-import TagCard from "./DetailComponents/TagCard";
+// import LinkModal from "./LinkModal/LinkModal";
+// import UserProfileCard from "./DetailComponents/UserProfileCard";
+// import TagCard from "./DetailComponents/TagCard";
 import {
   MainButton,
-  SideButtonSection,
-  SideButton,
+  // SideButtonSection,
+  // SideButton,
   CancelButton,
 } from "./DetailComponents/ButtonBundle";
 import EditModalCard from "./EditModal/EditModal";
+import Question from "./Question/Question";
 import { MdError } from "react-icons/md";
 
 import { useEffect } from "react";
 
-// import axios from "axios";
+import axios from "axios";
 
-const data = [
-  {
-    id: 1,
-    content:
-      "Lorem Ipsum is simply dummy body of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy body ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-    vote: 1,
-    tag: "gogo",
-    user: "TaTa",
-  },
-  {
-    id: 2,
-    content:
-      "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model body, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).",
-    vote: 3,
-    tag: "gogo",
-    user: "TaTa",
-  },
-  {
-    id: 3,
-    content:
-      "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of body. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.",
-    vote: 2,
-    tag: "gogo",
-    user: "TaTa",
-  },
-  {
-    id: 4,
-    content: "asdggdffherhdfbfdbdf",
-    vote: 0,
-    tag: "gogo",
-    user: "TaTa",
-  },
-];
+// const data = [
+//   {
+//     id: 1,
+//     content:
+//       "Lorem Ipsum is simply dummy body of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy body ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+//     vote: 1,
+//     tag: "gogo",
+//     user: "TaTa",
+//   },
+//   {
+//     id: 2,
+//     content:
+//       "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model body, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).",
+//     vote: 3,
+//     tag: "gogo",
+//     user: "TaTa",
+//   },
+//   {
+//     id: 3,
+//     content:
+//       "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of body. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.",
+//     vote: 2,
+//     tag: "gogo",
+//     user: "TaTa",
+//   },
+//   {
+//     id: 4,
+//     content: "asdggdffherhdfbfdbdf",
+//     vote: 0,
+//     tag: "gogo",
+//     user: "TaTa",
+//   },
+// ];
 
-const dummytags = [
-  { id: 1, tag: "javascript" },
-  { id: 2, tag: "python" },
-  { id: 3, tag: "c#" },
-];
+// const dummytags = [
+//   { tagId: 1, name: "javascript" },
+//   { tagId: 2, name: "python" },
+//   { tagId: 3, name: "c#" },
+// ];
 
 const Main = styled.main`
   display: flex;
@@ -130,6 +131,7 @@ const QuestionTitleSection = styled.section`
   width: 100%;
   padding: 1rem 0 1rem 2rem;
   border-bottom: 1px solid rgb(210, 212, 219);
+  justify-content: space-between;
 `;
 
 const QuestionTitle = styled.h1`
@@ -144,41 +146,41 @@ const QuestionTitleDetail = styled.p`
   color: rgb(116, 117, 122);
 `;
 
-const QuestionContentSection = styled.section`
-  display: flex;
-  padding: 1rem 0 1rem 1rem;
-  align-items: flex-start;
-`;
+// const QuestionContentSection = styled.section`
+//   display: flex;
+//   padding: 1rem 0 1rem 1rem;
+//   align-items: flex-start;
+// `;
 
-const Vote = styled.section`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  font-size: x-large;
-  color: rgb(116, 117, 122);
-  .icon {
-    color: #b6b8bd;
-    &:active {
-      color: #f48225;
-    }
-  }
-`;
+// const Vote = styled.section`
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+//   font-size: x-large;
+//   color: rgb(116, 117, 122);
+//   .icon {
+//     color: #b6b8bd;
+//     &:active {
+//       color: #f48225;
+//     }
+//   }
+// `;
 
-const QuestionContent = styled.div`
-  display: flex;
-  flex-direction: column;
-  color: #232629;
-  line-height: 25px;
-  margin: 0.5rem 1rem;
-  width: 100%;
-`;
+// const QuestionContent = styled.div`
+//   display: flex;
+//   flex-direction: column;
+//   color: #232629;
+//   line-height: 25px;
+//   margin: 0.5rem 1rem;
+//   width: 100%;
+// `;
 
-export const SideSeciton = styled.section`
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-top: 1rem;
-`;
+// export const SideSeciton = styled.section`
+//   display: flex;
+//   justify-content: space-between;
+//   align-items: flex-start;
+//   margin-top: 1rem;
+// `;
 
 const AnswerTitle = styled.h2`
   display: flex;
@@ -198,7 +200,7 @@ const AnswerTitle = styled.h2`
       &:focus-within {
         outline: none !important;
         border: 1px solid #0a95ff;
-        box-shadow: 0 0 0 5px #d3ecff;
+        box-shadow: 0 0 0 4px rgba(10, 149, 255, 0.1);
       }
     }
   }
@@ -209,36 +211,60 @@ const BottomButtonSection = styled.div`
 `;
 
 const QuestionDetailPage = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const editorRef = useRef();
-  const [testData, setTestData] = useState([]);
-  const [isBookMark, setIsBookMark] = useState(false);
+  const [questionData, setQuestionData] = useState([]);
+  const [answerData, setAnswerData] = useState([]);
+  // const [testData, setTestData] = useState([]);
+  // const [isBookMark, setIsBookMark] = useState(false);
   const [isViewer, setIsViewer] = useState(false);
   const [isEditModal, setIsEditModal] = useState(false);
   const [body, setBody] = useState("");
   const [bodyPost, setBodyPost] = useState(true);
-
-  // const [mod, setMod] = useState([]);
+  const [questionTag, setQuestionTag] = useState([]);
+  // const [content, setContent] = useState("");
 
   // 답변 정렬 기능 구현
   useEffect(() => {
-    setTestData(data.sort((a, b) => a.vote - b.vote).reverse());
-    if (localStorage.getItem("state") === "vote") {
-      // console.log("vote");
-      setTestData(data.sort((a, b) => a.vote - b.vote).reverse());
-    }
-    if (localStorage.getItem("state") === "id") {
-      // console.log("id");
-      setTestData(data.sort((a, b) => a.id - b.id));
-    }
-    // axios
-    //   .get("/questions/1")
-    //   .then((res) => {
-    //     console.log(res.data);
-    //     // setMod(res.data);
-    //   })
-    //   .catch((err) => console.log(err));
+    // setTestData(data.sort((a, b) => a.vote - b.vote).reverse());
+    // if (localStorage.getItem("state") === "vote") {
+    //   // console.log("vote");
+    //   setTestData(data.sort((a, b) => a.vote - b.vote).reverse());
+    // }
+    // if (localStorage.getItem("state") === "id") {
+    //   // console.log("id");
+    //   setTestData(data.sort((a, b) => a.id - b.id));
+    // }
+    axios
+      .get("http://3.39.203.17:8080/questions/1")
+      .then((res) => {
+        // console.log(res.data);
+        setQuestionData(res.data);
+        setAnswerData(res.data.answers);
+        setQuestionTag(res.data.questionTags);
+        // setContent(res.data.problemContent);
+        if (localStorage.getItem("state") === "vote") {
+          // console.log("vote");
+          setAnswerData(
+            res.data.answers.sort((a, b) => a.answerId - b.answerId)
+          );
+        }
+        if (localStorage.getItem("state") === "id") {
+          // console.log("id");
+          setAnswerData(
+            res.data.answers.sort((a, b) => a.memberId - b.memberId)
+          );
+        }
+      })
+      .catch((err) => console.log(err));
   }, []);
+
+  console.log(questionData);
+  // console.log(answerData);
+  // console.log(questionTag);
+  // useEffect(() => {
+
+  // }, []);
 
   // console.log(mod);
 
@@ -252,21 +278,21 @@ const QuestionDetailPage = () => {
       setBodyPost(true);
       document.getElementById("editor").classList.add("hide");
       // 추가해야 할 내용: 서버에 post 요청 보내기
-      setTestData([
-        ...testData,
-        {
-          id: Math.random(),
-          content: body,
-          vote: 1,
-          tag: "gogo",
-          user: "TaTa",
-        },
-      ]);
-      // window.location.reload();
+      axios
+        .post("http://3.39.203.17:8080/answers", {
+          memberId: 3,
+          questionId: 1,
+          answerContent: body,
+        })
+        .then((res) => setAnswerData([...answerData, res.data]))
+        .catch((err) => console.log(err));
+
+      window.location.reload();
       // navigate("/questions/1");
     } else {
       setBodyPost(false);
       document.getElementById("editor").classList.remove("hide");
+      // console.log(typeof questionData.problemContent);
     }
   };
 
@@ -280,10 +306,10 @@ const QuestionDetailPage = () => {
     document.getElementById("modal").classList.add("hide");
   };
 
-  const handleShowShareModal = (e) => {
-    e.stopPropagation();
-    document.getElementById("modal").classList.remove("hide");
-  };
+  // const handleShowShareModal = (e) => {
+  //   e.stopPropagation();
+  //   document.getElementById("modal").classList.remove("hide");
+  // };
 
   // 답변 입력 시 보이는 하단 안내 문구 모달 핸들러
   const handleEditModal = () => {
@@ -305,15 +331,17 @@ const QuestionDetailPage = () => {
       <Container className="question">
         <QuestionTitleSection>
           <div>
-            <QuestionTitle>
-              How to setup twilio device in Angular app for the incoming call
-              (i.e. API is in .NET 6)?
-            </QuestionTitle>
+            <QuestionTitle>{questionData.title}</QuestionTitle>
             <QuestionTitleDetail>Asked: Modified: Viewed:</QuestionTitleDetail>
           </div>
           <MainButton href="/questions/ask">Ask Question</MainButton>
         </QuestionTitleSection>
-        <QuestionContentSection>
+        <Question
+          questionData={questionData}
+          questionTag={questionTag}
+          // content={content}
+        />
+        {/* <QuestionContentSection>
           <Vote>
             <RiArrowUpSFill className="icon" size={64} />
             <span>0</span>
@@ -333,11 +361,9 @@ const QuestionDetailPage = () => {
             )}
           </Vote>
           <QuestionContent>
-            <Viewer
-              initialValue="I am facing one issue related to incoming calls, so the situation is
-            API is in .NET 6 and it's frontend is in Angular app and also it's
-            multi-tenant application."
-            />
+            <Question questionData={questionData} />
+            <Viewer initialValue={questionData.problemContent} />
+            {questionData.problemContent}
             <TagCard tags={dummytags} />
             <SideSeciton>
               <SideButtonSection>
@@ -359,11 +385,11 @@ const QuestionDetailPage = () => {
               />
             </SideSeciton>
           </QuestionContent>
-        </QuestionContentSection>
+        </QuestionContentSection> */}
       </Container>
       <Container>
         <AnswerTitle className="answerTitle">
-          {testData.length} Answer
+          {answerData.length} Answer
           <div>
             Sorted by:
             <select
@@ -379,7 +405,7 @@ const QuestionDetailPage = () => {
             </select>
           </div>
         </AnswerTitle>
-        <AnswerList testData={testData} />
+        <AnswerList answerData={answerData} />
       </Container>
       <Container className="answer">
         <AnswerTitle className="answerPostTitle">Your Answer</AnswerTitle>

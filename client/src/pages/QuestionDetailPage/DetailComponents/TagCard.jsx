@@ -1,4 +1,7 @@
+// import axios from "axios";
 import React from "react";
+// import { useEffect } from "react";
+// import { useState } from "react";
 import styled from "styled-components";
 
 const TagContainer = styled.div`
@@ -29,8 +32,8 @@ const TagCard = ({ tags }) => {
   return (
     <TagContainer>
       {tags.map((tag) => (
-        <Tag href="/" key={tag.id}>
-          {tag.tag}
+        <Tag href="/" key={tag.tagId}>
+          {tag.name}
         </Tag>
       ))}
     </TagContainer>

@@ -102,7 +102,7 @@ public class MemberController {
         // 이미 있는 회원이라면
         if (optionalMember.isPresent()){
             Member member1 = optionalMember.get();
-            MemberDto.signInResponse inResponse = new MemberDto.signInResponse(member1.getMemberId(), member.getNickName(), true);
+            MemberDto.signInResponse inResponse = new MemberDto.signInResponse(member1.getMemberId(), member1.getNickName(), true);
             // isSignIn에 true를 담아 보낸다.
             return new ResponseEntity<>(inResponse, HttpStatus.OK);
         }
