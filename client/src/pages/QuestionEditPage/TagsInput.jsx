@@ -1,6 +1,7 @@
 import { useState } from "react";
 import styled from "styled-components";
 import { RiCloseFill } from "react-icons/ri";
+import { useEffect } from "react";
 
 const TagsInputContainer = styled.div`
   display: flex;
@@ -59,33 +60,43 @@ const TagsInputContainer = styled.div`
   }
 `;
 
-const TagsInput = () => {
-  const initialTags = [
-    { id: 1, tag: "javascript" },
-    { id: 2, tag: "python" },
-    { id: 3, tag: "c#" },
-  ];
-  const [tags, setTags] = useState(initialTags);
+const TagsInput = ({ initialtags }) => {
+  // const initialTags = [
+  //   { tagId: 1, name: "javascript" },
+  //   { tagId: 2, name: "python" },
+  //   { tagId: 3, name: "c#" },
+  // ];
+  // console.log(initialtags);
+  const [tags, setTags] = useState([]);
+
+  useEffect(() => {
+    setTags(initialtags);
+  }, [initialtags]);
 
   const removeTags = (idToRemove) => {
-    setTags(tags.filter((el) => el.id !== idToRemove));
+    setTags(tags.filter((el) => el.tagId !== idToRemove));
   };
 
   const addTags = (event) => {
-    const filtered = tags.filter((el) => el.tag === event.target.value);
+    const filtered = tags.filter((el) => el.name === event.target.value);
     if (event.target.value !== "" && filtered.length === 0) {
-      setTags([...tags, { id: Math.random(), tag: event.target.value }]);
+      setTags([...tags, { tagId: Math.random(), name: event.target.value }]);
       event.target.value = "";
     }
   };
+
+  // console.log(tags);
 
   return (
     <TagsInputContainer>
       <ul id="tags">
         {tags.map((el) => (
-          <li key={el.id} className="tag">
-            <span className="tag-title">{el.tag}</span>
-            <span className="tag-close-icon" onClick={() => removeTags(el.id)}>
+          <li key={el.tagId} className="tag">
+            <span className="tag-title">{el.name}</span>
+            <span
+              className="tag-close-icon"
+              onClick={() => removeTags(el.tagId)}
+            >
               <RiCloseFill className="icon" />
             </span>
           </li>
