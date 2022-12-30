@@ -22,8 +22,7 @@ public class MemberDto {
         private String email;
 
         @NotBlank(message = "비밀번호는 공백이 아니어야 합니다.")
-        @NotBlank(message = "비밀번호는 문자, 숫자 특수문자가 최소 1개 이상이고, 8~16자리 사이여야 합니다.")
-        @Pattern(regexp = "^(?=.*[a-zA-Z])((?=.*\\d)(?=.*\\W)).{8,16}$")
+        @Pattern(regexp = "[a-zA-Z]+[0-9]+", message = "비밀번호는 문자와 숫자 1개 이상을 포함해야 합니다.")
         private String password;
     }
     @Getter
@@ -38,8 +37,7 @@ public class MemberDto {
         private String email;
 
         @NotBlank(message = "비밀번호는 공백이 아니어야 합니다.")
-        @NotBlank(message = "비밀번호는 문자, 숫자 특수문자가 최소 1개 이상이고, 8~16자리 사이여야 합니다.")
-        @Pattern(regexp = "^(?=.*[a-zA-Z])((?=.*\\d)(?=.*\\W)).{8,16}$")
+        @Pattern(regexp = "[a-zA-Z]+[0-9]+", message = "비밀번호는 문자와 숫자 1개 이상을 포함해야 합니다.")
         private String password;
     }
 
@@ -51,7 +49,7 @@ public class MemberDto {
         private String email;
 
         @NotBlank(message = "비밀번호는 공백이 아니어야 합니다.")
-        @Pattern(regexp = "^(?=.*[a-zA-Z])((?=.*\\d)(?=.*\\W)).{8,16}$", message = "비밀번호는 문자, 숫자 특수문자가 최소 1개 이상이고, 8~16자리 사이여야 합니다.")
+        @Pattern(regexp = "[a-zA-Z]+[0-9]+", message = "비밀번호는 문자와 숫자 1개 이상을 포함해야 합니다.")
         private String password;
     }
 
@@ -65,7 +63,7 @@ public class MemberDto {
         private String email;
 
         @NotBlank(message = "비밀번호는 공백이 아니어야 합니다.")
-        @Pattern(regexp = "^(?=.*[a-zA-Z])((?=.*\\d)(?=.*\\W)).{8,16}$", message = "비밀번호는 문자, 숫자 특수문자가 최소 1개 이상이고, 8~16자리 사이여야 합니다.")
+        @Pattern(regexp = "[a-zA-Z]+[0-9]+", message = "비밀번호는 문자와 숫자 1개 이상을 포함해야 합니다.")
         private String password;
 
         public void setMemberId(long memberId) {
