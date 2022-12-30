@@ -10,6 +10,7 @@ import lombok.Setter;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 @Getter
@@ -19,8 +20,11 @@ public class QuestionPostDto {
     @Positive
     private long memberId;
 
+    @Size(min = 15, max = 100, message = "질문 제목은 15자에서 100자 사이여야 합니다.")
     private String title;
+    @Size(min = 30, max = 500, message = "질문 내용은 30자에서 500 사이여야 합니다.")
     private String problemContent;
+    @Size(min = 30, max = 500, message = "질문 내용은 30자에서 500 사이여야 합니다.")
     private String expectContent;
 
     private List<QuestionTagDto> questionTags;

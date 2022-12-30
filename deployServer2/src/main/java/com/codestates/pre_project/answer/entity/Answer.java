@@ -22,7 +22,7 @@ public class Answer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long answerId;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 500)
     private String answerContent;
 
     @Column(nullable = false)
