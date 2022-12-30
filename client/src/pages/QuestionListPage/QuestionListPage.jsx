@@ -59,6 +59,10 @@ const Section = styled.div`
         border-left: 0;
         background-color: #fff;
         color: #6a737c;
+        &.active {
+          background-color: #e3e6e8;
+          color: #3b4045;
+        }
 
         span {
           background-color: #0074cc;
@@ -145,6 +149,9 @@ const Section = styled.div`
 const QuestionListPage = () => {
   // 받아온 데이터 저장해서 questions에 저장하기
   const [questions, setQuestions] = useState(null);
+  // 필터 버튼
+  const [newButton, setNewButton] = useState(false);
+  const [answerButton, setAnswerButton] = useState(false);
 
   useEffect(() => {
     axios
@@ -153,7 +160,26 @@ const QuestionListPage = () => {
       .catch((err) => console.log(err.message));
   }, []);
 
-  console.log(questions);
+  // 필터 기능 구현
+  // 최신 정렬
+  const handleNewest = () => {
+    const newQuestions = [...questions];
+    const newestPage = newQuestions.sort((a, b) => {
+      return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+    });
+    setQuestions(newestPage);
+    setNewButton(!newButton);
+  };
+  // 답변 순 정렬
+  const handleAnswered = () => {
+    const answeredQuestions = [...questions];
+    const answeredPage = answeredQuestions.sort((a, b) => {
+      return a.answers.length - b.answers.length;
+    });
+    setQuestions(answeredPage);
+    setAnswerButton(!answerButton);
+  };
+
   return (
     <Main>
       <Section>
@@ -171,13 +197,13 @@ const QuestionListPage = () => {
             questions
           </div>
           <div className="filterButtons">
-            <button type="button">Newest</button>
+            <button type="button" className={newButton ? "active" : ""} onClick={handleNewest}>Newest</button>
             <button type="button">Active</button>
             <button type="button">
               Bountied
               <span>242</span>
             </button>
-            <button type="button">Unanswered</button>
+            <button type="button" className={answerButton ? "active" : ""} onClick={handleAnswered}>Unanswered</button>
             <button type="button">More</button>
           </div>
           <button type="button" className="filterButton">
@@ -198,7 +224,7 @@ const QuestionListPage = () => {
                       <span>0</span>votes
                     </li>
                     <li>
-                      <span>0</span>answers
+                      <span>{el.answers.length}</span>answers
                     </li>
                     <li>
                       <span>0</span>views
