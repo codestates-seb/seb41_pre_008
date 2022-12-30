@@ -159,7 +159,11 @@ const QuestionListPage = () => {
       <Section>
         <header>
           <h2>All Questions</h2>
-          <a href="/questions/ask">Ask Question</a>
+          {window.localStorage.getItem("user") ? (
+            <a href="/questions/ask">Ask Question</a>
+          ) : (
+            <a href="/login">Ask Question</a>
+          )}
         </header>
         <div className="alignFilter">
           <div className="questionsNumber">

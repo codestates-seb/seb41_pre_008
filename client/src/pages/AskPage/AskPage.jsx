@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import styled from "styled-components";
 import { MdError } from 'react-icons/md';
 import axios from 'axios';
@@ -22,7 +22,7 @@ const AskContainer = styled.div`
       background-size: contain;
       background-position: right;
       background-repeat: no-repeat;
-      background-image: url('https://cdn.sstatic.net/Img/ask/background.svg?v=2e9a8205b368');
+      background-image: url("https://cdn.sstatic.net/Img/ask/background.svg?v=2e9a8205b368");
     }
   }
 
@@ -30,7 +30,7 @@ const AskContainer = styled.div`
     width: 852px;
     background-color: #ebf4fb;
     padding: 24px;
-    border: 1px solid hsl(205,57%,81%);
+    border: 1px solid hsl(205, 57%, 81%);
     border-radius: 3px;
     color: #3b4045;
     margin-bottom: 16px;
@@ -62,7 +62,10 @@ const AskContainer = styled.div`
     }
   }
 
-  .writingTitle, .writingProblem, .writingExpecting, .writingTags {
+  .writingTitle,
+  .writingProblem,
+  .writingExpecting,
+  .writingTags {
     display: flex;
     flex-direction: column;
     width: 852px;
@@ -99,7 +102,8 @@ const AskContainer = styled.div`
       margin-bottom: 6px;
     }
 
-    input, textarea {
+    input,
+    textarea {
       padding: 7.8px 9.1px;
       border: 1px solid #e3e6e8;
       border-radius: 3px;
@@ -188,7 +192,7 @@ const AskContainer = styled.div`
     margin: 2px 0;
     padding: 2px;
   }
-`
+`;
 
 const AskPage = () => {
   // input value
@@ -238,13 +242,13 @@ const AskPage = () => {
     const filterTag = tagValue.filter((el, idx) => idx !== e);
     setTagValue(filterTag);
   };
-  
-  // 입력한 값 초기화 버튼 
+
+  // 입력한 값 초기화 버튼
   const deleteValue = (e) => {
     setInputValue({
-      title: '',
-      problemContent: '',
-      expectContent: '',
+      title: "",
+      problemContent: "",
+      expectContent: "",
     });
     setTagValue([]);
     setTitleError(false);
@@ -285,35 +289,48 @@ const AskPage = () => {
       setTagErrorMessage('There must be at least one tag.');
     }
 
+    
     const data = {
       memberId: memberId,
       ...inputValue,
       questionTags: tagValue,
     }
     console.log(data)
-
+    
     // // question post 요청 보내기
     // axios.post('http://3.39.203.17:8080/questions', data)
     // .catch((err) => console.log(err.message));
-
+    
     window.location.replace('/');
   }
+  
+  if (!memberId) {
+    return null;
+  }
+  
   return (
     <AskContainer>
-      <div className='askTitle'>
+      <div className="askTitle">
         <h2>Ask a public question</h2>
         <div className="askTitleBg"></div>
       </div>
-      <div className='writingInfo'>
+      <div className="writingInfo">
         <h3>Writing a good question</h3>
-        <p>You’re ready to ask a programming-related question and this form will help guide you through the process. <br />
-        Looking to ask a non-programming question? See the topics here to find a relevant site.</p>
+        <p>
+          You’re ready to ask a programming-related question and this form will
+          help guide you through the process. <br />
+          Looking to ask a non-programming question? See the topics here to find
+          a relevant site.
+        </p>
         <ul>
           <h4>Steps</h4>
           <li>Summarize your problem in a one-line title.</li>
           <li>Describe your problem in more detail.</li>
           <li>Describe what you tried and what you expected to happen.</li>
-          <li>Add “tags” which help surface your question to members of the community.</li>
+          <li>
+            Add “tags” which help surface your question to members of the
+            community.
+          </li>
           <li>Review your question and post it to the site.</li>
         </ul>
       </div>
@@ -369,7 +386,7 @@ const AskPage = () => {
         </div>
       </form>
     </AskContainer>
-  )
+  );
 };
 
 export default AskPage;

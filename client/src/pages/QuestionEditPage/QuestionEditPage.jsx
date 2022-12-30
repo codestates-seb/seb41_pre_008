@@ -234,6 +234,11 @@ const QuestionEditPage = () => {
 
   // console.log(body);
   // console.log(typeof body);
+
+  if (!window.localStorage.getItem("user")) {
+    return null;
+  }
+
   return (
     <Main>
       <EditIntroCard />
