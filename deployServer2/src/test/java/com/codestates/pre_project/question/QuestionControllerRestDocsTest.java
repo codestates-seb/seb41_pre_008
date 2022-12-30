@@ -78,17 +78,17 @@ public class QuestionControllerRestDocsTest {
         questionTagDtos.add(questionTagDto1);
         questionTagDtos.add(questionTagDto2);
 
-        QuestionPostDto post = new QuestionPostDto(1L, "title","problemContent", "expectContent", questionTagDtos );
+        QuestionPostDto post = new QuestionPostDto(1L, "title title title","problemContent problemContent problemContent", "expectContent expectContent expectContent", questionTagDtos );
         String content = gson.toJson(post);
 
 
         AnswerResponseDto responseDto1 =
                 new AnswerResponseDto
-                        (1L, 1L, "nickName", 1L, "answerContent", 0, Answer.AnswerStatus.ANSWER_NOTSELECT, LocalDateTime.now(), LocalDateTime.now());
+                        (1L, 1L, "nickName", 1L, "answerContent answerContent answerContent", 0, Answer.AnswerStatus.ANSWER_NOTSELECT, LocalDateTime.now(), LocalDateTime.now());
 
         AnswerResponseDto responseDto2 =
                 new AnswerResponseDto
-                        (1L, 1L, "nickName", 1L, "answerContent",0, Answer.AnswerStatus.ANSWER_NOTSELECT, LocalDateTime.now(), LocalDateTime.now());
+                        (1L, 1L, "nickName", 1L, "answerContent answerContent answerContent",0, Answer.AnswerStatus.ANSWER_NOTSELECT, LocalDateTime.now(), LocalDateTime.now());
 
         List<AnswerResponseDto> answerResponseDtos= new ArrayList<>();
         answerResponseDtos.add(responseDto1);
@@ -105,8 +105,8 @@ public class QuestionControllerRestDocsTest {
 
         QuestionResponseDto responseDto =
                 new QuestionResponseDto
-                        (1L, 1L, "nickName", "title", "problemContent",
-                                "expectContent", 0,Question.QuestionStatus.QUESTION_NOTSELECT, questionTagResponseDtos,
+                        (1L, 1L, "nickName", "title title title", "problemContent problemContent problemContent",
+                                "expectContent expectContent expectContent", 0,Question.QuestionStatus.QUESTION_NOTSELECT, questionTagResponseDtos,
                                 LocalDateTime.now(), LocalDateTime.now(), answerResponseDtos);
 
         // willReturn()이 최소 null은 아니어야 한다.
@@ -248,20 +248,20 @@ public class QuestionControllerRestDocsTest {
 
         QuestionPatchDto patch = new QuestionPatchDto();
         patch.setQuestionId(questionId);
-        patch.setTitle("title");
-        patch.setProblemContent("problemContent");
-        patch.setExpectContent("expectContent");
+        patch.setTitle("title title title");
+        patch.setProblemContent("problemContent problemContent problemContent");
+        patch.setExpectContent("expectContent expectContent expectContent");
         patch.setQuestionStatus(Question.QuestionStatus.QUESTION_NOTSELECT);
         patch.setQuestionTags(questionTagDtos);
         String content = gson.toJson(patch);
 
         AnswerResponseDto responseDto1 =
                 new AnswerResponseDto
-                        (1L, 1L, "nickName", 1L, "answerContent",0, Answer.AnswerStatus.ANSWER_NOTSELECT, LocalDateTime.now(), LocalDateTime.now());
+                        (1L, 1L, "nickName", 1L, "answerContent answerContent answerContent",0, Answer.AnswerStatus.ANSWER_NOTSELECT, LocalDateTime.now(), LocalDateTime.now());
 
         AnswerResponseDto responseDto2 =
                 new AnswerResponseDto
-                        (1L, 1L, "nickName", 1L, "answerContent", 0,Answer.AnswerStatus.ANSWER_NOTSELECT, LocalDateTime.now(), LocalDateTime.now());
+                        (1L, 1L, "nickName", 1L, "answerContent answerContent answerContent", 0,Answer.AnswerStatus.ANSWER_NOTSELECT, LocalDateTime.now(), LocalDateTime.now());
 
         List<AnswerResponseDto> answerResponseDtos= new ArrayList<>();
         answerResponseDtos.add(responseDto1);
@@ -278,8 +278,8 @@ public class QuestionControllerRestDocsTest {
 
         QuestionResponseDto responseDto =
                 new QuestionResponseDto
-                        (1L, 1L, "nickName", "title", "problemContent",
-                                "expectContent", 0, Question.QuestionStatus.QUESTION_NOTSELECT, questionTagResponseDtos,
+                        (1L, 1L, "nickName", "title title title", "problemContent problemContent problemContent",
+                                "expectContent expectContent expectContent", 0, Question.QuestionStatus.QUESTION_NOTSELECT, questionTagResponseDtos,
                                 LocalDateTime.now(), LocalDateTime.now(), answerResponseDtos);
 
 
@@ -359,18 +359,18 @@ public class QuestionControllerRestDocsTest {
         long questionId = 1L;
         Question question = new Question();
         question.setQuestionId(questionId);
-        question.setTitle("title");
+        question.setTitle("title title title");
         question.setQuestionStatus(Question.QuestionStatus.QUESTION_NOTSELECT);
-        question.setExpectContent("expectContent");
-        question.setProblemContent("problemContent");
+        question.setExpectContent("expectContent expectContent expectContent");
+        question.setProblemContent("problemContent problemContent problemContent");
 
         AnswerResponseDto responseDto1 =
                 new AnswerResponseDto
-                        (1L, 1L, "nickName", 1L, "answerContent",0, Answer.AnswerStatus.ANSWER_NOTSELECT, LocalDateTime.now(), LocalDateTime.now());
+                        (1L, 1L, "nickName", 1L, "answerContent answerContent answerContent",0, Answer.AnswerStatus.ANSWER_NOTSELECT, LocalDateTime.now(), LocalDateTime.now());
 
         AnswerResponseDto responseDto2 =
                 new AnswerResponseDto
-                        (1L, 1L, "nickName", 1L, "answerContent",0, Answer.AnswerStatus.ANSWER_NOTSELECT, LocalDateTime.now(), LocalDateTime.now());
+                        (1L, 1L, "nickName", 1L, "answerContent answerContent answerContent",0, Answer.AnswerStatus.ANSWER_NOTSELECT, LocalDateTime.now(), LocalDateTime.now());
 
         List<AnswerResponseDto> answerResponseDtos= new ArrayList<>();
         answerResponseDtos.add(responseDto1);
@@ -387,8 +387,8 @@ public class QuestionControllerRestDocsTest {
 
         QuestionResponseDto response =
                 new QuestionResponseDto
-                        (1L, 1L, "nickName", "title", "problemContent",
-                                "expectContent", 0,Question.QuestionStatus.QUESTION_NOTSELECT, questionTagResponseDtos,
+                        (1L, 1L, "nickName", "title title title", "problemContent problemContent problemContent",
+                                "expectContent expectContent expectContent", 0,Question.QuestionStatus.QUESTION_NOTSELECT, questionTagResponseDtos,
                                 LocalDateTime.now(), LocalDateTime.now(), answerResponseDtos);
 
         // Stubbing by Mockito
@@ -445,20 +445,20 @@ public class QuestionControllerRestDocsTest {
         Question question1 = new Question();
         question1.setQuestionStatus(Question.QuestionStatus.QUESTION_NOTSELECT);
         question1.setQuestionId(1L);
-        question1.setTitle("title");
+        question1.setTitle("title title title");
 
         Question question2 = new Question();
         question2.setQuestionStatus(Question.QuestionStatus.QUESTION_NOTSELECT);
         question2.setQuestionId(2L);
-        question2.setTitle("title2");
+        question2.setTitle("title title title");
 
         AnswerResponseDto responseDto1 =
                 new AnswerResponseDto
-                        (1L, 1L, "nickName", 1L, "answerContent", 0,Answer.AnswerStatus.ANSWER_NOTSELECT, LocalDateTime.now(), LocalDateTime.now());
+                        (1L, 1L, "nickName", 1L, "answerContent answerContent answerContent", 0,Answer.AnswerStatus.ANSWER_NOTSELECT, LocalDateTime.now(), LocalDateTime.now());
 
         AnswerResponseDto responseDto2 =
                 new AnswerResponseDto
-                        (1L, 1L, "nickName", 1L, "answerContent",0, Answer.AnswerStatus.ANSWER_NOTSELECT, LocalDateTime.now(), LocalDateTime.now());
+                        (1L, 1L, "nickName", 1L, "answerContent answerContent answerContent",0, Answer.AnswerStatus.ANSWER_NOTSELECT, LocalDateTime.now(), LocalDateTime.now());
 
         List<AnswerResponseDto> answerResponseDtos= new ArrayList<>();
         answerResponseDtos.add(responseDto1);
@@ -475,14 +475,14 @@ public class QuestionControllerRestDocsTest {
 
         QuestionResponseDto response1 =
                 new QuestionResponseDto
-                        (1L, 1L, "nickName", "title", "problemContent",
-                                "expectContent", 0, Question.QuestionStatus.QUESTION_NOTSELECT, questionTagResponseDtos,
+                        (1L, 1L, "nickName", "title title title", "problemContent problemContent problemContent",
+                                "expectContent expectContent expectContent", 0, Question.QuestionStatus.QUESTION_NOTSELECT, questionTagResponseDtos,
                                 LocalDateTime.now(), LocalDateTime.now(), answerResponseDtos);
 
         QuestionResponseDto response2 =
                 new QuestionResponseDto
-                        (2L, 2L, "nickName2", "title2", "problemContent2",
-                                "expectContent2", 0,Question.QuestionStatus.QUESTION_NOTSELECT, questionTagResponseDtos,
+                        (2L, 2L, "nickName2", "title title title", "problemContent problemContent problemContent",
+                                "expectContent expectContent expectContent", 0,Question.QuestionStatus.QUESTION_NOTSELECT, questionTagResponseDtos,
                                 LocalDateTime.now(), LocalDateTime.now(), answerResponseDtos);
 
         Page<Question> pageQuestions =

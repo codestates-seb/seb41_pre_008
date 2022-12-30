@@ -70,12 +70,12 @@ public class AnswerControllerRestDocsTest {
     @Test
     public void postAnswerTest() throws Exception {
         // given
-        AnswerPostDto post = new AnswerPostDto(1L, 1L, "answerContent");
+        AnswerPostDto post = new AnswerPostDto(1L, 1L, "answerContent answerContent answerContent");
         String content = gson.toJson(post);
 
         AnswerResponseDto responseDto =
                 new AnswerResponseDto
-                        (1L, 1L, "nickName", 1L, "answerContent",0, Answer.AnswerStatus.ANSWER_NOTSELECT, LocalDateTime.now(), LocalDateTime.now());
+                        (1L, 1L, "nickName", 1L, "answerContent answerContent answerContent",0, Answer.AnswerStatus.ANSWER_NOTSELECT, LocalDateTime.now(), LocalDateTime.now());
 
         // willReturn()이 최소 null은 아니어야 한다.
         given(mapper.answerPostDtoToAnswer(Mockito.any(AnswerPostDto.class)))
@@ -187,12 +187,12 @@ public class AnswerControllerRestDocsTest {
     public void patchAnswerTest() throws Exception {
         // given
         long answerId = 1L;
-        AnswerPatchDto patch = new AnswerPatchDto(1L, "answerContent", Answer.AnswerStatus.ANSWER_NOTSELECT);
+        AnswerPatchDto patch = new AnswerPatchDto(1L, "answerContent answerContent answerContent", Answer.AnswerStatus.ANSWER_NOTSELECT);
         String content = gson.toJson(patch);
 
         AnswerResponseDto responseDto =
                 new AnswerResponseDto
-                        (1L, 1L, "nickName", 1L, "answerContent", 0, Answer.AnswerStatus.ANSWER_NOTSELECT, LocalDateTime.now(), LocalDateTime.now());
+                        (1L, 1L, "nickName", 1L, "answerContent answerContent answerContent", 0, Answer.AnswerStatus.ANSWER_NOTSELECT, LocalDateTime.now(), LocalDateTime.now());
 
 
         // willReturn()이 최소한 null은 아니어야 한다.
@@ -252,11 +252,11 @@ public class AnswerControllerRestDocsTest {
         Answer answer = new Answer();
         answer.setAnswerId(answerId);
         answer.setAnswerStatus(Answer.AnswerStatus.ANSWER_NOTSELECT);
-        answer.setAnswerContent("answerContent");
+        answer.setAnswerContent("answerContent answerContent answerContent");
 
         AnswerResponseDto response =
                 new AnswerResponseDto
-                        (1L, 1L, "nickName", 1L, "answerContent", 0, Answer.AnswerStatus.ANSWER_NOTSELECT, LocalDateTime.now(), LocalDateTime.now());
+                        (1L, 1L, "nickName", 1L, "answerContent answerContent answerContent", 0, Answer.AnswerStatus.ANSWER_NOTSELECT, LocalDateTime.now(), LocalDateTime.now());
 
 
         // Stubbing by Mockito
@@ -299,15 +299,15 @@ public class AnswerControllerRestDocsTest {
         Answer answer1 = new Answer();
         answer1.setAnswerStatus(Answer.AnswerStatus.ANSWER_NOTSELECT);
         answer1.setAnswerId(1L);
-        answer1.setAnswerContent("answerContent");
+        answer1.setAnswerContent("answerContent answerContent answerContent");
 
         Answer answer2 = new Answer();
         answer2.setAnswerStatus(Answer.AnswerStatus.ANSWER_NOTSELECT);
         answer2.setAnswerId(2L);
-        answer2.setAnswerContent("answerContent2");
+        answer2.setAnswerContent("answerContent answerContent answerContent");
 
-        AnswerResponseDto response1 = new AnswerResponseDto(1L, 1L, "nickName", 1L, "answerContent",0,  Answer.AnswerStatus.ANSWER_NOTSELECT, LocalDateTime.now(), LocalDateTime.now());
-        AnswerResponseDto response2 = new AnswerResponseDto(2L, 2L, "nickName2", 2L, "answerContent2",0,  Answer.AnswerStatus.ANSWER_NOTSELECT, LocalDateTime.now(), LocalDateTime.now());
+        AnswerResponseDto response1 = new AnswerResponseDto(1L, 1L, "nickName", 1L, "answerContent answerContent answerContent",0,  Answer.AnswerStatus.ANSWER_NOTSELECT, LocalDateTime.now(), LocalDateTime.now());
+        AnswerResponseDto response2 = new AnswerResponseDto(2L, 2L, "nickName2", 2L, "answerContent answerContent answerContent",0,  Answer.AnswerStatus.ANSWER_NOTSELECT, LocalDateTime.now(), LocalDateTime.now());
 
         Page<Answer> pageAnswers =
                 new PageImpl<>(List.of(answer1, answer2),
