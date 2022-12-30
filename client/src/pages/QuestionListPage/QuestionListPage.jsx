@@ -96,8 +96,11 @@ const Section = styled.div`
   article {
     display: flex;
     border-top: 1px solid #d6d9dc;
-    border-bottom: 1px solid #d6d9dc;
     padding: 16px;
+
+    &:last-child {
+      border-bottom: 1px solid #d6d9dc;
+    }
 
     .dataInfo {
       width: 108px;
@@ -180,40 +183,40 @@ const QuestionListPage = () => {
             Filter
           </button>
         </div>
-        <article>
-          <div className="dataInfo">
-            <ul>
-              <li>
-                <span>0</span>votes
-              </li>
-              <li>
-                <span>0</span>answers
-              </li>
-              <li>
-                <span>0</span>views
-              </li>
-            </ul>
-          </div>
-          {questions === null
-            ? null
-            : questions.map((el, idx) => {
-                return (
-                  <div key={idx} className="questionInfo">
-                    <a href="/questions/:questionId" className="questionTitle">
+        {questions === null 
+          ? null 
+          : questions.map((el, idx) => {
+            return (
+              <article key={idx}>
+                <div className="dataInfo">
+                  <ul>
+                    <li>
+                      <span>0</span>votes
+                    </li>
+                    <li>
+                      <span>0</span>answers
+                    </li>
+                    <li>
+                      <span>0</span>views
+                    </li>
+                  </ul>
+                </div>
+                  <div className="questionInfo">
+                    <a href={`/questions/${el.questionId}`} className="questionTitle">
                       {el.title}
                     </a>
                     <div className="questionSub">
-                      {/* <Tags questionTags={el.questionId} /> */}
+                      <Tags questionTags={el.questionTags} />
                       <UserInfo
                         nickName={el.nickName}
-                        // createdAt={el.createdAt}
-                        // modifiedAt={el.modifiedAt}
+                        createdAt={el.createdAt}
+                        modifiedAt={el.modifiedAt}
                       />
                     </div>
                   </div>
-                );
-              })}
-        </article>
+                </article>
+              )
+            })}
       </Section>
     </Main>
   );
