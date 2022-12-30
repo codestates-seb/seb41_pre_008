@@ -234,6 +234,10 @@ const QuestionEditPage = () => {
       .catch((err) => console.log(err));
   }, []);
 
+  if (!window.localStorage.getItem("user")) {
+    return null;
+  }
+
   return (
     <Main>
       <EditIntroCard />
