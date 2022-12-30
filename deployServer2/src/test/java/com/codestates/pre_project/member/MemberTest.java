@@ -68,7 +68,7 @@ public class MemberTest {
     @Test
     public void signUpMemberTest() throws Exception{
 
-        MemberDto.signUpPost post = new MemberDto.signUpPost("Doctor","patient@gmail.com","healme");
+        MemberDto.signUpPost post = new MemberDto.signUpPost("Doctor","patient@gmail.com","Pre!008@#s2");
 
         String content = gson.toJson(post);
 
@@ -114,7 +114,7 @@ public class MemberTest {
     @Test
     public void signInMemberTest() throws Exception{
 
-        MemberDto.signInPost post = new MemberDto.signInPost("patient@gmail.com","healme");
+        MemberDto.signInPost post = new MemberDto.signInPost("patient@gmail.com","Pre!008@#s2");
 
         String content = gson.toJson(post);
 
@@ -161,7 +161,7 @@ public class MemberTest {
     @Test
     public void patchMemberTest() throws Exception{
         long memberId = 1L;
-        MemberDto.Patch patch = new MemberDto.Patch(memberId,"patient@gmail.com","healme");
+        MemberDto.Patch patch = new MemberDto.Patch(memberId,"patient@gmail.com","Pre!008@#s2");
         String content = gson.toJson(patch);
 
         MemberDto.Response response =
