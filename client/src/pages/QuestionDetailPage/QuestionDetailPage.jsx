@@ -332,7 +332,11 @@ const QuestionDetailPage = () => {
             <QuestionTitle>{questionData.title}</QuestionTitle>
             <QuestionTitleDetail>Asked: Modified: Viewed:</QuestionTitleDetail>
           </div>
-          <MainButton href="/questions/ask">Ask Question</MainButton>
+          {window.localStorage.getItem("user") ? (
+            <MainButton href="/questions/ask">Ask Question</MainButton>
+          ) : (
+            <MainButton href="/login">Ask Question</MainButton>
+          )}
         </QuestionTitleSection>
         <Question
           questionData={questionData}

@@ -120,9 +120,17 @@ const Question = ({ questionData, questionTag }) => {
         <SideSeciton>
           <SideButtonSection>
             <SideButton onClick={handleShowShareModal}>Share</SideButton>
-            <SideButton onClick={() => navigate("/questions/:questionId/edit")}>
-              Edit
-            </SideButton>
+            {window.localStorage.getItem("user") ? (
+              <SideButton
+                onClick={() => navigate("/questions/:questionId/edit")}
+              >
+                Edit
+              </SideButton>
+            ) : (
+              <SideButton onClick={() => window.location.replace("/login")}>
+                Edit
+              </SideButton>
+            )}
             <SideButton>Delete</SideButton>
             <LinkModal modalId="modal" isAnswer={false} />
           </SideButtonSection>

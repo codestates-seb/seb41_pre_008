@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import styled from "styled-components";
-import { MdError } from 'react-icons/md';
+import { MdError } from "react-icons/md";
 
 const AskContainer = styled.div`
   padding: 60px;
@@ -21,7 +21,7 @@ const AskContainer = styled.div`
       background-size: contain;
       background-position: right;
       background-repeat: no-repeat;
-      background-image: url('https://cdn.sstatic.net/Img/ask/background.svg?v=2e9a8205b368');
+      background-image: url("https://cdn.sstatic.net/Img/ask/background.svg?v=2e9a8205b368");
     }
   }
 
@@ -29,7 +29,7 @@ const AskContainer = styled.div`
     width: 852px;
     background-color: #ebf4fb;
     padding: 24px;
-    border: 1px solid hsl(205,57%,81%);
+    border: 1px solid hsl(205, 57%, 81%);
     border-radius: 3px;
     color: #3b4045;
     margin-bottom: 16px;
@@ -61,7 +61,10 @@ const AskContainer = styled.div`
     }
   }
 
-  .writingTitle, .writingProblem, .writingExpecting, .writingTags {
+  .writingTitle,
+  .writingProblem,
+  .writingExpecting,
+  .writingTags {
     display: flex;
     flex-direction: column;
     width: 852px;
@@ -98,7 +101,8 @@ const AskContainer = styled.div`
       margin-bottom: 6px;
     }
 
-    input, textarea {
+    input,
+    textarea {
       padding: 7.8px 9.1px;
       border: 1px solid #e3e6e8;
       border-radius: 3px;
@@ -187,7 +191,7 @@ const AskContainer = styled.div`
     margin: 2px 0;
     padding: 2px;
   }
-`
+`;
 
 const AskPage = () => {
   // tag
@@ -196,17 +200,17 @@ const AskPage = () => {
 
   // input value
   const [inputValue, setInputValue] = useState({
-    title: '',
-    problemContent: '',
-    expectContent: '',
+    title: "",
+    problemContent: "",
+    expectContent: "",
     tags: tag,
-  })
+  });
 
   const { title, problemContent, expectContent } = inputValue;
-  
+
   // title error
   const [titleError, setTitleError] = useState(false);
-  const [titleErrorMessage, setTitleErrorMessage] = useState('');
+  const [titleErrorMessage, setTitleErrorMessage] = useState("");
 
   // e.target name/value를 inputValue 객체에 복사
   const onChangeValue = (e) => {
@@ -215,33 +219,33 @@ const AskPage = () => {
       [e.target.name]: e.target.value,
     });
   };
-  
+
   console.log(inputValue);
-  // 입력한 값 초기화 버튼 
+  // 입력한 값 초기화 버튼
   const deleteValue = (e) => {
     setInputValue({
-      title: '',
-      problemContent: '',
-      expectContent: '',
+      title: "",
+      problemContent: "",
+      expectContent: "",
       tags: setTag([]),
     });
     setTitleError(false);
-  }
+  };
 
   // title 에러
   const handleError = () => {
-    if(title === '') {
+    if (title === "") {
       setTitleError(true);
-      setTitleErrorMessage('Title is missing.')
+      setTitleErrorMessage("Title is missing.");
     } else if (title.length < 15) {
       setTitleError(true);
-      setTitleErrorMessage('Title must be at least 15 characters.')
+      setTitleErrorMessage("Title must be at least 15 characters.");
     }
   };
 
   // tags 추가
   const addTag = (e) => {
-    if(e.length !== 0) {
+    if (e.length !== 0) {
       setTag([...tag, e]);
     }
   };
@@ -251,69 +255,139 @@ const AskPage = () => {
     setTag(filterTag);
   };
 
+  if (!window.localStorage.getItem("user")) {
+    return null;
+  }
+
   return (
     <AskContainer>
-      <div className='askTitle'>
+      <div className="askTitle">
         <h2>Ask a public question</h2>
         <div className="askTitleBg"></div>
       </div>
-      <div className='writingInfo'>
+      <div className="writingInfo">
         <h3>Writing a good question</h3>
-        <p>You’re ready to ask a programming-related question and this form will help guide you through the process. <br />
-        Looking to ask a non-programming question? See the topics here to find a relevant site.</p>
+        <p>
+          You’re ready to ask a programming-related question and this form will
+          help guide you through the process. <br />
+          Looking to ask a non-programming question? See the topics here to find
+          a relevant site.
+        </p>
         <ul>
           <h4>Steps</h4>
           <li>Summarize your problem in a one-line title.</li>
           <li>Describe your problem in more detail.</li>
           <li>Describe what you tried and what you expected to happen.</li>
-          <li>Add “tags” which help surface your question to members of the community.</li>
+          <li>
+            Add “tags” which help surface your question to members of the
+            community.
+          </li>
           <li>Review your question and post it to the site.</li>
         </ul>
       </div>
       <form>
-        <div className='writingTitle'>
-          <label for='title' className='labelTitle'>Title</label>
-          <label for='title'>Be specific and imagine you’re asking a question to another person.</label>
-          <div className='titleInput'>
-            <input name='title' type='text' id='title' className={titleError ? "error" : ""} placeholder='e.g. Is there an R function for finding the index of an element in a vector?' value={title} onChange={onChangeValue} />
-            {titleError ? <span><MdError /></span> : null}
+        <div className="writingTitle">
+          <label for="title" className="labelTitle">
+            Title
+          </label>
+          <label for="title">
+            Be specific and imagine you’re asking a question to another person.
+          </label>
+          <div className="titleInput">
+            <input
+              name="title"
+              type="text"
+              id="title"
+              className={titleError ? "error" : ""}
+              placeholder="e.g. Is there an R function for finding the index of an element in a vector?"
+              value={title}
+              onChange={onChangeValue}
+            />
+            {titleError ? (
+              <span>
+                <MdError />
+              </span>
+            ) : null}
           </div>
-          {titleError ? <div className='error'>{titleErrorMessage}</div> : null}
+          {titleError ? <div className="error">{titleErrorMessage}</div> : null}
         </div>
-        <div className='writingProblem'>
-          <label for='problem' className='labelTitle'>What are the details of your problem?</label>
-          <label for='problem'>Introduce the problem and expand on what you put in the title. Minimum 20 characters.</label>
-          <textarea id='problem' name='problemContent' minlength='20' value={problemContent} onChange={onChangeValue}></textarea>
+        <div className="writingProblem">
+          <label for="problem" className="labelTitle">
+            What are the details of your problem?
+          </label>
+          <label for="problem">
+            Introduce the problem and expand on what you put in the title.
+            Minimum 20 characters.
+          </label>
+          <textarea
+            id="problem"
+            name="problemContent"
+            minlength="20"
+            value={problemContent}
+            onChange={onChangeValue}
+          ></textarea>
         </div>
-        <div className='writingExpecting'>
-          <label for='expecting' className='labelTitle'>What did you try and what were you expecting?</label>
-          <label for='expecting'>Describe what you tried, what you expected to happen, and what actually resulted. Minimum 20 characters.</label>
-          <textarea id='expecting' name='expectContent' minlength='20' value={expectContent} onChange={onChangeValue}></textarea>
+        <div className="writingExpecting">
+          <label for="expecting" className="labelTitle">
+            What did you try and what were you expecting?
+          </label>
+          <label for="expecting">
+            Describe what you tried, what you expected to happen, and what
+            actually resulted. Minimum 20 characters.
+          </label>
+          <textarea
+            id="expecting"
+            name="expectContent"
+            minlength="20"
+            value={expectContent}
+            onChange={onChangeValue}
+          ></textarea>
         </div>
-        <div className='writingTags'>
-          <label for='tags' className='labelTitle'>Tags</label>
-          <label for='tags'>Add up to 5 tags to describe what your question is about. Start typing to see suggestions.</label>
-          <div className='tagsInput'>
+        <div className="writingTags">
+          <label for="tags" className="labelTitle">
+            Tags
+          </label>
+          <label for="tags">
+            Add up to 5 tags to describe what your question is about. Start
+            typing to see suggestions.
+          </label>
+          <div className="tagsInput">
             {tag.map((el, idx) => (
-                <span key={idx}>{el}
-                  <button type='button' onClick={() => deleteTag(idx)}>X</button>
-                </span>
+              <span key={idx}>
+                {el}
+                <button type="button" onClick={() => deleteTag(idx)}>
+                  X
+                </button>
+              </span>
             ))}
-            <input name='tags' type='text' id='tags' placeholder={tag.length !== 0 ? '' : 'e.g. (c# laravel typescript)'} onKeyUp={(e) => {
-              if(e.key === 'Enter') {
-                addTag(e.target.value);
-                e.target.value = null;
-              } else if(e.key === 'Backspace') {};
-            }} />
+            <input
+              name="tags"
+              type="text"
+              id="tags"
+              placeholder={
+                tag.length !== 0 ? "" : "e.g. (c# laravel typescript)"
+              }
+              onKeyUp={(e) => {
+                if (e.key === "Enter") {
+                  addTag(e.target.value);
+                  e.target.value = null;
+                } else if (e.key === "Backspace") {
+                }
+              }}
+            />
           </div>
         </div>
-        <div className='buttons'>
-          <button type='button' className='submitButton' onClick={handleError}>Review your question</button>
-          <button type='button' className='deleteButton' onClick={deleteValue}>Discard draft</button>
+        <div className="buttons">
+          <button type="button" className="submitButton" onClick={handleError}>
+            Review your question
+          </button>
+          <button type="button" className="deleteButton" onClick={deleteValue}>
+            Discard draft
+          </button>
         </div>
       </form>
     </AskContainer>
-  )
+  );
 };
 
 export default AskPage;
