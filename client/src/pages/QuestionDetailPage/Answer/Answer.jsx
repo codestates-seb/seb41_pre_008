@@ -48,15 +48,17 @@ const AnswerContentContainer = styled.section`
 const Answer = ({ answer }) => {
   const [isBookMark, setIsBookMark] = useState(false);
   const navigate = useNavigate();
-  // let createObjDate = new Date(
-  //   `${answer.createdAt.substr(0, 4)}-${answer.createdAt.substr(
-  //     5,
-  //     2
-  //   )}-${answer.createdAt.substr(8, 11)}`
-  // );
-  // console.log(createObjDate);
-  // const createDate = createObjDate.toString();
-  // const time = ``
+  const createObjDate = new Date(
+    `${answer.createdAt.substr(0, 4)}-${answer.createdAt.substr(
+      5,
+      2
+    )}-${answer.createdAt.substr(8, 11)}`
+  );
+  const createDate = createObjDate.toString();
+  const time = `${createDate.slice(4, 7)} ${createDate.slice(
+    8,
+    10
+  )} at ${createDate.slice(16, 21)}`;
 
   // 링크 공유 모달 핸들러
   const handleHideShareModal = (e) => {
@@ -78,12 +80,33 @@ const Answer = ({ answer }) => {
       .catch((err) => console.log(err));
   };
 
+  const handleVoteUp = () => {
+    axios
+      .post(`http://3.39.203.17:8080/answers/up/${answer.answerId}`, {
+        likes: 1,
+      })
+      .then(() => window.location.reload())
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const handleVoteDown = () => {
+    axios
+      .post(`http://3.39.203.17:8080/answers/down/${answer.answerId}`, {
+        likes: 1,
+      })
+      .then(() => window.location.reload())
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <AnswerContentSection onClick={handleHideShareModal}>
       <Vote>
-        <RiArrowUpSFill className="icon" size={64} />
+        <RiArrowUpSFill className="icon" size={64} onClick={handleVoteUp} />
         <span>{answer.likes}</span>
-        <RiArrowDownSFill className="icon" size={64} />
+        <RiArrowDownSFill className="icon" size={64} onClick={handleVoteDown} />
         {isBookMark ? (
           <FaBookmark
             size={16}
@@ -100,7 +123,6 @@ const Answer = ({ answer }) => {
       </Vote>
       <AnswerContentContainer>
         <Viewer initialValue={answer.answerContent} />
-        {/* {answer.answerContent} */}
         <SideSeciton>
           <SideButtonSection>
             <SideButton onClick={handleShowShareModal}>Share</SideButton>
@@ -117,7 +139,7 @@ const Answer = ({ answer }) => {
             <LinkModal modalId={answer.answerId} isAnswer={true} />
           </SideButtonSection>
           <UserProfileCard
-            time="2"
+            time={time}
             name={answer.nickName}
             reputation="992"
             src="https://i.pinimg.com/474x/d7/70/33/d7703333ad8ba85827b60fccf42f9c25.jpg"

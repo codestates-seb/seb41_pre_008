@@ -17,6 +17,7 @@ import {
 } from "../QuestionDetailPage/DetailComponents/ButtonBundle";
 import { MdError } from "react-icons/md";
 import axios from "axios";
+import { useEffect } from "react";
 
 const Main = styled.main`
   display: flex;
@@ -89,6 +90,8 @@ const AnswerEditPage = () => {
         })
         .catch((err) => console.log(err));
       navigate("/questions/:questionId");
+      // window.location.reload();
+      navigate(0);
     }
     // 나머지 경우 post 요청 대신 문구와 디자인으로 경고 표시
     if (body.length >= 30) {

@@ -10,10 +10,11 @@ import {
 import LinkModal from "../LinkModal/LinkModal";
 import UserProfileCard from "../DetailComponents/UserProfileCard";
 import TagCard from "../DetailComponents/TagCard";
-import { Viewer } from "@toast-ui/react-editor";
+// import { Viewer } from "@toast-ui/react-editor";
 // import QuestionViewer from "./QuestionViewer";
 import { useNavigate } from "react-router-dom";
 // import { useEffect } from "react";
+import axios from "axios";
 // import { useEffect } from "react";
 
 const QuestionContentSection = styled.section`
@@ -37,12 +38,14 @@ const Vote = styled.section`
 `;
 
 const QuestionContent = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: column;
   color: #232629;
   line-height: 25px;
+  /* margin-top: 1rem; */
   margin: 0.5rem 0;
-  width: 100%;
+  justify-content: space-between;
 `;
 
 export const SideSeciton = styled.section`
@@ -55,12 +58,24 @@ export const SideSeciton = styled.section`
 const Question = ({ questionData, questionTag }) => {
   const navigate = useNavigate();
   const [isBookMark, setIsBookMark] = useState(false);
+
+  // const test = new Date(
+  //   `${questionData.createdAt.slice(0, 4)}-${questionData.createdAt.slice(
+  //     5,
+  //     7
+  //   )}-${questionData.createdAt.slice(8, 19)}`
+  // );
+  // const date = test.toString();
+  // const tame = `${date.slice(4, 7)} ${date.slice(8, 10)} at ${date.slice(
+  //   16,
+  //   21
+  // )}`;
   // const [test, setTest] = useState(true);
 
   // useEffect(() => {
   //   setTest(!test);
   // }, []);
-  // console.log(test);
+  // console.log(questionData.createdAt);
   // const [content, setContent] = useState("");
 
   // console.log(questionData);
@@ -75,6 +90,10 @@ const Question = ({ questionData, questionTag }) => {
     e.stopPropagation();
     document.getElementById("modal").classList.remove("hide");
   };
+
+  // const handleVoteUp = () => {
+
+  // };
   return (
     <QuestionContentSection>
       <Vote>
@@ -96,26 +115,8 @@ const Question = ({ questionData, questionTag }) => {
         )}
       </Vote>
       <QuestionContent>
-        <div>
-          {/* dsgagkdskfkkdfalgsg dsgagkdskfkkdfalgsg dsgagkdskfkkdfalgsgv
-          dsgagkdskfkkdfalgsg dsgagkdskfkkdfalgsg dsgagkdskfkkdfalgsg
-          dsgagkdskfkkdfalgsg dsgagkdskfkkdfalgsg dsgagkdskfkkdfalgsg
-          dsgagkdskfkkdfalgsg dsgagkdskfkkdfalgsg dsgagkdskfkkdfalgsgv
-          dsgagkdskfkkdfalgsg dsgagkdskfkkdfalgsg dsgagkdskfkkdfalgsg
-          dsgagkdskfkkdfalgsg dsgagkdskfkkdfalgsg dsgagkdskfkkdfalgsg
-          dsgagkdskfkkdfalgsg dsgagkdskfkkdfalgsg dsgagkdskfkkdfalgsgv
-          dsgagkdskfkkdfalgsg dsgagkdskfkkdfalgsg dsgagkdskfkkdfalgsg
-          dsgagkdskfkkdfalgsg dsgagkdskfkkdfalgsg dsgagkdskfkkdfalgsg
-          dsgagkdskfkkdfalgsg dsgagkdskfkkdfalgsg dsgagkdskfkkdfalgsgv
-          dsgagkdskfkkdfalgsg dsgagkdskfkkdfalgsg dsgagkdskfkkdfalgsg
-          dsgagkdskfkkdfalgsg dsgagkdskfkkdfalgsg dsgagkdskfkkdfalgsg */}
-          <Viewer initialValue={questionData.problemContent} />
-        </div>
-
-        {/* <QuestionViewer data={questionData.problemContent} /> */}
-        {/* <Question questionData={questionData} /> */}
-
-        {/* {questionData.problemContent} */}
+        {questionData.problemContent}
+        {/* <Viewer initialValue={questionData.problemContent} /> */}
         <TagCard tags={questionTag} />
         <SideSeciton>
           <SideButtonSection>
@@ -128,7 +129,7 @@ const Question = ({ questionData, questionTag }) => {
           </SideButtonSection>
           <UserProfileCard
             type={true}
-            time="2"
+            time=""
             name={questionData.nickName}
             reputation="9"
             src="https://images.unsplash.com/photo-1544967082-d9d25d867d66?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1160&q=80"

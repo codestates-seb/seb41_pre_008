@@ -43,7 +43,7 @@ const UserProfileCard = ({ type = false, time, name, reputation, src }) => {
   return (
     <UserProfileContainer>
       <div className="recent">
-        {type === true ? "asked" : "answered"} {time} mins ago
+        {type === true ? "asked" : "answered"} {time}
       </div>
       <div className="userProfile">
         <img src={src} alt="profileimg" />
