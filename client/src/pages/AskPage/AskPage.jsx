@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from "styled-components";
 import { MdError } from 'react-icons/md';
+import axios from 'axios';
 
 const AskContainer = styled.div`
   padding: 60px;
@@ -77,10 +78,10 @@ const AskContainer = styled.div`
       padding: 0 2px;
     }
 
-    .titleInput {
+    .inputWrapper {
       position: relative;
 
-      input {
+      input, textarea {
         width: 100%;
       }
 
@@ -190,23 +191,32 @@ const AskContainer = styled.div`
 `
 
 const AskPage = () => {
-  // tag
-  const tagList = [];
-  const [tag, setTag] = useState(tagList);
-
   // input value
   const [inputValue, setInputValue] = useState({
     title: '',
     problemContent: '',
     expectContent: '',
-    tags: tag,
   })
-
+  
   const { title, problemContent, expectContent } = inputValue;
+
+  // tag
+  const [tagValue, setTagValue] = useState([]);
   
   // title error
   const [titleError, setTitleError] = useState(false);
   const [titleErrorMessage, setTitleErrorMessage] = useState('');
+  // content error
+  const [problemError, setProblemError] = useState(false);
+  const [problemErrorMessage, setProblemErrorMessage] = useState('');
+  const [expectError, setExpectError] = useState(false);
+  const [expectErrorMessage, setExpectErrorMessage] = useState('');
+  // tag error
+  const [tagError, setTagError] = useState(false);
+  const [tagErrorMessage, setTagErrorMessage] = useState('');
+
+  // memberId
+  const memberId = localStorage.getItem('user');
 
   // e.target name/value를 inputValue 객체에 복사
   const onChangeValue = (e) => {
@@ -215,42 +225,79 @@ const AskPage = () => {
       [e.target.name]: e.target.value,
     });
   };
+
+  // tags 추가
+  const addTag = (e) => {
+    if(e.length !== 0) {
+      setTagValue([...tagValue, {tagId: tagValue.length + 1, name: e}]);
+    }
+  };
+
+  // tags 삭제
+  const deleteTag = (e) => {
+    const filterTag = tagValue.filter((el, idx) => idx !== e);
+    setTagValue(filterTag);
+  };
   
-  console.log(inputValue);
   // 입력한 값 초기화 버튼 
   const deleteValue = (e) => {
     setInputValue({
       title: '',
       problemContent: '',
       expectContent: '',
-      tags: setTag([]),
     });
+    setTagValue([]);
     setTitleError(false);
+    setProblemError(false);
+    setExpectError(false);
+    setTagError(false);
   }
 
-  // title 에러
-  const handleError = () => {
+  // submit button
+  const handleSubmit = () => {
+    // 유효성 검사
     if(title === '') {
       setTitleError(true);
-      setTitleErrorMessage('Title is missing.')
-    } else if (title.length < 15) {
+      setTitleErrorMessage('Title is missing.');
+    } 
+    if(title.length < 15) {
       setTitleError(true);
-      setTitleErrorMessage('Title must be at least 15 characters.')
+      setTitleErrorMessage('Title must be at least 15 characters.');
     }
-  };
-
-  // tags 추가
-  const addTag = (e) => {
-    if(e.length !== 0) {
-      setTag([...tag, e]);
+    if(problemContent === '') {
+      setProblemError(true);
+      setProblemErrorMessage('Problem content is missing.');
     }
-  };
-  // tags 삭제
-  const deleteTag = (e) => {
-    const filterTag = tag.filter((el, idx) => idx !== e);
-    setTag(filterTag);
-  };
+    if(problemContent.length < 20) {
+      setProblemError(true);
+      setProblemErrorMessage('Problem content must be at least 20 characters.');
+    }
+    if(expectContent === '') {
+      setExpectError(true);
+      setExpectErrorMessage('Expect content is missing.');
+    }
+    if(expectContent.length < 20) {
+      setExpectError(true);
+      setExpectErrorMessage('Expect content must be at least 20 characters.');
+    }
+    if(tagValue.length === 0) {
+      setTagError(true);
+      setTagErrorMessage('There must be at least one tag.');
+    }
 
+    const data = {
+      memberId: memberId,
+      ...inputValue,
+      questionTags: tagValue,
+    }
+    console.log(data)
+
+    // // question post 요청 보내기
+    // axios.post('http://3.39.203.17:8080/questions', data)
+    // .catch((err) => console.log(err.message));
+
+    window.location.replace('/');
+  }
   return (
     <AskContainer>
       <div className='askTitle'>
@@ -274,41 +321,50 @@ const AskPage = () => {
         <div className='writingTitle'>
           <label for='title' className='labelTitle'>Title</label>
           <label for='title'>Be specific and imagine you’re asking a question to another person.</label>
-          <div className='titleInput'>
-            <input name='title' type='text' id='title' className={titleError ? "error" : ""} placeholder='e.g. Is there an R function for finding the index of an element in a vector?' value={title} onChange={onChangeValue} />
-            {titleError ? <span><MdError /></span> : null}
+          <div className='inputWrapper'>
+            <input name='title' type='text' id='title' className={titleError && title.length < 15 ? "error" : ""} placeholder='e.g. Is there an R function for finding the index of an element in a vector?' value={title} onChange={onChangeValue} />
+            {titleError && title.length < 15 ? <span><MdError /></span> : null}
           </div>
-          {titleError ? <div className='error'>{titleErrorMessage}</div> : null}
+          {titleError && title.length < 15 ? <div className='error'>{titleErrorMessage}</div> : null}
         </div>
         <div className='writingProblem'>
           <label for='problem' className='labelTitle'>What are the details of your problem?</label>
           <label for='problem'>Introduce the problem and expand on what you put in the title. Minimum 20 characters.</label>
-          <textarea id='problem' name='problemContent' minlength='20' value={problemContent} onChange={onChangeValue}></textarea>
+          <div className='inputWrapper'>
+            <textarea id='problem' name='problemContent' className={problemError && problemContent.length < 20 ? "error" : ""} value={problemContent} onChange={onChangeValue}></textarea>
+            {problemError && problemContent.length < 20 ? <span><MdError /></span> : null}
+          </div>
+          {problemError && problemContent.length < 20 ? <div className='error'>{problemErrorMessage}</div> : null}
         </div>
         <div className='writingExpecting'>
           <label for='expecting' className='labelTitle'>What did you try and what were you expecting?</label>
           <label for='expecting'>Describe what you tried, what you expected to happen, and what actually resulted. Minimum 20 characters.</label>
-          <textarea id='expecting' name='expectContent' minlength='20' value={expectContent} onChange={onChangeValue}></textarea>
+          <div className='inputWrapper'>
+            <textarea id='expecting' name='expectContent' className={expectError && expectContent.length < 20 ? "error" : ""} value={expectContent} onChange={onChangeValue}></textarea>
+            {expectError && expectContent.length < 20 ? <span><MdError /></span> : null}
+          </div>
+        {expectError && expectContent.length < 20 ? <div className='error'>{expectErrorMessage}</div> : null}
         </div>
         <div className='writingTags'>
           <label for='tags' className='labelTitle'>Tags</label>
           <label for='tags'>Add up to 5 tags to describe what your question is about. Start typing to see suggestions.</label>
           <div className='tagsInput'>
-            {tag.map((el, idx) => (
-                <span key={idx}>{el}
+            {tagValue.map((el, idx) => (
+                <span key={idx}>{el.name}
                   <button type='button' onClick={() => deleteTag(idx)}>X</button>
                 </span>
             ))}
-            <input name='tags' type='text' id='tags' placeholder={tag.length !== 0 ? '' : 'e.g. (c# laravel typescript)'} onKeyUp={(e) => {
-              if(e.key === 'Enter') {
-                addTag(e.target.value);
-                e.target.value = null;
-              } else if(e.key === 'Backspace') {};
-            }} />
+              <input type='text' id='tags' placeholder={tagValue.length !== 0 ? '' : 'e.g. (c# laravel typescript)'} onKeyUp={(e) => {
+                if(e.key === 'Enter') {
+                  addTag(e.target.value);
+                  e.target.value = null;
+                } else if(e.key === 'Backspace') {};
+              }} />
           </div>
+        {tagError && tagValue.length === 0 ? <div className='error'>{tagErrorMessage}</div> : null}
         </div>
         <div className='buttons'>
-          <button type='button' className='submitButton' onClick={handleError}>Review your question</button>
+          <button type='button' className='submitButton' onClick={handleSubmit}>Review your question</button>
           <button type='button' className='deleteButton' onClick={deleteValue}>Discard draft</button>
         </div>
       </form>
