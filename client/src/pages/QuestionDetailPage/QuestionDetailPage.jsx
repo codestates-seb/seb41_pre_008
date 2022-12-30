@@ -280,15 +280,13 @@ const QuestionDetailPage = () => {
       // 추가해야 할 내용: 서버에 post 요청 보내기
       axios
         .post("http://3.39.203.17:8080/answers", {
-          memberId: 3,
+          memberId: 2,
           questionId: 1,
           answerContent: body,
         })
-        .then((res) => setAnswerData([...answerData, res.data]))
         .catch((err) => console.log(err));
 
       window.location.reload();
-      // navigate("/questions/1");
     } else {
       setBodyPost(false);
       document.getElementById("editor").classList.remove("hide");
@@ -334,7 +332,11 @@ const QuestionDetailPage = () => {
             <QuestionTitle>{questionData.title}</QuestionTitle>
             <QuestionTitleDetail>Asked: Modified: Viewed:</QuestionTitleDetail>
           </div>
-          <MainButton href="/questions/ask">Ask Question</MainButton>
+          {window.localStorage.getItem("user") ? (
+            <MainButton href="/questions/ask">Ask Question</MainButton>
+          ) : (
+            <MainButton href="/login">Ask Question</MainButton>
+          )}
         </QuestionTitleSection>
         <Question
           questionData={questionData}

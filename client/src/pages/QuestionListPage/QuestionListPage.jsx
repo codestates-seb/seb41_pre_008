@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { IoFilter } from "react-icons/io5";
-import axios from 'axios';
-import Tags from './Tags';
-import UserInfo from './UserInfo';
+import axios from "axios";
+import Tags from "./Tags";
+import UserInfo from "./UserInfo";
 
 const Main = styled.div`
   display: flex;
@@ -96,8 +96,11 @@ const Section = styled.div`
   article {
     display: flex;
     border-top: 1px solid #d6d9dc;
-    border-bottom: 1px solid #d6d9dc;
     padding: 16px;
+
+    &:last-child {
+      border-bottom: 1px solid #d6d9dc;
+    }
 
     .dataInfo {
       width: 108px;
@@ -141,26 +144,30 @@ const Section = styled.div`
 
 const QuestionListPage = () => {
   // 받아온 데이터 저장해서 questions에 저장하기
-  const [questions, setQuestions] = useState([]);
+  const [questions, setQuestions] = useState(null);
 
   useEffect(() => {
     axios
-      .get('http://3.39.203.17:8080/questions?page=1&size=2')
-      .then((res) => {
-        setQuestions([res.data]);
-      })
+      .get("http://3.39.203.17:8080/questions?page=1&size=2")
+      .then((res) => setQuestions(res.data.data))
       .catch((err) => console.log(err.message));
   }, []);
+
+  console.log(questions);
   return (
     <Main>
       <Section>
         <header>
           <h2>All Questions</h2>
-          <a href="/questions/ask">Ask Question</a>
+          {window.localStorage.getItem("user") ? (
+            <a href="/questions/ask">Ask Question</a>
+          ) : (
+            <a href="/login">Ask Question</a>
+          )}
         </header>
         <div className="alignFilter">
           <div className="questionsNumber">
-            <span>{questions.length}</span>
+            <span>{questions === null ? null : questions.length}</span>
             questions
           </div>
           <div className="filterButtons">
@@ -180,32 +187,40 @@ const QuestionListPage = () => {
             Filter
           </button>
         </div>
-        <article>
-          <div className="dataInfo">
-            <ul>
-              <li>
-                <span>0</span>votes
-              </li>
-              <li>
-                <span>0</span>answers
-              </li>
-              <li>
-                <span>0</span>views
-              </li>
-            </ul>
-          </div>
-          {questions.map((el, idx) => {
+        {questions === null 
+          ? null 
+          : questions.map((el, idx) => {
             return (
-              <div key={idx} className="questionInfo">
-                <a href='/questions/:questionId' className='questionTitle'>{el.title}</a>
-                <div className="questionSub">
-                  <Tags questionTags={el.questionTags}/>
-                  <UserInfo nickName={el.nickName} createdAt={el.createdAt} modifiedAt={el.modifiedAt}/>
+              <article key={idx}>
+                <div className="dataInfo">
+                  <ul>
+                    <li>
+                      <span>0</span>votes
+                    </li>
+                    <li>
+                      <span>0</span>answers
+                    </li>
+                    <li>
+                      <span>0</span>views
+                    </li>
+                  </ul>
                 </div>
-              </div>
-            )
-          })}
-        </article>
+                  <div className="questionInfo">
+                    <a href={`/questions/${el.questionId}`} className="questionTitle">
+                      {el.title}
+                    </a>
+                    <div className="questionSub">
+                      <Tags questionTags={el.questionTags} />
+                      <UserInfo
+                        nickName={el.nickName}
+                        createdAt={el.createdAt}
+                        modifiedAt={el.modifiedAt}
+                      />
+                    </div>
+                  </div>
+                </article>
+              )
+            })}
       </Section>
     </Main>
   );

@@ -1,15 +1,13 @@
 import React from "react";
 import styled from "styled-components";
-import { Editor, Viewer } from "@toast-ui/react-editor";
 import "@toast-ui/editor/dist/toastui-editor.css";
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { MainButton } from "../QuestionDetailPage/DetailComponents/ButtonBundle";
 import { useNavigate } from "react-router-dom";
 import { CancelButton } from "../QuestionDetailPage/DetailComponents/ButtonBundle";
 import TagsInput from "./TagsInput";
 import { ButtonContainer } from "../QuestionDetailPage/DetailComponents/ButtonBundle";
 import { MdError } from "react-icons/md";
-// import { useEffect } from "react";
 import axios from "axios";
 
 const Main = styled.main`
@@ -40,25 +38,33 @@ export const Container = styled.section`
   flex-direction: column;
   margin: 1rem 2rem;
 
-  .body {
+  .bodyedit {
     position: relative;
-    .editor {
+    .editwarning {
       width: 100%;
-      .toastui-editor-main-container {
-        border: 1px solid #d0393e;
-        &:focus-within {
-          box-shadow: 0 0 0 4px rgba(208, 57, 62, 0.2);
-        }
+      height: 230px;
+      padding: 0.5rem;
+      border: 1px solid #d0393e;
+      font-family: sans-serif;
+      font-weight: 500;
+      font-size: 14px;
+      border-radius: 3px;
+      &:focus-within {
+        outline: none !important;
+        border-color: #d0393e;
+        box-shadow: 0 0 0 4px rgba(208, 57, 62, 0.2);
       }
     }
-    .editor.hide {
+    .editwarning.hide {
       width: 100%;
-      .toastui-editor-main-container {
-        border: none;
-        &:focus-within {
-          border: 1px solid #0a95ff;
-          box-shadow: 0 0 0 4px rgba(10, 149, 255, 0.1);
-        }
+      height: 230px;
+      padding: 0.5rem;
+      border: 1px solid rgb(169, 170, 178);
+      border-radius: 3px;
+      &:focus-within {
+        outline: none !important;
+        border-color: #0a95ff;
+        box-shadow: 0 0 0 4px rgba(10, 149, 255, 0.1);
       }
     }
 
@@ -67,7 +73,7 @@ export const Container = styled.section`
       color: #d0393e;
       font-size: 20px;
       right: 8px;
-      top: 150px;
+      top: 105px;
     }
   }
   .warning {
@@ -76,11 +82,8 @@ export const Container = styled.section`
     color: #d0393e;
   }
 
-  .test {
+  .edit {
     position: relative;
-    /* input {
-      width: 100%;
-    } */
     .editwarning {
       width: 100%;
       padding: 0.5rem;
@@ -131,7 +134,7 @@ export const EditCard = ({
   return (
     <Container>
       <EditTitle>{editTitle}</EditTitle>
-      <div className="test">
+      <div className="edit">
         <input
           id={id}
           className="editwarning hide"
@@ -163,9 +166,7 @@ export const EditIntroCard = () => {
 };
 
 const QuestionEditPage = () => {
-  const editorRef = useRef();
   const navigate = useNavigate();
-  const [isViewer, setIsViewer] = useState(false);
   const [title, setTitle] = useState("");
   const [titlepost, setTitlePost] = useState(true);
   const [body, setBody] = useState("");
@@ -179,8 +180,8 @@ const QuestionEditPage = () => {
     setTitle(e.target.value);
   };
 
-  const handleBodyChange = () => {
-    setBody(editorRef.current.getInstance().getMarkdown());
+  const handleBodyChange = (e) => {
+    setBody(e.target.value);
   };
 
   const handleSummaryChange = (e) => {
@@ -204,11 +205,11 @@ const QuestionEditPage = () => {
     }
     if (body.length >= 30) {
       setBodyPost(true);
-      document.getElementById("editor").classList.add("hide");
+      document.getElementById("body").classList.add("hide");
     }
     if (body.length < 30) {
       setBodyPost(false);
-      document.getElementById("editor").classList.remove("hide");
+      document.getElementById("body").classList.remove("hide");
     }
     if (summary.length >= 10) {
       setSummaryPost(true);
@@ -220,6 +221,8 @@ const QuestionEditPage = () => {
     }
   };
 
+  console.log("ggg");
+
   useEffect(() => {
     axios
       .get("http://3.39.203.17:8080/questions/1")
@@ -227,13 +230,14 @@ const QuestionEditPage = () => {
         setTitle(res.data.title);
         setBody(res.data.problemContent);
         setTags(res.data.questionTags);
-        // console.log(res.data);
       })
       .catch((err) => console.log(err));
   }, []);
 
-  // console.log(body);
-  // console.log(typeof body);
+  if (!window.localStorage.getItem("user")) {
+    return null;
+  }
+
   return (
     <Main>
       <EditIntroCard />
@@ -247,28 +251,13 @@ const QuestionEditPage = () => {
       />
       <Container>
         <EditTitle>Body</EditTitle>
-        <div className="body">
-          <div id="editor" className="editor hide">
-            <Editor
-              ref={editorRef}
-              // value={body}
-              initialValue={body}
-              initialEditType="wysiwyg"
-              previewStyle="vertical"
-              placeholder="Please enter your contents"
-              height="300px"
-              toolbarItems={[
-                ["heading", "bold", "italic", "strike"],
-                ["code", "codeblock"],
-                ["hr", "quote"],
-                ["ul", "ol", "task"],
-                ["table", "image", "link"],
-              ]}
-              useCommandShortcut={false}
-              onChange={handleBodyChange}
-              autofocus={false}
-            />
-          </div>
+        <div className="bodyedit">
+          <textarea
+            id="body"
+            className="editwarning hide"
+            onChange={handleBodyChange}
+            value={body}
+          />
           {bodyPost ? "" : <MdError className="icon" />}
         </div>
         {bodyPost ? (
@@ -278,10 +267,6 @@ const QuestionEditPage = () => {
             Body must be at least 30 characters; you entered {body.length}.
           </div>
         )}
-        <MainButton onClick={() => setIsViewer(!isViewer)}>
-          {isViewer ? "Close viewer" : "Open viewer"}
-        </MainButton>
-        {isViewer && <Viewer initialValue={body} />}
       </Container>
       <Container>
         <EditTitle>Tags</EditTitle>

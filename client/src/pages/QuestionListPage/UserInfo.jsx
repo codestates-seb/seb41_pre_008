@@ -36,6 +36,7 @@ const UserInfoWrapper = styled.div`
 `
 
 const UserInfo = ({nickName, createdAt, modifiedAt}) => {
+    // 질문 등록, 수정 시간
     const displayAt = (time) => {
         const milliSeconds = new Date().getTime() - new Date(time).getTime();
         const seconds = milliSeconds / 1000;
