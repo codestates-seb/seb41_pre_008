@@ -7,7 +7,7 @@ const ModalContainer = styled.section`
     flex-direction: column;
     justify-content: space-between;
     position: relative;
-    margin: 1.7rem -8rem;
+    margin: 1.7rem -10.5rem;
     padding: 10px 12px 10px 12px;
     background: #ffffff;
     border-radius: 5px;

@@ -1,68 +1,16 @@
 import React from "react";
 import styled from "styled-components";
-// import { RiArrowUpSFill, RiArrowDownSFill } from "react-icons/ri";
-// import { FaBookmark, FaRegBookmark } from "react-icons/fa";
 import { useState, useRef } from "react";
-// import { useNavigate } from "react-router-dom";
 import { Editor, Viewer } from "@toast-ui/react-editor";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import AnswerList from "./Answer/AnserList";
-// import LinkModal from "./LinkModal/LinkModal";
-// import UserProfileCard from "./DetailComponents/UserProfileCard";
-// import TagCard from "./DetailComponents/TagCard";
-import {
-  MainButton,
-  // SideButtonSection,
-  // SideButton,
-  CancelButton,
-} from "./DetailComponents/ButtonBundle";
+import { MainButton, CancelButton } from "./DetailComponents/ButtonBundle";
 import EditModalCard from "./EditModal/EditModal";
 import Question from "./Question/Question";
 import { MdError } from "react-icons/md";
-
 import { useEffect } from "react";
-
 import axios from "axios";
-
-// const data = [
-//   {
-//     id: 1,
-//     content:
-//       "Lorem Ipsum is simply dummy body of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy body ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-//     vote: 1,
-//     tag: "gogo",
-//     user: "TaTa",
-//   },
-//   {
-//     id: 2,
-//     content:
-//       "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model body, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).",
-//     vote: 3,
-//     tag: "gogo",
-//     user: "TaTa",
-//   },
-//   {
-//     id: 3,
-//     content:
-//       "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of body. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.",
-//     vote: 2,
-//     tag: "gogo",
-//     user: "TaTa",
-//   },
-//   {
-//     id: 4,
-//     content: "asdggdffherhdfbfdbdf",
-//     vote: 0,
-//     tag: "gogo",
-//     user: "TaTa",
-//   },
-// ];
-
-// const dummytags = [
-//   { tagId: 1, name: "javascript" },
-//   { tagId: 2, name: "python" },
-//   { tagId: 3, name: "c#" },
-// ];
+import { useParams } from "react-router-dom";
 
 const Main = styled.main`
   display: flex;
@@ -144,43 +92,12 @@ const QuestionTitle = styled.h1`
 const QuestionTitleDetail = styled.p`
   font-size: 14px;
   color: rgb(116, 117, 122);
+  span {
+    color: black;
+    padding-left: 0.5rem;
+    padding-right: 1rem;
+  }
 `;
-
-// const QuestionContentSection = styled.section`
-//   display: flex;
-//   padding: 1rem 0 1rem 1rem;
-//   align-items: flex-start;
-// `;
-
-// const Vote = styled.section`
-//   display: flex;
-//   flex-direction: column;
-//   align-items: center;
-//   font-size: x-large;
-//   color: rgb(116, 117, 122);
-//   .icon {
-//     color: #b6b8bd;
-//     &:active {
-//       color: #f48225;
-//     }
-//   }
-// `;
-
-// const QuestionContent = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   color: #232629;
-//   line-height: 25px;
-//   margin: 0.5rem 1rem;
-//   width: 100%;
-// `;
-
-// export const SideSeciton = styled.section`
-//   display: flex;
-//   justify-content: space-between;
-//   align-items: flex-start;
-//   margin-top: 1rem;
-// `;
 
 const AnswerTitle = styled.h2`
   display: flex;
@@ -211,66 +128,50 @@ const BottomButtonSection = styled.div`
 `;
 
 const QuestionDetailPage = () => {
-  // const navigate = useNavigate();
   const editorRef = useRef();
+  const { questionId } = useParams();
   const [questionData, setQuestionData] = useState([]);
   const [answerData, setAnswerData] = useState([]);
-  // const [testData, setTestData] = useState([]);
-  // const [isBookMark, setIsBookMark] = useState(false);
   const [isViewer, setIsViewer] = useState(false);
   const [isEditModal, setIsEditModal] = useState(false);
   const [body, setBody] = useState("");
   const [bodyPost, setBodyPost] = useState(true);
   const [questionTag, setQuestionTag] = useState([]);
-  // const [content, setContent] = useState("");
 
   // 답변 정렬 기능 구현
   useEffect(() => {
-    // setTestData(data.sort((a, b) => a.vote - b.vote).reverse());
-    // if (localStorage.getItem("state") === "vote") {
-    //   // console.log("vote");
-    //   setTestData(data.sort((a, b) => a.vote - b.vote).reverse());
-    // }
-    // if (localStorage.getItem("state") === "id") {
-    //   // console.log("id");
-    //   setTestData(data.sort((a, b) => a.id - b.id));
-    // }
     axios
-      .get("http://3.39.203.17:8080/questions/1")
+      .get(`http://3.39.203.17:8080/questions/${questionId}`)
       .then((res) => {
-        // console.log(res.data);
         setQuestionData(res.data);
         setAnswerData(res.data.answers);
         setQuestionTag(res.data.questionTags);
-        // setContent(res.data.problemContent);
         if (localStorage.getItem("state") === "vote") {
-          // console.log("vote");
+          setAnswerData(res.data.answers.sort((a, b) => b.likes - a.likes));
+        }
+        if (localStorage.getItem("state") === "newest") {
           setAnswerData(
-            res.data.answers.sort((a, b) => a.answerId - b.answerId)
+            res.data.answers.sort(
+              (a, b) =>
+                new Date(b.modifiedAt).getTime() -
+                new Date(a.modifiedAt).getTime()
+            )
           );
         }
-        if (localStorage.getItem("state") === "id") {
-          // console.log("id");
+        if (localStorage.getItem("state") === "oldest") {
           setAnswerData(
-            res.data.answers.sort((a, b) => a.memberId - b.memberId)
+            res.data.answers.sort(
+              (a, b) =>
+                new Date(a.createdAt).getTime() -
+                new Date(b.createdAt).getTime()
+            )
           );
         }
       })
       .catch((err) => console.log(err));
-  }, []);
+  }, [questionId]);
 
   console.log(questionData);
-  // console.log(answerData);
-  // console.log(questionTag);
-  // useEffect(() => {
-
-  // }, []);
-
-  // console.log(mod);
-
-  // const [mod, setMod] = useState("");
-
-  // console.log(mod);
 
   // 답변 작성 후 버튼 클릭 시 post 요청 보내는 핸들러
   const handlePost = () => {
@@ -280,12 +181,12 @@ const QuestionDetailPage = () => {
       // 추가해야 할 내용: 서버에 post 요청 보내기
       axios
         .post("http://3.39.203.17:8080/answers", {
-          memberId: 2,
-          questionId: 1,
+          memberId: JSON.parse(localStorage.getItem("user")).memberId,
+          questionId: questionId,
           answerContent: body,
         })
+        .then((res) => console.log(res.data))
         .catch((err) => console.log(err));
-
       window.location.reload();
     } else {
       setBodyPost(false);
@@ -294,7 +195,8 @@ const QuestionDetailPage = () => {
     }
   };
 
-  const onChange = () => {
+  // 답변 본문의 내용을 상태에 저장하는 핸들러
+  const handleBodyChange = () => {
     setBody(editorRef.current.getInstance().getMarkdown());
   };
 
@@ -303,11 +205,6 @@ const QuestionDetailPage = () => {
     e.stopPropagation();
     document.getElementById("modal").classList.add("hide");
   };
-
-  // const handleShowShareModal = (e) => {
-  //   e.stopPropagation();
-  //   document.getElementById("modal").classList.remove("hide");
-  // };
 
   // 답변 입력 시 보이는 하단 안내 문구 모달 핸들러
   const handleEditModal = () => {
@@ -318,11 +215,24 @@ const QuestionDetailPage = () => {
     if (e.target.value === "vote") {
       localStorage.setItem("state", "vote");
     }
-    if (e.target.value === "id") {
-      localStorage.setItem("state", "id");
+    if (e.target.value === "newest") {
+      localStorage.setItem("state", "newest");
+    }
+    if (e.target.value === "oldest") {
+      localStorage.setItem("state", "oldest");
     }
     window.location.reload();
   };
+
+  // 현재 시간과 질문한 시간, 현재 시간과 수정된 시간을 계산한 값
+  const askedGap =
+    new Date().getTime() - new Date(questionData.createdAt).getTime();
+  const askedDate = Math.floor(Math.abs(askedGap / (1000 * 60 * 60 * 24)));
+  const modifiedGap =
+    new Date().getTime() - new Date(questionData.modifiedAt).getTime();
+  const modifiedDate = Math.floor(
+    Math.abs(modifiedGap / (1000 * 60 * 60 * 24))
+  );
 
   return (
     <Main onClick={handleHideShareModal}>
@@ -330,7 +240,15 @@ const QuestionDetailPage = () => {
         <QuestionTitleSection>
           <div>
             <QuestionTitle>{questionData.title}</QuestionTitle>
-            <QuestionTitleDetail>Asked: Modified: Viewed:</QuestionTitleDetail>
+            <QuestionTitleDetail>
+              Asked
+              <span>{askedDate === 0 ? "today" : `${askedDate} days ago`}</span>
+              Modified
+              <span>
+                {modifiedDate === 0 ? "today" : `${modifiedDate} days ago`}
+              </span>
+              Viewed
+            </QuestionTitleDetail>
           </div>
           {window.localStorage.getItem("user") ? (
             <MainButton href="/questions/ask">Ask Question</MainButton>
@@ -338,56 +256,7 @@ const QuestionDetailPage = () => {
             <MainButton href="/login">Ask Question</MainButton>
           )}
         </QuestionTitleSection>
-        <Question
-          questionData={questionData}
-          questionTag={questionTag}
-          // content={content}
-        />
-        {/* <QuestionContentSection>
-          <Vote>
-            <RiArrowUpSFill className="icon" size={64} />
-            <span>0</span>
-            <RiArrowDownSFill className="icon" size={64} />
-            {isBookMark ? (
-              <FaBookmark
-                size={16}
-                color="#F48225"
-                onClick={() => setIsBookMark(!isBookMark)}
-              />
-            ) : (
-              <FaRegBookmark
-                size={16}
-                color="#b6b8bd"
-                onClick={() => setIsBookMark(!isBookMark)}
-              />
-            )}
-          </Vote>
-          <QuestionContent>
-            <Question questionData={questionData} />
-            <Viewer initialValue={questionData.problemContent} />
-            {questionData.problemContent}
-            <TagCard tags={dummytags} />
-            <SideSeciton>
-              <SideButtonSection>
-                <SideButton onClick={handleShowShareModal}>Share</SideButton>
-                <SideButton
-                  onClick={() => navigate("/questions/:questionId/edit")}
-                >
-                  Edit
-                </SideButton>
-                <SideButton>Delete</SideButton>
-                <LinkModal modalId="modal" isAnswer={false} />
-              </SideButtonSection>
-              <UserProfileCard
-                type={true}
-                time="2"
-                name="Z.G"
-                reputation="9"
-                src="https://images.unsplash.com/photo-1544967082-d9d25d867d66?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1160&q=80"
-              />
-            </SideSeciton>
-          </QuestionContent>
-        </QuestionContentSection> */}
+        <Question questionData={questionData} questionTag={questionTag} />
       </Container>
       <Container>
         <AnswerTitle className="answerTitle">
@@ -401,9 +270,8 @@ const QuestionDetailPage = () => {
               value={localStorage.getItem("state")}
             >
               <option value="vote">Highest score (default)</option>
-              <option value="id">Trending (recent votes count more)</option>
-              <option value="3">Date modified (newest first)</option>
-              <option value="4">Date created (oldest first)</option>
+              <option value="newest">Date modified (newest first)</option>
+              <option value="oldest">Date created (oldest first)</option>
             </select>
           </div>
         </AnswerTitle>
@@ -432,7 +300,7 @@ const QuestionDetailPage = () => {
                 ["table", "image", "link"],
               ]}
               useCommandShortcut={false}
-              onChange={onChange}
+              onChange={handleBodyChange}
               autofocus={false}
             />
           </div>
@@ -449,9 +317,18 @@ const QuestionDetailPage = () => {
         {isEditModal && <EditModalCard setIsEditModal={handleEditModal} />}
         {isViewer && <Viewer className="viewer" initialValue={body} />}
         <BottomButtonSection>
-          <MainButton type="submit" onClick={handlePost}>
-            Post Your Answer
-          </MainButton>
+          {window.localStorage.getItem("user") ? (
+            <MainButton type="submit" onClick={handlePost}>
+              Post Your Answer
+            </MainButton>
+          ) : (
+            <MainButton
+              type="submit"
+              onClick={() => window.location.replace("/login")}
+            >
+              Post Your Answer
+            </MainButton>
+          )}
           <CancelButton onClick={() => setIsViewer(!isViewer)}>
             {isViewer ? "Close viewer" : "Open viewer"}
           </CancelButton>

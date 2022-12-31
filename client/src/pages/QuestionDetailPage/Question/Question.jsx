@@ -10,12 +10,8 @@ import {
 import LinkModal from "../LinkModal/LinkModal";
 import UserProfileCard from "../DetailComponents/UserProfileCard";
 import TagCard from "../DetailComponents/TagCard";
-// import { Viewer } from "@toast-ui/react-editor";
-// import QuestionViewer from "./QuestionViewer";
-import { useNavigate } from "react-router-dom";
-// import { useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
-// import { useEffect } from "react";
 
 const QuestionContentSection = styled.section`
   display: flex;
@@ -43,7 +39,6 @@ const QuestionContent = styled.div`
   flex-direction: column;
   color: #232629;
   line-height: 25px;
-  /* margin-top: 1rem; */
   margin: 0.5rem 0;
   justify-content: space-between;
 `;
@@ -58,48 +53,66 @@ export const SideSeciton = styled.section`
 const Question = ({ questionData, questionTag }) => {
   const navigate = useNavigate();
   const [isBookMark, setIsBookMark] = useState(false);
-
-  // const test = new Date(
-  //   `${questionData.createdAt.slice(0, 4)}-${questionData.createdAt.slice(
-  //     5,
-  //     7
-  //   )}-${questionData.createdAt.slice(8, 19)}`
-  // );
-  // const date = test.toString();
-  // const tame = `${date.slice(4, 7)} ${date.slice(8, 10)} at ${date.slice(
-  //   16,
-  //   21
-  // )}`;
-  // const [test, setTest] = useState(true);
-
-  // useEffect(() => {
-  //   setTest(!test);
-  // }, []);
-  // console.log(questionData.createdAt);
-  // const [content, setContent] = useState("");
-
-  // console.log(questionData);
-  // console.log(questionData.problemContent);
-
-  // useEffect(() => {
-  //   setContent(questionData.problemContent);
-  // }, []);
-  // console.log(content);
+  const [isFollow, setIsFollow] = useState(false);
+  const { questionId } = useParams();
+  const createObjDate = new Date(questionData.createdAt);
+  const createDate = createObjDate.toString();
+  const time = `${createDate.slice(4, 7)} ${createDate.slice(
+    8,
+    10
+  )} at ${createDate.slice(16, 21)}`;
 
   const handleShowShareModal = (e) => {
     e.stopPropagation();
     document.getElementById("modal").classList.remove("hide");
   };
 
-  // const handleVoteUp = () => {
+  const handleDelete = () => {
+    axios
+      .delete(`http://3.39.203.17:8080/questions/${questionId}`)
+      .then(() => {
+        window.location.replace("/questions");
+      })
+      .catch((err) => console.log(err));
+  };
 
-  // };
+  const handleVoteUp = () => {
+    axios
+      .post(`http://3.39.203.17:8080/questions/up/${questionId}`, {
+        likes: 1,
+      })
+      .then(() => window.location.reload())
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const handleVoteDown = () => {
+    axios
+      .post(`http://3.39.203.17:8080/questions/down/${questionId}`, {
+        likes: 1,
+      })
+      .then(() => window.location.reload())
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const handleFollow = () => {
+    setIsFollow(!isFollow);
+    alert("You’re following this question");
+  };
+
+  const handleUnFollow = () => {
+    setIsFollow(!isFollow);
+    alert("You’re no longer following this question");
+  };
+
   return (
     <QuestionContentSection>
       <Vote>
-        <RiArrowUpSFill className="icon" size={64} />
+        <RiArrowUpSFill className="icon" size={64} onClick={handleVoteUp} />
         <span>{questionData.likes}</span>
-        <RiArrowDownSFill className="icon" size={64} />
+        <RiArrowDownSFill className="icon" size={64} onClick={handleVoteDown} />
         {isBookMark ? (
           <FaBookmark
             size={16}
@@ -116,31 +129,46 @@ const Question = ({ questionData, questionTag }) => {
       </Vote>
       <QuestionContent>
         {questionData.problemContent}
-        {/* <Viewer initialValue={questionData.problemContent} /> */}
         <TagCard tags={questionTag} />
         <SideSeciton>
           <SideButtonSection>
             <SideButton onClick={handleShowShareModal}>Share</SideButton>
             {window.localStorage.getItem("user") ? (
-              <SideButton
-                onClick={() => navigate("/questions/:questionId/edit")}
-              >
-                Edit
-              </SideButton>
+              <>
+                <SideButton
+                  onClick={() => navigate(`/questions/${questionId}/edit`)}
+                >
+                  Edit
+                </SideButton>
+                <SideButton onClick={handleDelete}>Delete</SideButton>
+                {isFollow ? (
+                  <SideButton onClick={handleUnFollow}>Follwing</SideButton>
+                ) : (
+                  <SideButton onClick={handleFollow}>Follow</SideButton>
+                )}
+              </>
             ) : (
-              <SideButton onClick={() => window.location.replace("/login")}>
-                Edit
-              </SideButton>
+              <>
+                <SideButton onClick={() => window.location.replace("/login")}>
+                  Edit
+                </SideButton>
+                <SideButton onClick={() => window.location.replace("/login")}>
+                  Delete
+                </SideButton>
+                <SideButton onClick={() => window.location.replace("/signup")}>
+                  Follow
+                </SideButton>
+              </>
             )}
-            <SideButton>Delete</SideButton>
+
             <LinkModal modalId="modal" isAnswer={false} />
           </SideButtonSection>
           <UserProfileCard
             type={true}
-            time=""
+            time={time}
             name={questionData.nickName}
-            reputation="9"
-            src="https://images.unsplash.com/photo-1544967082-d9d25d867d66?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1160&q=80"
+            reputation={questionData.memberId}
+            src="https://i.pinimg.com/474x/d7/70/33/d7703333ad8ba85827b60fccf42f9c25.jpg"
           />
         </SideSeciton>
       </QuestionContent>

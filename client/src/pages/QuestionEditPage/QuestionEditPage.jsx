@@ -3,7 +3,7 @@ import styled from "styled-components";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import { useState, useEffect } from "react";
 import { MainButton } from "../QuestionDetailPage/DetailComponents/ButtonBundle";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { CancelButton } from "../QuestionDetailPage/DetailComponents/ButtonBundle";
 import TagsInput from "./TagsInput";
 import { ButtonContainer } from "../QuestionDetailPage/DetailComponents/ButtonBundle";
@@ -167,6 +167,7 @@ export const EditIntroCard = () => {
 
 const QuestionEditPage = () => {
   const navigate = useNavigate();
+  const { questionId } = useParams();
   const [title, setTitle] = useState("");
   const [titlepost, setTitlePost] = useState(true);
   const [body, setBody] = useState("");
@@ -189,10 +190,33 @@ const QuestionEditPage = () => {
   };
 
   // 버튼 클릭 시 수정된 질문 post 요청 보내는 핸들러
-  const handlePost = () => {
+  const handleQuestionPatch = () => {
     // 제목 길이 15, 본문 길이 30, 요약 길이 10 이상일 경우에만 post 요청 가능
-    if (title.length >= 15 && body.length >= 30 && summary.length >= 10)
-      navigate("/questions/1");
+    if (title.length >= 15 && body.length >= 30 && summary.length >= 30) {
+      axios
+        .patch(`http://3.39.203.17:8080/questions/${questionId}`, {
+          questionId: questionId,
+          title: title,
+          problemContent: body,
+          expectContent: summary,
+          questionStatus: "QUESTION_NOTSELECT",
+          questionTags: [
+            {
+              tagId: 3,
+            },
+            {
+              tagId: 2,
+            },
+          ],
+        })
+        .then((res) => {
+          console.log(res.data);
+        })
+        .catch((err) => console.log(err));
+
+      navigate(`/questions/${questionId}`);
+    }
+
     // 나머지 경우 post 요청 대신 문구와 디자인으로 경고 표시
     if (title.length >= 15) {
       setTitlePost(true);
@@ -211,32 +235,26 @@ const QuestionEditPage = () => {
       setBodyPost(false);
       document.getElementById("body").classList.remove("hide");
     }
-    if (summary.length >= 10) {
+    if (summary.length >= 30) {
       setSummaryPost(true);
       document.getElementById("summary").classList.add("hide");
     }
-    if (summary.length < 10) {
+    if (summary.length < 30) {
       setSummaryPost(false);
       document.getElementById("summary").classList.remove("hide");
     }
   };
 
-  console.log("ggg");
-
   useEffect(() => {
     axios
-      .get("http://3.39.203.17:8080/questions/1")
+      .get(`http://3.39.203.17:8080/questions/${questionId}`)
       .then((res) => {
         setTitle(res.data.title);
         setBody(res.data.problemContent);
         setTags(res.data.questionTags);
       })
       .catch((err) => console.log(err));
-  }, []);
-
-  if (!window.localStorage.getItem("user")) {
-    return null;
-  }
+  }, [questionId]);
 
   return (
     <Main>
@@ -278,10 +296,10 @@ const QuestionEditPage = () => {
         placeholder="briefly explain your changes (corrected spelling, fixed grammer, improved formatting)"
         handleChange={handleSummaryChange}
         post={summaryPost}
-        warningContent="Your edit summary must be at least 10 characters."
+        warningContent="Your edit summary must be at least 30 characters."
       />
       <ButtonContainer>
-        <MainButton onClick={handlePost}>Save edits</MainButton>
+        <MainButton onClick={handleQuestionPatch}>Save edits</MainButton>
         <CancelButton onClick={() => navigate(-1)}>Cancel</CancelButton>
       </ButtonContainer>
     </Main>

@@ -17,7 +17,7 @@ import {
 } from "../QuestionDetailPage/DetailComponents/ButtonBundle";
 import { MdError } from "react-icons/md";
 import axios from "axios";
-import { useEffect } from "react";
+// import { useEffect } from "react";
 
 const Main = styled.main`
   display: flex;
@@ -61,7 +61,7 @@ const Main = styled.main`
 const AnswerEditPage = () => {
   const editorRef = useRef();
   const navigate = useNavigate();
-  const { answerId } = useParams();
+  const { answerId, questionId } = useParams();
   const [isViewer, setIsViewer] = useState(false);
   const [body, setBody] = useState("");
   const [bodyPost, setBodyPost] = useState(true);
@@ -79,7 +79,7 @@ const AnswerEditPage = () => {
   };
 
   // 버튼 클릭 시 수정된 답변 post 요청 보내는 핸들러
-  const handlePost = () => {
+  const handleAnswerPatch = () => {
     // 본문 길이 30, 요약 길이 10 이상일 경우에만 post 요청 가능
     if (body.length >= 30 && summary.length >= 10) {
       axios
@@ -89,7 +89,7 @@ const AnswerEditPage = () => {
           answerStatus: "ANSWER_NOTSELECT",
         })
         .catch((err) => console.log(err));
-      navigate("/questions/:questionId");
+      navigate(`/questions/${questionId}`);
       // window.location.reload();
       navigate(0);
     }
@@ -161,7 +161,7 @@ const AnswerEditPage = () => {
         warningContent="Your edit summary must be at least 10 characters."
       />
       <ButtonContainer>
-        <MainButton onClick={handlePost}>Save edits</MainButton>
+        <MainButton onClick={handleAnswerPatch}>Save edits</MainButton>
         <CancelButton onClick={() => navigate("/questions/1")}>
           Cancel
         </CancelButton>
