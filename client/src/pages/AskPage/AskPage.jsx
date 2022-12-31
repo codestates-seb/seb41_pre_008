@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { MdError } from 'react-icons/md';
 import axios from 'axios';
@@ -122,6 +122,23 @@ const AskContainer = styled.div`
       }
     }
 
+    .tagsName {
+      display: flex;
+      font-size: 12px;
+      margin-bottom: 6px;
+
+      .exampleTags {
+        font-weight: bold;
+      }
+
+      div {
+        span {
+          margin-left: 6px;
+          color: #3b4045;
+        }
+      }
+    }
+
     .tagsInput {
       padding: 7.8px 9.1px;
       border: 1px solid #e3e6e8;
@@ -205,22 +222,36 @@ const AskPage = () => {
   const { title, problemContent, expectContent } = inputValue;
 
   // tag
+  const [tags, setTags] = useState(null);
   const [tagValue, setTagValue] = useState([]);
   
   // title error
   const [titleError, setTitleError] = useState(false);
   const [titleErrorMessage, setTitleErrorMessage] = useState('');
+  const [titleState, setTitleState] = useState(false);
   // content error
   const [problemError, setProblemError] = useState(false);
   const [problemErrorMessage, setProblemErrorMessage] = useState('');
+  const [problemState, setProblemState] = useState(false);
   const [expectError, setExpectError] = useState(false);
   const [expectErrorMessage, setExpectErrorMessage] = useState('');
+  const [expectState, setExpectState] = useState(false);
   // tag error
   const [tagError, setTagError] = useState(false);
   const [tagErrorMessage, setTagErrorMessage] = useState('');
+  const [tagState, setTagState] = useState(false);
 
   // memberId
-  const memberId = localStorage.getItem('user');
+  const member = JSON.parse(localStorage.getItem('user'))
+
+  // get으로 tag data 받아오기
+  useEffect(() => {
+    axios.get("http://3.39.203.17:8080/tags?page=1&size=20")
+    .then((res) => {
+      setTags(res.data.data)
+    })
+    .catch((err) => console.log(err.message));
+  },[]);
 
   // e.target name/value를 inputValue 객체에 복사
   const onChangeValue = (e) => {
@@ -232,14 +263,16 @@ const AskPage = () => {
 
   // tags 추가
   const addTag = (e) => {
-    if(e.length !== 0) {
-      setTagValue([...tagValue, {tagId: tagValue.length + 1, name: e}]);
+    if(e.length !== 0 && tags.filter((el) => el.name === e)) {
+      const filterTags = tags.filter((el) => el.name === e)
+      filterTags.forEach((el) => delete el.content);
+      setTagValue([...tagValue, ...filterTags]);
     }
   };
 
   // tags 삭제
-  const deleteTag = (e) => {
-    const filterTag = tagValue.filter((el, idx) => idx !== e);
+  const deleteTag = (tagId) => {
+    const filterTag = tagValue.filter((el) => el.tagId !== tagId);
     setTagValue(filterTag);
   };
 
@@ -263,51 +296,74 @@ const AskPage = () => {
     if(title === '') {
       setTitleError(true);
       setTitleErrorMessage('Title is missing.');
-    } 
-    if(title.length < 15) {
+    } else if(title.length < 15) {
       setTitleError(true);
       setTitleErrorMessage('Title must be at least 15 characters.');
+    } else {
+      setTitleError(false);
+      setTitleState(true);
     }
+
     if(problemContent === '') {
       setProblemError(true);
       setProblemErrorMessage('Problem content is missing.');
-    }
-    if(problemContent.length < 20) {
+    } else if(problemContent.length < 20) {
       setProblemError(true);
       setProblemErrorMessage('Problem content must be at least 20 characters.');
+    } else {
+      setProblemError(false);
+      setProblemState(true);
     }
+
     if(expectContent === '') {
       setExpectError(true);
       setExpectErrorMessage('Expect content is missing.');
-    }
-    if(expectContent.length < 20) {
+    } else if(expectContent.length < 20) {
       setExpectError(true);
       setExpectErrorMessage('Expect content must be at least 20 characters.');
+    } else {
+      setExpectError(false);
+      setExpectState(true);
     }
+
     if(tagValue.length === 0) {
       setTagError(true);
       setTagErrorMessage('There must be at least one tag.');
+    } else {
+      setTagError(false);
+      setTagState(true);
     }
 
-    
-    const data = {
-      memberId: memberId,
-      ...inputValue,
-      questionTags: tagValue,
+    if(titleState && problemState && expectState && tagState) {
+      const data = {
+        memberId : member.memberId,
+        ...inputValue,
+        questionTags: tagValue,
+      }
+      
+      // question post 요청 보내기
+      axios({
+        method : "post",
+        url: "http://3.39.203.17:8080/questions",
+        data,
+        headers: {
+          'Content-Type' : 'application/json;charset=UTF-8',
+          'Accept': 'application/json'
+        }          
+      })
+      .then((res) => {
+        alert('등록 완료 👍');
+        console.log(res.data);
+        window.location.replace('/');
+      })
+      .catch((err) => console.log(err.message));
     }
-    console.log(data)
-    
-    // // question post 요청 보내기
-    // axios.post('http://3.39.203.17:8080/questions', data)
-    // .catch((err) => console.log(err.message));
-    
-    window.location.replace('/');
   }
   
-  if (!memberId) {
+  if (!window.localStorage.getItem("user")) {
     return null;
   }
-  
+
   return (
     <AskContainer>
       <div className="askTitle">
@@ -365,10 +421,20 @@ const AskPage = () => {
         <div className='writingTags'>
           <label for='tags' className='labelTitle'>Tags</label>
           <label for='tags'>Add up to 5 tags to describe what your question is about. Start typing to see suggestions.</label>
+          <div className='tagsName'>
+            <div className='exampleTags'>example tags :</div>
+            {tags && tags.map((el) => {
+              return (
+                <div>
+                  <span>{el.name}</span>
+                </div>
+              )
+            })}
+          </div>
           <div className='tagsInput'>
-            {tagValue.map((el, idx) => (
+            {tagValue && tagValue.map((el, idx) => (
                 <span key={idx}>{el.name}
-                  <button type='button' onClick={() => deleteTag(idx)}>X</button>
+                  <button type='button' onClick={() => deleteTag(el.tagId)}>X</button>
                 </span>
             ))}
               <input type='text' id='tags' placeholder={tagValue.length !== 0 ? '' : 'e.g. (c# laravel typescript)'} onKeyUp={(e) => {
