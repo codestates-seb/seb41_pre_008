@@ -154,6 +154,7 @@ const QuestionListPage = () => {
   const [newButton, setNewButton] = useState(false);
   const [answerButton, setAnswerButton] = useState(false);
 
+  // questions data get 요청
   useEffect(() => {
     axios
       .get("http://3.39.203.17:8080/questions?page=1&size=10")
@@ -165,7 +166,6 @@ const QuestionListPage = () => {
   }, []);
 
   // 필터 기능 구현
-
   // 최신 정렬
   const handleNewest = () => {
     if(newButton) {
@@ -190,7 +190,7 @@ const QuestionListPage = () => {
 
     setAnswerButton(!answerButton);
   };
-
+  // 정렬 reset
   const resetOrder = () => {
     setQuestions(originalQuestions);
   }
