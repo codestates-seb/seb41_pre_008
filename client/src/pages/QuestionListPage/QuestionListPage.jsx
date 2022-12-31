@@ -149,36 +149,51 @@ const Section = styled.div`
 const QuestionListPage = () => {
   // 받아온 데이터 저장해서 questions에 저장하기
   const [questions, setQuestions] = useState(null);
+  const [originalQuestions, setOriginalQuestions] = useState(null);
   // 필터 버튼
   const [newButton, setNewButton] = useState(false);
   const [answerButton, setAnswerButton] = useState(false);
 
   useEffect(() => {
     axios
-      .get("http://3.39.203.17:8080/questions?page=1&size=2")
-      .then((res) => setQuestions(res.data.data))
+      .get("http://3.39.203.17:8080/questions?page=1&size=10")
+      .then((res) => {
+        setQuestions(res.data.data)
+        setOriginalQuestions(res.data.data)
+      })
       .catch((err) => console.log(err.message));
   }, []);
 
   // 필터 기능 구현
+
   // 최신 정렬
   const handleNewest = () => {
-    const newQuestions = [...questions];
-    const newestPage = newQuestions.sort((a, b) => {
-      return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
-    });
-    setQuestions(newestPage);
+    if(newButton) {
+      resetOrder();
+    } else {
+      const newQuestions = [...questions];
+      const newestPage = newQuestions.sort((a, b) => new Date(b.modifiedAt).getTime() - new Date(a.modifiedAt).getTime());
+      setQuestions(newestPage);  
+    };
+    
     setNewButton(!newButton);
   };
   // 답변 순 정렬
   const handleAnswered = () => {
-    const answeredQuestions = [...questions];
-    const answeredPage = answeredQuestions.sort((a, b) => {
-      return a.answers.length - b.answers.length;
-    });
-    setQuestions(answeredPage);
+    if(answerButton) {
+      resetOrder();
+    } else {
+      const answeredQuestions = [...questions];
+      const answeredPage = answeredQuestions.sort((a, b) => a.answers.length - b.answers.length);
+      setQuestions(answeredPage);
+    };
+
     setAnswerButton(!answerButton);
   };
+
+  const resetOrder = () => {
+    setQuestions(originalQuestions);
+  }
 
   return (
     <Main>
@@ -197,25 +212,13 @@ const QuestionListPage = () => {
             questions
           </div>
           <div className="filterButtons">
-            <button
-              type="button"
-              className={newButton ? "active" : ""}
-              onClick={handleNewest}
-            >
-              Newest
-            </button>
+            <button type="button" className={newButton ? "active" : ""} onClick={handleNewest}>Newest</button>
             <button type="button">Active</button>
             <button type="button">
               Bountied
               <span>242</span>
             </button>
-            <button
-              type="button"
-              className={answerButton ? "active" : ""}
-              onClick={handleAnswered}
-            >
-              Unanswered
-            </button>
+            <button type="button" className={answerButton ? "active" : ""} onClick={handleAnswered}>Unanswered</button>
             <button type="button">More</button>
           </div>
           <button type="button" className="filterButton">
@@ -225,29 +228,26 @@ const QuestionListPage = () => {
             Filter
           </button>
         </div>
-        {questions === null
-          ? null
+        {questions === null 
+          ? null 
           : questions.map((el, idx) => {
-              return (
-                <article key={idx}>
-                  <div className="dataInfo">
-                    <ul>
-                      <li>
-                        <span>0</span>votes
-                      </li>
-                      <li>
-                        <span>{el.answers.length}</span>answers
-                      </li>
-                      <li>
-                        <span>0</span>views
-                      </li>
-                    </ul>
-                  </div>
+            return (
+              <article key={idx}>
+                <div className="dataInfo">
+                  <ul>
+                    <li>
+                      <span>0</span>votes
+                    </li>
+                    <li>
+                      <span>{el.answers.length}</span>answers
+                    </li>
+                    <li>
+                      <span>0</span>views
+                    </li>
+                  </ul>
+                </div>
                   <div className="questionInfo">
-                    <a
-                      href={`/questions/${el.questionId}`}
-                      className="questionTitle"
-                    >
+                    <a href={`/questions/${el.questionId}`} className="questionTitle">
                       {el.title}
                     </a>
                     <div className="questionSub">
@@ -260,7 +260,7 @@ const QuestionListPage = () => {
                     </div>
                   </div>
                 </article>
-              );
+              )
             })}
       </Section>
     </Main>
