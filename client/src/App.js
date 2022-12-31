@@ -3,7 +3,6 @@ import LoginPage from "./pages/LoginPage/LoginPage";
 import SignupPage from "./pages/SignupPage/SignupPage";
 import QuestionDetailPage from "./pages/QuestionDetailPage/QuestionDetailPage";
 import AskPage from "./pages/AskPage/AskPage";
-import MyPage from "./pages/MyPage/MyPage";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
@@ -58,10 +57,6 @@ const router = createBrowserRouter([
   {
     path: "/questions/:questionId/answer/edit/:answerId",
     element: <AnswerEditPage />,
-  },
-  {
-    path: "/mypage",
-    element: <MyPage />,
   },
 ]);
 
