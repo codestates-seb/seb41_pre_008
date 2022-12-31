@@ -208,6 +208,7 @@ const QuestionDetailPage = () => {
     setIsEditModal(!isEditModal);
   };
 
+  // sort 기능 구현 시 state를 로컬 스토리지에 저장
   const changeValue = (e) => {
     if (e.target.value === "vote") {
       localStorage.setItem("state", "vote");

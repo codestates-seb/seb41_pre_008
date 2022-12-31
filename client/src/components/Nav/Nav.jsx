@@ -101,7 +101,10 @@ const Nav = () => {
                 </a>
               </li>
               <li>
-                <a href="#none">
+                <a
+                  href="/tags"
+                  className={location === "/tags" ? "active" : null}
+                >
                   <span></span>
                   <span>Tags</span>
                 </a>

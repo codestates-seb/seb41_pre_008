@@ -9,6 +9,7 @@ import Footer from "./components/Footer/Footer";
 import QuestionEditPage from "./pages/QuestionEditPage/QuestionEditPage";
 import QuestionListPage from "./pages/QuestionListPage/QuestionListPage";
 import AnswerEditPage from "./pages/AnswerEditPage/AnswerEditPage";
+import TagsPage from "./pages/TagsPage/TagsPage";
 import Aside from "./components/Aside/Aside";
 import styled from "styled-components";
 import Nav from "./components/Nav/Nav";
@@ -57,6 +58,10 @@ const router = createBrowserRouter([
   {
     path: "/questions/:questionId/answer/edit/:answerId",
     element: <AnswerEditPage />,
+  },
+  {
+    path: "/tags",
+    element: <TagsPage />,
   },
 ]);
 
