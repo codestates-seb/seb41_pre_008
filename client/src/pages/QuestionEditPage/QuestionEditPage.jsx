@@ -9,12 +9,19 @@ import TagsInput from "./TagsInput";
 import { ButtonContainer } from "../QuestionDetailPage/DetailComponents/ButtonBundle";
 import { MdError } from "react-icons/md";
 import axios from "axios";
+import TagCard from "../QuestionDetailPage/DetailComponents/TagCard";
 
 const Main = styled.main`
   display: flex;
   flex-direction: column;
   min-width: 500px;
   width: 750px;
+  .taglist {
+    margin-top: 1rem;
+    margin-left: 0.1rem;
+    font-size: 13px;
+    font-weight: 600;
+  }
 `;
 
 const EditIntroContainer = styled.section`
@@ -175,6 +182,12 @@ const QuestionEditPage = () => {
   const [summary, setSummary] = useState("");
   const [summaryPost, setSummaryPost] = useState(true);
   const [tags, setTags] = useState([]);
+  const [tagList, setTagList] = useState([]);
+
+  // 태그 상태 끌어올리기를 위한 핸들러
+  const handleTag = (tags) => {
+    setTags(tags);
+  };
 
   // 제목, 본문, 요약의 내용을 각각의 상태에 저장하는 핸들러
   const handleTitleChange = (e) => {
@@ -189,9 +202,13 @@ const QuestionEditPage = () => {
     setSummary(e.target.value);
   };
 
+  const patchTags = tags.map((tag) => ({ tagId: tag.tagId }));
+  console.log(patchTags);
+
   // 버튼 클릭 시 수정된 질문 post 요청 보내는 핸들러
   const handleQuestionPatch = () => {
-    // 제목 길이 15, 본문 길이 30, 요약 길이 10 이상일 경우에만 post 요청 가능
+    // 제목 길이 15, 본문 길이 30, 요약 길이 30 이상일 경우에만 post 요청 가능
+    console.log(patchTags);
     if (title.length >= 15 && body.length >= 30 && summary.length >= 30) {
       axios
         .patch(`http://3.39.203.17:8080/questions/${questionId}`, {
@@ -200,14 +217,7 @@ const QuestionEditPage = () => {
           problemContent: body,
           expectContent: summary,
           questionStatus: "QUESTION_NOTSELECT",
-          questionTags: [
-            {
-              tagId: 3,
-            },
-            {
-              tagId: 2,
-            },
-          ],
+          questionTags: patchTags,
         })
         .then((res) => {
           console.log(res.data);
@@ -221,7 +231,6 @@ const QuestionEditPage = () => {
     if (title.length >= 15) {
       setTitlePost(true);
       document.getElementById("title").classList.add("hide");
-      console.log(title);
     }
     if (title.length < 15) {
       setTitlePost(false);
@@ -254,7 +263,15 @@ const QuestionEditPage = () => {
         setTags(res.data.questionTags);
       })
       .catch((err) => console.log(err));
+    axios
+      .get("http://3.39.203.17:8080/tags?page=1&size=20")
+      .then((res) => {
+        setTagList(res.data.data);
+      })
+      .catch((err) => console.log(err));
   }, [questionId]);
+  // console.log(tagList);
+  // console.log(tags);
 
   return (
     <Main>
@@ -288,7 +305,12 @@ const QuestionEditPage = () => {
       </Container>
       <Container>
         <EditTitle>Tags</EditTitle>
-        <TagsInput initialtags={tags} />
+        {/* <TagsInput initialtags={tags} tagList={tagList} /> */}
+        <TagsInput tags={tags} tagList={tagList} handleTag={handleTag} />
+        <div className="taglist">
+          List of tags
+          <TagCard className="tags" tags={tagList} />
+        </div>
       </Container>
       <EditCard
         id="summary"

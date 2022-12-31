@@ -1,7 +1,7 @@
-import { useState } from "react";
+// import { useState } from "react";
 import styled from "styled-components";
 import { RiCloseFill } from "react-icons/ri";
-import { useEffect } from "react";
+// import { useEffect } from "react";
 
 const TagsInputContainer = styled.div`
   display: flex;
@@ -60,32 +60,29 @@ const TagsInputContainer = styled.div`
   }
 `;
 
-const TagsInput = ({ initialtags }) => {
-  // const initialTags = [
-  //   { tagId: 1, name: "javascript" },
-  //   { tagId: 2, name: "python" },
-  //   { tagId: 3, name: "c#" },
-  // ];
-  // console.log(initialtags);
-  const [tags, setTags] = useState([]);
-
-  useEffect(() => {
-    setTags(initialtags);
-  }, [initialtags]);
-
+const TagsInput = ({ tags, tagList, handleTag }) => {
+  // 태그 제거 함수
   const removeTags = (idToRemove) => {
-    setTags(tags.filter((el) => el.tagId !== idToRemove));
+    handleTag(tags.filter((el) => el.tagId !== idToRemove));
   };
 
+  // 태그 추가 함수
   const addTags = (event) => {
     const filtered = tags.filter((el) => el.name === event.target.value);
-    if (event.target.value !== "" && filtered.length === 0) {
-      setTags([...tags, { tagId: Math.random(), name: event.target.value }]);
+    if (
+      event.target.value !== "" &&
+      filtered.length === 0 &&
+      tagList.map((tag) => tag.name).includes(event.target.value)
+    ) {
+      const filteredTag = tagList.filter(
+        (tag) => tag.name === event.target.value
+      );
+      handleTag([...tags, ...filteredTag]);
+      event.target.value = "";
+    } else {
       event.target.value = "";
     }
   };
-
-  // console.log(tags);
 
   return (
     <TagsInputContainer>
@@ -105,6 +102,7 @@ const TagsInput = ({ initialtags }) => {
       <input
         className="tag-input"
         type="text"
+        placeholder="Write one of the taglist below."
         onKeyUp={(e) => (e.key === "Enter" ? addTags(e) : null)}
       />
     </TagsInputContainer>

@@ -5,7 +5,7 @@ import { IoEarth } from "react-icons/io5";
 
 const NavContainer = styled.div`
   width: 164px;
-  height: 100vh;
+  height: auto;
   padding-top: 24px;
   border-right: 1px solid #d6d9dc;
   background-color: transparent;

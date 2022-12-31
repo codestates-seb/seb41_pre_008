@@ -155,7 +155,7 @@ const QuestionListPage = () => {
 
   useEffect(() => {
     axios
-      .get("http://3.39.203.17:8080/questions?page=1&size=10")
+      .get("http://3.39.203.17:8080/questions?page=1&size=2")
       .then((res) => setQuestions(res.data.data))
       .catch((err) => console.log(err.message));
   }, []);

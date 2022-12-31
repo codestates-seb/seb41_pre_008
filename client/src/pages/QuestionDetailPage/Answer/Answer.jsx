@@ -62,10 +62,10 @@ const Answer = ({ answer }) => {
   )} at ${createDate.slice(16, 21)}`;
   const modifiedObjDate = new Date(answer.modifiedAt);
   const modifiedDate = modifiedObjDate.toString();
-  const modifiedtime = `modified ${modifiedDate.slice(4, 7)} ${createDate.slice(
-    8,
-    10
-  )} at ${createDate.slice(16, 21)}`;
+  const modifiedtime = `modified ${modifiedDate.slice(
+    4,
+    7
+  )} ${modifiedDate.slice(8, 10)} at ${modifiedDate.slice(16, 21)}`;
 
   // 링크 공유 모달 핸들러
   const handleHideShareModal = (e) => {
@@ -180,7 +180,7 @@ const Answer = ({ answer }) => {
           <UserProfileCard
             time={time}
             name={answer.nickName}
-            reputation={answer.memberId}
+            userId={answer.memberId}
             src="https://i.pinimg.com/474x/d7/70/33/d7703333ad8ba85827b60fccf42f9c25.jpg"
           />
         </SideSeciton>

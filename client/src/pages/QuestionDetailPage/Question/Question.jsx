@@ -41,6 +41,10 @@ const QuestionContent = styled.div`
   line-height: 25px;
   margin: 0.5rem 0;
   justify-content: space-between;
+  .modified {
+    font-size: 13px;
+    color: #0a5c9b;
+  }
 `;
 
 export const SideSeciton = styled.section`
@@ -61,6 +65,12 @@ const Question = ({ questionData, questionTag }) => {
     8,
     10
   )} at ${createDate.slice(16, 21)}`;
+  const modifiedObjDate = new Date(questionData.modifiedAt);
+  const modifiedDate = modifiedObjDate.toString();
+  const modifiedtime = `modified ${modifiedDate.slice(
+    4,
+    7
+  )} ${modifiedDate.slice(8, 10)} at ${modifiedDate.slice(16, 21)}`;
 
   const handleShowShareModal = (e) => {
     e.stopPropagation();
@@ -129,6 +139,7 @@ const Question = ({ questionData, questionTag }) => {
       </Vote>
       <QuestionContent>
         {questionData.problemContent}
+        <div className="modified">{modifiedtime}</div>
         <TagCard tags={questionTag} />
         <SideSeciton>
           <SideButtonSection>
@@ -167,7 +178,7 @@ const Question = ({ questionData, questionTag }) => {
             type={true}
             time={time}
             name={questionData.nickName}
-            reputation={questionData.memberId}
+            userId={questionData.memberId}
             src="https://i.pinimg.com/474x/d7/70/33/d7703333ad8ba85827b60fccf42f9c25.jpg"
           />
         </SideSeciton>

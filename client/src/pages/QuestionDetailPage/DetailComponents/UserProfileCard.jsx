@@ -33,13 +33,13 @@ const UserProfileContainer = styled.section`
     color: #0e6eb3;
     font-weight: bold;
   }
-  .userReputation {
+  .userId {
     font-weight: bold;
   }
 `;
 
 // 사용자 프로필 카드
-const UserProfileCard = ({ type = false, time, name, reputation, src }) => {
+const UserProfileCard = ({ type = false, time, name, userId, src }) => {
   return (
     <UserProfileContainer>
       <div className="recent">
@@ -49,7 +49,7 @@ const UserProfileCard = ({ type = false, time, name, reputation, src }) => {
         <img src={src} alt="profileimg" />
         <div className="userInfo">
           <span className="userName">{name}</span>
-          <span className="userReputation">{reputation}</span>
+          <span className="userId">userId: {userId}</span>
         </div>
       </div>
     </UserProfileContainer>

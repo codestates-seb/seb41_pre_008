@@ -171,8 +171,6 @@ const QuestionDetailPage = () => {
       .catch((err) => console.log(err));
   }, [questionId]);
 
-  console.log(questionData);
-
   // 답변 작성 후 버튼 클릭 시 post 요청 보내는 핸들러
   const handlePost = () => {
     if (body.length >= 30) {
@@ -191,7 +189,6 @@ const QuestionDetailPage = () => {
     } else {
       setBodyPost(false);
       document.getElementById("editor").classList.remove("hide");
-      // console.log(typeof questionData.problemContent);
     }
   };
 
@@ -242,12 +239,21 @@ const QuestionDetailPage = () => {
             <QuestionTitle>{questionData.title}</QuestionTitle>
             <QuestionTitleDetail>
               Asked
-              <span>{askedDate === 0 ? "today" : `${askedDate} days ago`}</span>
+              <span>
+                {askedDate === 0 && "today"}
+                {askedDate === 1 && "yesterday"}
+                {askedDate !== 0 && askedDate !== 1 && `${askedDate} days ago`}
+              </span>
               Modified
               <span>
-                {modifiedDate === 0 ? "today" : `${modifiedDate} days ago`}
+                {modifiedDate === 0 && "today"}
+                {modifiedDate === 1 && "yesterday"}
+                {modifiedDate !== 0 &&
+                  modifiedDate !== 1 &&
+                  `${modifiedDate} days ago`}
               </span>
               Viewed
+              <span>0 times</span>
             </QuestionTitleDetail>
           </div>
           {window.localStorage.getItem("user") ? (
