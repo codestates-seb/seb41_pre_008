@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
+import {useSearchParams} from "react-router-dom";
 import styled from "styled-components";
 import { IoFilter } from "react-icons/io5";
 import axios from "axios";
 import Tags from "./Tags";
 import UserInfo from "./UserInfo";
+import Pagination from './Pagination';
 
 const Main = styled.div`
   display: flex;
@@ -148,21 +150,45 @@ const Section = styled.div`
 
 const QuestionListPage = () => {
   // 받아온 데이터 저장해서 questions에 저장하기
-  const [questions, setQuestions] = useState(null);
+  const [questions, setQuestions] = useState([]);
   const [originalQuestions, setOriginalQuestions] = useState(null);
   // 필터 버튼
   const [newButton, setNewButton] = useState(false);
   const [answerButton, setAnswerButton] = useState(false);
+  // 페이지네이션
+  const [page, setPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
+  const [totalElements, setTotalElements] = useState(0)
+
+  const [searchParams, setSearchParams] = useSearchParams();
 
   // questions data get 요청
   useEffect(() => {
-    axios
+    const pageNumber = searchParams.get('page');
+
+    if(pageNumber) {
+      axios
+      .get(`http://3.39.203.17:8080/questions?page=${pageNumber}&size=10`)
+      .then((res) => {
+        setQuestions(res.data.data)
+        setOriginalQuestions(res.data.data)
+        setPage(res.data.pageInfo.page)
+        setTotalPages(res.data.pageInfo.totalPages)
+        setTotalElements(res.data.pageInfo.totalElements)
+      })
+      .catch((err) => console.log(err.message));
+    } else {
+      axios
       .get("http://3.39.203.17:8080/questions?page=1&size=10")
       .then((res) => {
         setQuestions(res.data.data)
         setOriginalQuestions(res.data.data)
+        setPage(res.data.pageInfo.page)
+        setTotalPages(res.data.pageInfo.totalPages)
+        setTotalElements(res.data.pageInfo.totalElements)
       })
       .catch((err) => console.log(err.message));
+    }
   }, []);
 
   // 필터 기능 구현
@@ -208,7 +234,7 @@ const QuestionListPage = () => {
         </header>
         <div className="alignFilter">
           <div className="questionsNumber">
-            <span>{questions === null ? null : questions.length}</span>
+            <span>{totalElements ? totalElements : undefined}</span>
             questions
           </div>
           <div className="filterButtons">
@@ -262,6 +288,7 @@ const QuestionListPage = () => {
                 </article>
               )
             })}
+        <Pagination page={page} totalPages={totalPages} />
       </Section>
     </Main>
   );

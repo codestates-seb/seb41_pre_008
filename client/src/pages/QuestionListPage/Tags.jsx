@@ -21,7 +21,7 @@ const Tags = ({ questionTags }) => {
     <TagWrapper>
       {questionTags.map((el, idx) => {
         return (
-          <a key={idx} href="/">
+          <a key={idx} href="/tags">
             {el.name}
           </a>
         );
