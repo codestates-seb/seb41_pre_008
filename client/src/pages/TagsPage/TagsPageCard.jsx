@@ -4,7 +4,12 @@ import styled from "styled-components";
 const TagsDetailCard = styled.section`
   display: flex;
   flex-direction: column;
-  width: 232px;
+  @media screen and (max-width: 900px) {
+    width: 300px;
+  }
+  @media screen and (min-width: 900px) {
+    width: 234px;
+  }
   height: 175px;
   border: 1px solid rgb(169, 170, 178);
   border-radius: 3px;
@@ -19,33 +24,41 @@ const TagsDetailCard = styled.section`
     margin: 1rem;
     border-radius: 3px;
   }
-  p {
+  .tags.content {
     overflow-y: auto;
     height: 200px;
     font-size: 13px;
     margin: 0 1rem;
-    /* padding: 0 0 1rem 0; */
     line-height: 15px;
   }
   span {
-    color: rgb(169, 170, 178);
+    color: rgb(153, 154, 162);
     font-size: 12px;
     margin: 0 1rem;
     padding: 1rem 0;
   }
+  .tags.view {
+    display: flex;
+    justify-content: space-between;
+  }
 `;
 
 const TagsPageCard = ({ tags }) => {
-  console.log(tags);
   return (
     <>
       {tags.map((tag) => (
-        <TagsDetailCard>
-          <a key={tag.tagId} href="/">
-            {tag.name}
-          </a>
-          <p>{tag.content}</p>
-          <span>2462027 questions</span>
+        <TagsDetailCard key={tag.tagId}>
+          <a href="/">{tag.name}</a>
+          <p className="tags content">{tag.content}</p>
+          <p className="tags view">
+            <span>
+              {Math.floor(Math.random() * (600000 - 100000) + 100000)} questions
+            </span>
+            <span>
+              {Math.floor(Math.random() * (1000 - 100) + 100)} asked today,{" "}
+              {Math.floor(Math.random() * (10000 - 1000) + 1000)} this week
+            </span>
+          </p>
         </TagsDetailCard>
       ))}
     </>
