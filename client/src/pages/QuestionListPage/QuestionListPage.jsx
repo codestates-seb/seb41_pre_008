@@ -194,32 +194,37 @@ const QuestionListPage = () => {
   // 필터 기능 구현
   // 최신 정렬
   const handleNewest = () => {
-    if(newButton) {
+    if (newButton) {
       resetOrder();
     } else {
       const newQuestions = [...questions];
-      const newestPage = newQuestions.sort((a, b) => new Date(b.modifiedAt).getTime() - new Date(a.modifiedAt).getTime());
-      setQuestions(newestPage);  
-    };
-    
+      const newestPage = newQuestions.sort(
+        (a, b) =>
+          new Date(b.modifiedAt).getTime() - new Date(a.modifiedAt).getTime()
+      );
+      setQuestions(newestPage);
+    }
+
     setNewButton(!newButton);
   };
   // 답변 순 정렬
   const handleAnswered = () => {
-    if(answerButton) {
+    if (answerButton) {
       resetOrder();
     } else {
       const answeredQuestions = [...questions];
-      const answeredPage = answeredQuestions.sort((a, b) => a.answers.length - b.answers.length);
+      const answeredPage = answeredQuestions.sort(
+        (a, b) => a.answers.length - b.answers.length
+      );
       setQuestions(answeredPage);
-    };
+    }
 
     setAnswerButton(!answerButton);
   };
   // 정렬 reset
   const resetOrder = () => {
     setQuestions(originalQuestions);
-  }
+  };
 
   return (
     <Main>
@@ -238,13 +243,25 @@ const QuestionListPage = () => {
             questions
           </div>
           <div className="filterButtons">
-            <button type="button" className={newButton ? "active" : ""} onClick={handleNewest}>Newest</button>
+            <button
+              type="button"
+              className={newButton ? "active" : ""}
+              onClick={handleNewest}
+            >
+              Newest
+            </button>
             <button type="button">Active</button>
             <button type="button">
               Bountied
               <span>242</span>
             </button>
-            <button type="button" className={answerButton ? "active" : ""} onClick={handleAnswered}>Unanswered</button>
+            <button
+              type="button"
+              className={answerButton ? "active" : ""}
+              onClick={handleAnswered}
+            >
+              Unanswered
+            </button>
             <button type="button">More</button>
           </div>
           <button type="button" className="filterButton">
@@ -254,26 +271,29 @@ const QuestionListPage = () => {
             Filter
           </button>
         </div>
-        {questions === null 
-          ? null 
+        {questions === null
+          ? null
           : questions.map((el, idx) => {
-            return (
-              <article key={idx}>
-                <div className="dataInfo">
-                  <ul>
-                    <li>
-                      <span>0</span>votes
-                    </li>
-                    <li>
-                      <span>{el.answers.length}</span>answers
-                    </li>
-                    <li>
-                      <span>0</span>views
-                    </li>
-                  </ul>
-                </div>
+              return (
+                <article key={idx}>
+                  <div className="dataInfo">
+                    <ul>
+                      <li>
+                        <span>0</span>votes
+                      </li>
+                      <li>
+                        <span>{el.answers.length}</span>answers
+                      </li>
+                      <li>
+                        <span>0</span>views
+                      </li>
+                    </ul>
+                  </div>
                   <div className="questionInfo">
-                    <a href={`/questions/${el.questionId}`} className="questionTitle">
+                    <a
+                      href={`/questions/${el.questionId}`}
+                      className="questionTitle"
+                    >
                       {el.title}
                     </a>
                     <div className="questionSub">
@@ -286,7 +306,7 @@ const QuestionListPage = () => {
                     </div>
                   </div>
                 </article>
-              )
+              );
             })}
         <Pagination page={page} totalPages={totalPages} />
       </Section>

@@ -37,7 +37,6 @@ const Main = styled.main`
       }
     }
   }
-
   .filterSection {
     display: flex;
     @media screen and (max-width: 900px) {
@@ -56,7 +55,6 @@ const Main = styled.main`
         border-radius: 3px;
         width: 188px;
         height: 37px;
-
         &::placeholder {
           color: rgb(202, 203, 211);
         }

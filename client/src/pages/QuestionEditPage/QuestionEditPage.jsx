@@ -203,12 +203,10 @@ const QuestionEditPage = () => {
   };
 
   const patchTags = tags.map((tag) => ({ tagId: tag.tagId }));
-  console.log(patchTags);
 
   // 버튼 클릭 시 수정된 질문 post 요청 보내는 핸들러
   const handleQuestionPatch = () => {
     // 제목 길이 15, 본문 길이 30, 요약 길이 30 이상일 경우에만 post 요청 가능
-    console.log(patchTags);
     if (title.length >= 15 && body.length >= 30 && summary.length >= 30) {
       axios
         .patch(`http://3.39.203.17:8080/questions/${questionId}`, {
@@ -270,8 +268,6 @@ const QuestionEditPage = () => {
       })
       .catch((err) => console.log(err));
   }, [questionId]);
-  // console.log(tagList);
-  // console.log(tags);
 
   return (
     <Main>
@@ -305,7 +301,6 @@ const QuestionEditPage = () => {
       </Container>
       <Container>
         <EditTitle>Tags</EditTitle>
-        {/* <TagsInput initialtags={tags} tagList={tagList} /> */}
         <TagsInput tags={tags} tagList={tagList} handleTag={handleTag} />
         <div className="taglist">
           List of tags

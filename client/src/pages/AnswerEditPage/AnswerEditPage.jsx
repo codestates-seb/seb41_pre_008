@@ -67,7 +67,6 @@ const AnswerEditPage = () => {
   const [bodyPost, setBodyPost] = useState(true);
   const [summary, setSummary] = useState("");
   const [summaryPost, setSummaryPost] = useState(true);
-  console.log(answerId);
 
   // 본문, 요약의 내용을 각각의 상태에 저장하는 핸들러
   const handleBodyChange = () => {
@@ -90,7 +89,6 @@ const AnswerEditPage = () => {
         })
         .catch((err) => console.log(err));
       navigate(`/questions/${questionId}`);
-      // window.location.reload();
       navigate(0);
     }
     // 나머지 경우 post 요청 대신 문구와 디자인으로 경고 표시

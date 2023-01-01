@@ -1,7 +1,5 @@
-// import { useState } from "react";
 import styled from "styled-components";
 import { RiCloseFill } from "react-icons/ri";
-// import { useEffect } from "react";
 
 const TagsInputContainer = styled.div`
   display: flex;
