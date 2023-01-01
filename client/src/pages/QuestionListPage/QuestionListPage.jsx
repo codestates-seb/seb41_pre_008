@@ -9,6 +9,8 @@ import Pagination from './Pagination';
 
 const Main = styled.div`
   display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 `;
 
 const Section = styled.div`
@@ -308,8 +310,8 @@ const QuestionListPage = () => {
                 </article>
               );
             })}
-        <Pagination page={page} totalPages={totalPages} />
       </Section>
+      <Pagination page={page} totalPages={totalPages} />
     </Main>
   );
 };
