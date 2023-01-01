@@ -51,8 +51,22 @@ const UserInfo = ({nickName, createdAt, modifiedAt}) => {
         if(hours < 24) {
             return `${Math.floor(hours)} hour ago`;
         };
+        const days = hours / 24;
+        if (days < 7) {
+          return `${Math.floor(days)} day ago`;
+        };
+        const weeks = days / 7;
+        if (weeks < 5) {
+          return `${Math.floor(weeks)} week ago`;
+        };
+        const months = days / 30;
+        if (months < 12) {
+          return `${Math.floor(months)} month ago`;
+        };
+        const years = days / 365;
+        return `${Math.floor(years)} year ago`;
     };
-    
+
     return (
         <UserInfoWrapper>
             <img src={test} alt="profile img" />

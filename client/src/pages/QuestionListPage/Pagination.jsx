@@ -40,7 +40,7 @@ const Pagination = ({page, totalPages}) => {
     
     return (
         <PaginationButton>
-            <a href={page === 1 ? `/questions?page=1` : `/questions?page=${page - 1}`}>
+            <a href={page === 1 ? `/questions` : `/questions?page=${page - 1}`}>
                 <span>Prev</span>
             </a>
             {arrayTotalPages.map((el, idx) => {
