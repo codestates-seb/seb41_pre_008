@@ -154,6 +154,7 @@ const QuestionListPage = () => {
   // 받아온 데이터 저장해서 questions에 저장하기
   const [questions, setQuestions] = useState([]);
   const [originalQuestions, setOriginalQuestions] = useState(null);
+  const [countDeletedQuestions, setCountDeletedQuestions] = useState(0);
   // 필터 버튼
   const [newButton, setNewButton] = useState(false);
   const [answerButton, setAnswerButton] = useState(false);
@@ -173,7 +174,11 @@ const QuestionListPage = () => {
         .get(`http://3.39.203.17:8080/questions?page=${pageNumber}&size=10`)
         .then((res) => {
           setQuestions(res.data.data);
-          setOriginalQuestions(res.data.data);
+          setOriginalQuestions(
+            res.data.data.filter(
+              (el) => el.questionStatus !== "QUESTION_DELETE"
+            )
+          );
           setPage(res.data.pageInfo.page);
           setTotalPages(res.data.pageInfo.totalPages);
           setTotalElements(res.data.pageInfo.totalElements);
@@ -184,13 +189,26 @@ const QuestionListPage = () => {
         .get("http://3.39.203.17:8080/questions?page=1&size=10")
         .then((res) => {
           setQuestions(res.data.data);
-          setOriginalQuestions(res.data.data);
+          setOriginalQuestions(
+            res.data.data.filter(
+              (el) => el.questionStatus !== "QUESTION_DELETE"
+            )
+          );
           setPage(res.data.pageInfo.page);
           setTotalPages(res.data.pageInfo.totalPages);
           setTotalElements(res.data.pageInfo.totalElements);
         })
         .catch((err) => console.log(err.message));
     }
+
+    axios
+      .get("http://3.39.203.17:8080/questions?page=1&size=10")
+      .then((res) => {
+        setCountDeletedQuestions(
+          res.data.data.filter((el) => el.questionStatus === "QUESTION_DELETE")
+            .length
+        );
+      });
   }, []);
 
   // 필터 기능 구현
@@ -241,7 +259,11 @@ const QuestionListPage = () => {
         </header>
         <div className="alignFilter">
           <div className="questionsNumber">
-            <span>{totalElements ? totalElements : undefined}</span>
+            <span>
+              {countDeletedQuestions
+                ? totalElements - countDeletedQuestions
+                : totalElements}
+            </span>
             questions
           </div>
           <div className="filterButtons">
@@ -273,43 +295,45 @@ const QuestionListPage = () => {
             Filter
           </button>
         </div>
-        {questions === null
-          ? null
-          : questions.map((el, idx) => {
-              return (
-                <article key={idx}>
-                  <div className="dataInfo">
-                    <ul>
-                      <li>
-                        <span>0</span>votes
-                      </li>
-                      <li>
-                        <span>{el.answers.length}</span>answers
-                      </li>
-                      <li>
-                        <span>0</span>views
-                      </li>
-                    </ul>
-                  </div>
-                  <div className="questionInfo">
-                    <a
-                      href={`/questions/${el.questionId}`}
-                      className="questionTitle"
-                    >
-                      {el.title}
-                    </a>
-                    <div className="questionSub">
-                      <Tags questionTags={el.questionTags} />
-                      <UserInfo
-                        nickName={el.nickName}
-                        createdAt={el.createdAt}
-                        modifiedAt={el.modifiedAt}
-                      />
+        {questions
+          ? questions
+              .filter((el) => el.questionStatus !== "QUESTION_DELETE")
+              .map((el, idx) => {
+                return (
+                  <article key={idx}>
+                    <div className="dataInfo">
+                      <ul>
+                        <li>
+                          <span>{el.likes}</span>votes
+                        </li>
+                        <li>
+                          <span>{el.answers.length}</span>answers
+                        </li>
+                        <li>
+                          <span>0</span>views
+                        </li>
+                      </ul>
                     </div>
-                  </div>
-                </article>
-              );
-            })}
+                    <div className="questionInfo">
+                      <a
+                        href={`/questions/${el.questionId}`}
+                        className="questionTitle"
+                      >
+                        {el.title}
+                      </a>
+                      <div className="questionSub">
+                        <Tags questionTags={el.questionTags} />
+                        <UserInfo
+                          nickName={el.nickName}
+                          createdAt={el.createdAt}
+                          modifiedAt={el.modifiedAt}
+                        />
+                      </div>
+                    </div>
+                  </article>
+                );
+              })
+          : null}
       </Section>
       <Pagination page={page} totalPages={totalPages} />
     </Main>
