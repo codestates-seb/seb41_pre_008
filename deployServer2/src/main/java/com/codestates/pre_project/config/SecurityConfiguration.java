@@ -8,6 +8,7 @@ import com.codestates.pre_project.auth.handler.MemberAuthenticationEntryPoint;
 import com.codestates.pre_project.auth.handler.MemberAuthenticationFailureHandler;
 import com.codestates.pre_project.auth.handler.MemberAuthenticationSuccessHandler;
 import com.codestates.pre_project.auth.utils.CustomAuthorityUtils;
+import com.google.gson.Gson;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -34,6 +35,7 @@ public class SecurityConfiguration {
     private final JwtTokenizer jwtTokenizer;
     private final CustomAuthorityUtils authorityUtils;
     private final RedisTemplate redisTemplate;
+    private final Gson gson;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -51,6 +53,7 @@ public class SecurityConfiguration {
                 .apply(new CustomFilterConfigurer())
                 .and()
                 .authorizeHttpRequests(authorize -> authorize
+                                .antMatchers("/", "/**").permitAll()
 //                        .antMatchers(HttpMethod.PATCH, "/members/**").hasRole("USER")
 //                        .antMatchers(HttpMethod.GET, "/members/**").hasRole("ADMIN")
                         .antMatchers(HttpMethod.DELETE, "/members/**").hasRole("ADMIN")
@@ -83,7 +86,7 @@ public class SecurityConfiguration {
 
             JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager, jwtTokenizer);
             jwtAuthenticationFilter.setFilterProcessesUrl("/members/signin");
-            jwtAuthenticationFilter.setAuthenticationSuccessHandler(new MemberAuthenticationSuccessHandler());
+            jwtAuthenticationFilter.setAuthenticationSuccessHandler(new MemberAuthenticationSuccessHandler(gson));
             jwtAuthenticationFilter.setAuthenticationFailureHandler(new MemberAuthenticationFailureHandler());
             JwtVerificationFilter jwtVerificationFilter = new JwtVerificationFilter(jwtTokenizer, authorityUtils, redisTemplate);
 

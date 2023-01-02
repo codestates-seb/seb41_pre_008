@@ -36,7 +36,7 @@ include::{snippets}/signup-member/response-fields.adoc[]
 
 === 로그인
 
-<NOTE>: ``로그인은 이메일만 맞으면 패스워드 상관없이 일단 패스입니다.``
+<NOTE>: ``비밀번호는 문자와 숫자 1개 이상이어야 합니다.(특문x)``
 
 .curl-request
 include::{snippets}/signin-member/curl-request.adoc[]
@@ -53,7 +53,7 @@ include::{snippets}/signin-member/http-response.adoc[]
 .response-fields
 include::{snippets}/signin-member/response-fields.adoc[]
 
-<NOTE>: ``로그인이 제대로 되면 nickNam도 제대로 나와요 ㅎㅎ;;``
+<NOTE>: ``로그아웃은 {호스트주소}/logout 여기 URI로 post요청을 jwt토큰과 함께 보내주세요``
 
 
 === 회원 정보 수정

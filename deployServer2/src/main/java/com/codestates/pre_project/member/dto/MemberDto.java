@@ -101,6 +101,6 @@ public class MemberDto {
     public static class signInResponse {
         private long memberId;
         private String nickName;
-        private boolean isSignIn;
+        private boolean signIn;
     }
 }
