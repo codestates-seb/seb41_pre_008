@@ -27,22 +27,17 @@ BE : 이상유 박지윤
 ![스크린샷 2023-01-02 오후 4 47 22](https://user-images.githubusercontent.com/67542755/210205261-63d2d0cd-ff0e-49ad-943c-702430622078.png)
 
 
-3. 질문
-![스크린샷 2023-01-02 오후 5 04 49](https://user-images.githubusercontent.com/73947931/210211211-8d84b7e3-2752-4fd6-9dd1-c195ce35d563.png)
-![스크린샷 2023-01-02 오후 5 05 56](https://user-images.githubusercontent.com/73947931/210211282-ef09cc5b-6568-43ac-925e-8a5e5b4796f9.png)
-  - 생성
-  - 수정
-  - 삭제
-  - 조회
-
-4. 답변
+3. 질문 Create/Update/Find/Delete
+  - 질문 등록 시 정해진 글자 수에 맞게 작성해야 합니다.
+  - 질문 수정 시 정해진 글자 수에 맞게 작성해야 합니다.
+4. 답변 Create/Update/Find/Delete
 ![스크린샷 2023-01-02 오후 5 25 32](https://user-images.githubusercontent.com/73947931/210208792-0f6b2180-c459-4c2b-82f4-2149e36c5479.png)
 ![스크린샷 2023-01-02 오후 5 05 21](https://user-images.githubusercontent.com/73947931/210208851-221d22d1-9f19-4abf-904a-00788b85a9bc.png)
   - 생성
   - 수정
   - 삭제
   - 조회
-5. 태그
+5. 태그 Create/Find/Delete
 ![스크린샷 2023-01-02 오후 5 06 46](https://user-images.githubusercontent.com/73947931/210208659-b38cc51f-2f3d-4e1c-81bb-a165febf485e.png)
   - 수정
   - 삭제
