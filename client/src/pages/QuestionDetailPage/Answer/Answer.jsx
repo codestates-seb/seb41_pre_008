@@ -59,13 +59,13 @@ const Answer = ({ answer }) => {
   const time = `${createDate.slice(4, 7)} ${createDate.slice(
     8,
     10
-  )} at ${createDate.slice(16, 21)}`;
+  )}, ${createDate.slice(11, 15)} at ${createDate.slice(16, 21)}`;
   const modifiedObjDate = new Date(answer.modifiedAt);
   const modifiedDate = modifiedObjDate.toString();
-  const modifiedtime = `modified ${modifiedDate.slice(
-    4,
-    7
-  )} ${modifiedDate.slice(8, 10)} at ${modifiedDate.slice(16, 21)}`;
+  const modifiedtime = `edited ${modifiedDate.slice(4, 7)} ${modifiedDate.slice(
+    8,
+    10
+  )}, ${modifiedDate.slice(11, 15)} at ${modifiedDate.slice(16, 21)}`;
 
   // 링크 공유 모달 핸들러
   const handleHideShareModal = (e) => {

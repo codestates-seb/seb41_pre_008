@@ -5,6 +5,8 @@ import { useEffect } from "react";
 import styled from "styled-components";
 import TagsPageCard from "./TagsPageCard";
 import search from "../../img/Login/search.png";
+import TagsPagination from "./TagsPagination";
+import { useSearchParams } from "react-router-dom";
 
 const Main = styled.main`
   display: flex;
@@ -92,25 +94,61 @@ const Main = styled.main`
       }
     }
   }
+  .tagspage {
+    display: flex;
+    justify-content: flex-end;
+    @media screen and (max-width: 900px) {
+      width: 635px;
+    }
+  }
 `;
 
 const TagsPage = () => {
-  useEffect(() => {
-    axios
-      .get("http://3.39.203.17:8080/tags?page=1&size=20")
-      .then((res) => setTags(res.data.data.sort((a, b) => a.tagId - b.tagId)))
-      .catch((err) => console.log(err));
-  }, []);
-
   const [tags, setTags] = useState([]);
+  const [allTags, setAllTags] = useState([]);
+
   const [isDefault, setIsDefault] = useState(false);
   const [isName, setIsName] = useState(false);
   const [isNew, setIsNew] = useState(false);
 
+  const [page, setPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  useEffect(() => {
+    const pageNum = searchParams.get("page");
+    axios
+      .get("http://3.39.203.17:8080/tags?page=1&size=20")
+      .then((res) => {
+        setAllTags(res.data.data.sort((a, b) => a.tagId - b.tagId));
+      })
+      .catch((err) => console.log(err));
+    if (pageNum) {
+      axios
+        .get(`http://3.39.203.17:8080/tags?page=${pageNum}&size=6`)
+        .then((res) => {
+          setTags(res.data.data.sort((a, b) => a.tagId - b.tagId));
+          setPage(res.data.pageInfo.page);
+          setTotalPages(res.data.pageInfo.totalPages);
+        })
+        .catch((err) => console.log(err));
+    } else {
+      axios
+        .get("http://3.39.203.17:8080/tags?page=1&size=6")
+        .then((res) => {
+          setTags(res.data.data.sort((a, b) => a.tagId - b.tagId));
+          console.log(tags);
+          setPage(res.data.pageInfo.page);
+          setTotalPages(res.data.pageInfo.totalPages);
+        })
+        .catch((err) => console.log(err));
+    }
+  }, []);
+
   // tag id 값 기준으로 기본 정렬
   const handleDefault = () => {
     axios
-      .get("http://3.39.203.17:8080/tags?page=1&size=20")
+      .get("http://3.39.203.17:8080/tags?page=1&size=6")
       .then((res) => setTags(res.data.data.sort((a, b) => a.tagId - b.tagId)))
       .catch((err) => console.log(err));
     setIsDefault(!isDefault);
@@ -134,9 +172,11 @@ const TagsPage = () => {
 
   // 원하는 tag 입력 시 tagname을 기준으로 필터해주는 핸들러
   const handleFilterTags = (event) => {
-    const taglist = tags.map((tag) => tag.name);
+    const taglist = allTags.map((tag) => tag.name);
     if (taglist.includes(event.target.value)) {
-      const filterTag = tags.filter((tag) => tag.name === event.target.value);
+      const filterTag = allTags.filter(
+        (tag) => tag.name === event.target.value
+      );
       setTags(filterTag);
       event.target.value = "";
     } else {
@@ -184,6 +224,9 @@ const TagsPage = () => {
       </section>
       <section className="tagsCard">
         <TagsPageCard tags={tags} />
+      </section>
+      <section className="tagspage">
+        <TagsPagination page={page} totalPages={totalPages} />
       </section>
     </Main>
   );

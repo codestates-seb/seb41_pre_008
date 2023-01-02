@@ -64,13 +64,16 @@ const Question = ({ questionData, questionTag }) => {
   const time = `${createDate.slice(4, 7)} ${createDate.slice(
     8,
     10
-  )} at ${createDate.slice(16, 21)}`;
+  )}, ${createDate.slice(11, 15)} at ${createDate.slice(16, 21)}`;
   const modifiedObjDate = new Date(questionData.modifiedAt);
   const modifiedDate = modifiedObjDate.toString();
   const modifiedtime = `modified ${modifiedDate.slice(
     4,
     7
-  )} ${modifiedDate.slice(8, 10)} at ${modifiedDate.slice(16, 21)}`;
+  )} ${modifiedDate.slice(8, 10)}, ${modifiedDate.slice(
+    11,
+    15
+  )} at ${modifiedDate.slice(16, 21)}`;
 
   const handleShowShareModal = (e) => {
     e.stopPropagation();

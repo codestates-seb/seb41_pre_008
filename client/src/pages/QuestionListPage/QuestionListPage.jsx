@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import {useSearchParams} from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import styled from "styled-components";
 import { IoFilter } from "react-icons/io5";
 import axios from "axios";
 import Tags from "./Tags";
 import UserInfo from "./UserInfo";
-import Pagination from './Pagination';
+import Pagination from "./Pagination";
 
 const Main = styled.div`
   display: flex;
@@ -160,36 +160,36 @@ const QuestionListPage = () => {
   // 페이지네이션
   const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
-  const [totalElements, setTotalElements] = useState(0)
+  const [totalElements, setTotalElements] = useState(0);
 
   const [searchParams, setSearchParams] = useSearchParams();
 
   // questions data get 요청
   useEffect(() => {
-    const pageNumber = searchParams.get('page');
+    const pageNumber = searchParams.get("page");
 
-    if(pageNumber) {
+    if (pageNumber) {
       axios
-      .get(`http://3.39.203.17:8080/questions?page=${pageNumber}&size=10`)
-      .then((res) => {
-        setQuestions(res.data.data)
-        setOriginalQuestions(res.data.data)
-        setPage(res.data.pageInfo.page)
-        setTotalPages(res.data.pageInfo.totalPages)
-        setTotalElements(res.data.pageInfo.totalElements)
-      })
-      .catch((err) => console.log(err.message));
+        .get(`http://3.39.203.17:8080/questions?page=${pageNumber}&size=10`)
+        .then((res) => {
+          setQuestions(res.data.data);
+          setOriginalQuestions(res.data.data);
+          setPage(res.data.pageInfo.page);
+          setTotalPages(res.data.pageInfo.totalPages);
+          setTotalElements(res.data.pageInfo.totalElements);
+        })
+        .catch((err) => console.log(err.message));
     } else {
       axios
-      .get("http://3.39.203.17:8080/questions?page=1&size=10")
-      .then((res) => {
-        setQuestions(res.data.data)
-        setOriginalQuestions(res.data.data)
-        setPage(res.data.pageInfo.page)
-        setTotalPages(res.data.pageInfo.totalPages)
-        setTotalElements(res.data.pageInfo.totalElements)
-      })
-      .catch((err) => console.log(err.message));
+        .get("http://3.39.203.17:8080/questions?page=1&size=10")
+        .then((res) => {
+          setQuestions(res.data.data);
+          setOriginalQuestions(res.data.data);
+          setPage(res.data.pageInfo.page);
+          setTotalPages(res.data.pageInfo.totalPages);
+          setTotalElements(res.data.pageInfo.totalElements);
+        })
+        .catch((err) => console.log(err.message));
     }
   }, []);
 
