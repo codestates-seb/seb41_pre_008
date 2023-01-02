@@ -20,10 +20,10 @@ BE : 이상유 박지윤
 <img src="https://img.shields.io/badge/amazonaws-232F3E?style=for-the-badge&logo=amazonaws&logoColor=white">
 
 # 기능구현 화면
-1. 로그인 / 로그아웃 
+1. 로그인 / 로그아웃 <br/>
 ![스크린샷 2023-01-02 오후 4 47 15](https://user-images.githubusercontent.com/67542755/210205254-002c6063-ee26-4c0d-94bb-30517e9a8c17.png)
 
-2. 회원가입
+2. 회원가입 <br/>
 ![스크린샷 2023-01-02 오후 4 47 22](https://user-images.githubusercontent.com/67542755/210205261-63d2d0cd-ff0e-49ad-943c-702430622078.png)
 
 
