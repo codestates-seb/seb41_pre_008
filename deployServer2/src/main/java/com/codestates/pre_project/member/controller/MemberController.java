@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import java.util.List;
@@ -111,6 +112,12 @@ public class MemberController {
         // isSignIn에 false를 담아서 보낸다.
         MemberDto.signInResponse inResponse2 = new MemberDto.signInResponse(0, null, false);
         return new ResponseEntity<>(inResponse2, HttpStatus.OK);
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity logoutMember(HttpServletRequest request){
+        memberService.logout(request);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @PatchMapping("/{member-id}")

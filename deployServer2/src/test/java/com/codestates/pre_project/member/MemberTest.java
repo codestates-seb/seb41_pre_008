@@ -22,6 +22,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.restdocs.payload.JsonFieldType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.util.LinkedMultiValueMap;
@@ -40,6 +41,7 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.patch;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -66,9 +68,10 @@ public class MemberTest {
     private Gson gson;
 
     @Test
+    @WithMockUser(username = "patient@gmail.com", roles ={"USER"})
     public void signUpMemberTest() throws Exception{
 
-        MemberDto.signUpPost post = new MemberDto.signUpPost("Doctor","patient@gmail.com","Pre!008@#s2");
+        MemberDto.signUpPost post = new MemberDto.signUpPost("Doctor","patient@gmail.com","asdad2");
 
         String content = gson.toJson(post);
 
@@ -86,6 +89,7 @@ public class MemberTest {
                                 .accept(MediaType.APPLICATION_JSON)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(content)
+                                .with(csrf())
                 );
 
         actions
@@ -111,10 +115,11 @@ public class MemberTest {
                 ));
     }
 
+    @WithMockUser(username = "patient@gmail.com", roles ={"USER"})
     @Test
     public void signInMemberTest() throws Exception{
 
-        MemberDto.signInPost post = new MemberDto.signInPost("patient@gmail.com","Pre!008@#s2");
+        MemberDto.signInPost post = new MemberDto.signInPost("patient@gmail.com","asdas12");
 
         String content = gson.toJson(post);
 
@@ -133,6 +138,7 @@ public class MemberTest {
                                 .accept(MediaType.APPLICATION_JSON)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(content)
+                                .with(csrf())
                 );
 
         actions
@@ -159,9 +165,10 @@ public class MemberTest {
     }
 
     @Test
+    @WithMockUser(username = "patient@gmail.com", roles ={"USER"})
     public void patchMemberTest() throws Exception{
         long memberId = 1L;
-        MemberDto.Patch patch = new MemberDto.Patch(memberId,"patient@gmail.com","Pre!008@#s2");
+        MemberDto.Patch patch = new MemberDto.Patch(memberId,"patient@gmail.com","asdad2");
         String content = gson.toJson(patch);
 
         MemberDto.Response response =
@@ -177,6 +184,7 @@ public class MemberTest {
                                 .accept(MediaType.APPLICATION_JSON)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(content)
+                                .with(csrf())
                 );
 
         actions
@@ -212,6 +220,7 @@ public class MemberTest {
     }
 
     @Test
+    @WithMockUser(username = "patient@gmail.com", roles ={"USER"})
     public void getMemberTest() throws Exception{
         long memberId = 1L;
         Member member = new Member();
@@ -228,6 +237,7 @@ public class MemberTest {
         ResultActions actions =
                 mockMvc.perform(
                         RestDocumentationRequestBuilders.get("/members/{member-id}", memberId)
+                                .with(csrf())
                 );
 
         actions
@@ -255,6 +265,7 @@ public class MemberTest {
     }
 
     @Test
+    @WithMockUser(username = "patient@gmail.com", roles ={"USER"})
     public void getMembersTest() throws Exception{
 
         Member member1 = new Member();
@@ -298,6 +309,7 @@ public class MemberTest {
                                 .get("/members")
                                 .params(queryParam)
                                 .accept(MediaType.APPLICATION_JSON)
+//                                .with(csrf())
                 );
 
         actions
@@ -328,6 +340,7 @@ public class MemberTest {
     }
 
     @Test
+    @WithMockUser(username = "patient@gmail.com", roles ={"USER"})
     public void deleteMemberTest() throws Exception{
         long memberId = 1L;
 
@@ -338,6 +351,7 @@ public class MemberTest {
                         RestDocumentationRequestBuilders
                                 .delete("/members/{member-id}", memberId)
                                 .accept(MediaType.APPLICATION_JSON)
+                                .with(csrf())
                 );
 
         actions

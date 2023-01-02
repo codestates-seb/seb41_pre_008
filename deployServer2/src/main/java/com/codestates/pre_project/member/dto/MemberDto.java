@@ -4,6 +4,7 @@ import com.codestates.pre_project.member.entity.Member;
 import com.codestates.pre_project.member.validator.NotSpace;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.Email;
@@ -42,7 +43,8 @@ public class MemberDto {
     }
 
     @Getter
-    @AllArgsConstructor // TODO 테스트를 위해 추가됨
+    @AllArgsConstructor
+    @NoArgsConstructor
     public static class signInPost {
         @NotBlank
         @Email

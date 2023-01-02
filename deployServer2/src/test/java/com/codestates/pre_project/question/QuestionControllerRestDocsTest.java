@@ -29,6 +29,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.restdocs.payload.JsonFieldType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
@@ -46,6 +47,7 @@ import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuild
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(QuestionController.class)
@@ -68,6 +70,7 @@ public class QuestionControllerRestDocsTest {
     private Gson gson;
 
     @Test
+    @WithMockUser(username = "patient@gmail.com", roles ={"USER"})
     public void postQuestionTest() throws Exception {
         // given
         QuestionTagDto questionTagDto1 = new QuestionTagDto();
@@ -127,6 +130,7 @@ public class QuestionControllerRestDocsTest {
                                 .accept(MediaType.APPLICATION_JSON)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(content)
+                                .with(csrf())
                 );
 
         // then
@@ -182,6 +186,7 @@ public class QuestionControllerRestDocsTest {
     }
 
     @Test
+    @WithMockUser(username = "patient@gmail.com", roles ={"USER"})
     public void upQuestionLikesTes() throws Exception {
         long questionId = 1L;
         QuestionLikesResponseDto response = new QuestionLikesResponseDto();
@@ -193,6 +198,7 @@ public class QuestionControllerRestDocsTest {
         ResultActions actions =
                 mockMvc.perform(
                         post("/questions/up/{question-id}", questionId)
+                                .with(csrf())
                 );
         actions
                 .andExpect(status().isOk())
@@ -208,6 +214,7 @@ public class QuestionControllerRestDocsTest {
                 ));
     }
     @Test
+    @WithMockUser(username = "patient@gmail.com", roles ={"USER"})
     public void downQuestionLikesTes() throws Exception {
         long questionId = 1L;
         QuestionLikesResponseDto response = new QuestionLikesResponseDto();
@@ -219,6 +226,7 @@ public class QuestionControllerRestDocsTest {
         ResultActions actions =
                 mockMvc.perform(
                         post("/questions/down/{question-id}", questionId)
+                                .with(csrf())
                 );
         actions
                 .andExpect(status().isOk())
@@ -234,6 +242,7 @@ public class QuestionControllerRestDocsTest {
                 ));
     }
     @Test
+    @WithMockUser(username = "patient@gmail.com", roles ={"USER"})
     public void patchQuestionTest() throws Exception {
         // given
         long questionId = 1L;
@@ -297,6 +306,7 @@ public class QuestionControllerRestDocsTest {
                                 .accept(MediaType.APPLICATION_JSON)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(content)
+                                .with(csrf())
                 );
 
         // then
@@ -355,6 +365,7 @@ public class QuestionControllerRestDocsTest {
     }
 
     @Test
+    @WithMockUser(username = "patient@gmail.com", roles ={"USER"})
     public void getQuestionTest() throws Exception {
         long questionId = 1L;
         Question question = new Question();
@@ -441,6 +452,7 @@ public class QuestionControllerRestDocsTest {
     }
 
     @Test
+    @WithMockUser(username = "patient@gmail.com", roles ={"USER"})
     public void getQuestionsTest() throws Exception {
         Question question1 = new Question();
         question1.setQuestionStatus(Question.QuestionStatus.QUESTION_NOTSELECT);
@@ -549,6 +561,7 @@ public class QuestionControllerRestDocsTest {
     }
 
     @Test
+    @WithMockUser(username = "patient@gmail.com", roles ={"USER"})
     public void deleteQUestionTest() throws Exception {
         // given
         long questionId = 1L;
@@ -557,7 +570,7 @@ public class QuestionControllerRestDocsTest {
         doNothing().when(questionService).deleteQuestion(Mockito.anyLong());
 
         // when
-        ResultActions actions = mockMvc.perform(RestDocumentationRequestBuilders.delete("/questions/{question-id}",questionId));
+        ResultActions actions = mockMvc.perform(RestDocumentationRequestBuilders.delete("/questions/{question-id}",questionId).with(csrf()));
 
         // then
         actions.andExpect(status().isNoContent())

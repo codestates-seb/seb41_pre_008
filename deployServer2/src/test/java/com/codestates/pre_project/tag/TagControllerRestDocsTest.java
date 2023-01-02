@@ -22,6 +22,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.restdocs.payload.JsonFieldType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import java.util.List;
@@ -35,6 +36,7 @@ import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuild
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(TagController.class)
@@ -54,6 +56,7 @@ public class TagControllerRestDocsTest {
     private Gson gson;
 
     @Test
+    @WithMockUser(username = "patient@gmail.com", roles ={"USER"})
     public void postTagTest() throws Exception {
         // given
         TagPostDto post = new TagPostDto("java", "java content");
@@ -80,6 +83,7 @@ public class TagControllerRestDocsTest {
                                 .accept(MediaType.APPLICATION_JSON)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(content)
+                                .with(csrf())
                 );
 
         // then
@@ -108,6 +112,7 @@ public class TagControllerRestDocsTest {
     }
 
     @Test
+    @WithMockUser(username = "patient@gmail.com", roles ={"USER"})
     public void getTagTest() throws Exception {
         // given
         long tagId = 1L;
@@ -143,6 +148,7 @@ public class TagControllerRestDocsTest {
     }
 
     @Test
+    @WithMockUser(username = "patient@gmail.com", roles ={"USER"})
     public void getTagsTest() throws Exception {
         // given
         Tag tag1 = new Tag("java", "java content");
@@ -198,6 +204,7 @@ public class TagControllerRestDocsTest {
     }
 
     @Test
+    @WithMockUser(username = "patient@gmail.com", roles ={"USER"})
     public void deleteTagTest() throws Exception {
         // given
         long tagId = 1L;
@@ -206,7 +213,7 @@ public class TagControllerRestDocsTest {
         doNothing().when(tagService).deleteTag(Mockito.anyLong());
 
         // when
-        ResultActions actions = mockMvc.perform(RestDocumentationRequestBuilders.delete("/tags/{tag-id}",tagId));
+        ResultActions actions = mockMvc.perform(RestDocumentationRequestBuilders.delete("/tags/{tag-id}",tagId).with(csrf()));
 
         // then
         actions.andExpect(status().isNoContent())

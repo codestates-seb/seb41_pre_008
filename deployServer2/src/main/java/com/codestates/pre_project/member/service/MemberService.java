@@ -1,22 +1,26 @@
 package com.codestates.pre_project.member.service;
 
 
+import com.codestates.pre_project.auth.JwtTokenizer;
+import com.codestates.pre_project.auth.utils.CustomAuthorityUtils;
 import com.codestates.pre_project.exception.BusinessLogicException;
 import com.codestates.pre_project.exception.ExceptionCode;
 import com.codestates.pre_project.member.entity.Member;
 import com.codestates.pre_project.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Required;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
+import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 /* member의 service 계층 구현
 * CRUD 기능
@@ -28,13 +32,20 @@ import java.util.Optional;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final CustomAuthorityUtils authorityUtils;
+
+    private final JwtTokenizer jwtTokenizer;
+
+    private final RedisTemplate<String, String> redisTemplate;
+
 
     public Member createMember(Member member) {
-        // 이메일이 이미 있는지 검증(아이디 중복확인)
-//        Optional<Member> optionalMember = memberRepository.findByEmail(member.getEmail())
-//        if(optionalMember.isPresent()){
-//            return optionalMember.get();
-//        }
+        String encryptedPassword = passwordEncoder.encode(member.getPassword());
+        member.setPassword(encryptedPassword);
+
+        List<String> roles = authorityUtils.createRoles(member.getEmail());
+        member.setRoles(roles);
         return memberRepository.save(member);
     }
 
@@ -89,5 +100,13 @@ public class MemberService {
         Optional<Member> member = memberRepository.findByEmail(email);
         if (member.isPresent())
             throw new BusinessLogicException(ExceptionCode.MEMBER_EXISTS);
+    }
+
+    public void logout(HttpServletRequest request) {
+        String accessToken = request.getHeader("Authorization").substring(7);
+        String base64EncodedSecretKey = jwtTokenizer.encodeBase64SecretKey(jwtTokenizer.getSecretKey());
+        long expiration = jwtTokenizer.getClaims(accessToken, base64EncodedSecretKey).getBody().getExpiration().getTime();
+
+        redisTemplate.opsForValue().set(accessToken, accessToken, expiration-new Date().getTime(), TimeUnit.MILLISECONDS);
     }
 }

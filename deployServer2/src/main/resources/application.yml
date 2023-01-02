@@ -9,3 +9,18 @@ spring:
     hibernate:
       ddl-auto: create  # (1) ??? ?? ??
     show-sql: true      # (2) SQL ?? ??
+  redis:
+    host: 127.0.0.1
+    port: 6379
+
+jwt:
+  key:
+  access-token-expiration-minutes: 3
+  refresh-token-expiration-minutes: 400
+
+
+#server:
+#  ssl:
+#    key-store: classpath:localhost.p12
+#    key-store-type: PKCS12
+#    Key-store-password: changeit
