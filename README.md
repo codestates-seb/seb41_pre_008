@@ -10,7 +10,7 @@ BE : 이상유 박지윤
 # 프로젝트 소개
 개발자들이 프로그래밍에 대한 질문을 하고 답변을 주고 받는 사이트 'stack overflow' clone Project✨
 
-배포링크 : 
+배포링크 : http://sebpre008.s3-website.ap-northeast-2.amazonaws.com/
 
 # 기술스택
 <img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black"> <img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=black"> <img src="https://img.shields.io/badge/styledcomponents-DB7093?style=for-the-badge&logo=styled-components&logoColor=black">
